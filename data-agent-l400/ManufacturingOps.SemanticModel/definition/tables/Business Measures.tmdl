@@ -1,4 +1,4 @@
-﻿/// Dedicated table for business KPIs and demo measures.
+/// Dedicated table for business KPIs and demo measures.
 table 'Business Measures'
 
 	/// Total sales revenue from Sales[Amount].

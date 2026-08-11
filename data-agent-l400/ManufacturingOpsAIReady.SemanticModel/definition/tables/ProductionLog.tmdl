@@ -1,4 +1,4 @@
-﻿/// Production fact; one row per run at line-shift-day grain. Holds planned, produced, good and scrap units plus runtime and downtime minutes. Use for output, yield, scrap and OEE questions.
+/// Production fact; one row per run at line-shift-day grain. Holds planned, produced, good and scrap units plus runtime and downtime minutes. Use for output, yield, scrap and OEE questions.
 table ProductionLog
 
 	/// Calendar date of the production run (day grain). Relate to Date for time intelligence.

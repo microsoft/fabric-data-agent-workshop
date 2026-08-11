@@ -1,4 +1,4 @@
-﻿table Sales
+table Sales
 
 	column OrderNo
 		dataType: int64

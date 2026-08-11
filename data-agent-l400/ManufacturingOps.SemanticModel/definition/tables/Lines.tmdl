@@ -1,4 +1,4 @@
-﻿table Lines
+table Lines
 
 	column LineID
 		dataType: int64

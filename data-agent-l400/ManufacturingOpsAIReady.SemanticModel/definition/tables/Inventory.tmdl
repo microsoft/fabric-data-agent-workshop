@@ -1,4 +1,4 @@
-﻿/// Inventory snapshot fact: on-hand stock by product and plant over time. One row per date, product and plant. Use for stock levels, reorder points and in-transit questions.
+/// Inventory snapshot fact: on-hand stock by product and plant over time. One row per date, product and plant. Use for stock levels, reorder points and in-transit questions.
 table Inventory
 
 	/// Snapshot date of the inventory reading (day grain). Use for stock-over-time; relate to Date.

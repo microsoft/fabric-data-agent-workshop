@@ -1,4 +1,4 @@
-﻿/// Production-line master; one row per line. A line runs on an equipment unit at a plant. Use for which-line questions and to relate production to its line, equipment and plant.
+/// Production-line master; one row per line. A line runs on an equipment unit at a plant. Use for which-line questions and to relate production to its line, equipment and plant.
 table Lines
 
 	/// Surrogate line key (integer); internal. Use line_name for line questions.

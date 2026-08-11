@@ -52,7 +52,7 @@
 # CELL ********************
 
 # PARAMETERS
-github_base = "https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.0-test/data/mfg-ops-data"
+github_base = "https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.1-test/data/mfg-ops-data"
 lakehouse_name = "OpsRefData"
 schema_name = "dbo"
 view_schema = "fda"

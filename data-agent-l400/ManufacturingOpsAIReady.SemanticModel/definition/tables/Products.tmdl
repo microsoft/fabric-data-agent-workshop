@@ -1,4 +1,4 @@
-﻿/// Finished-goods catalog; one row per product (SKU) we make and sell. Holds name, code, category, list price and standard cost. The things we sell, not equipment we run.
+/// Finished-goods catalog; one row per product (SKU) we make and sell. Holds name, code, category, list price and standard cost. The things we sell, not equipment we run.
 table Products
 
 	/// Surrogate product key (integer); internal. Use Name for product questions.

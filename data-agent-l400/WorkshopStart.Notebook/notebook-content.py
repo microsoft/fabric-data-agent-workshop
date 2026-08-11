@@ -58,7 +58,7 @@ CONFIGURE_ANONYMOUS_WEB_CONNECTIONS = True
 REFRESH_SEMANTIC_MODELS = True
 
 SOURCE_REPOSITORY = "pawarbi/fda-l400"
-SOURCE_REPOSITORY_REF = "v0.1.0-test"
+SOURCE_REPOSITORY_REF = "v0.1.1-test"
 SEMANTIC_MODELS = ["ManufacturingOps", "ManufacturingOpsAIReady"]
 EXPECTED_WEB_SOURCE = (
     "https://raw.githubusercontent.com/"
@@ -364,7 +364,7 @@ else:
 #
 # - **Refresh says credentials are missing:** rerun the connection cell above.
 # - **Connection creation returns 404:** confirm the source ref is
-#   `v0.1.0-test` and do not remove `skipTestConnection=True`.
+#   `v0.1.1-test` and do not remove `skipTestConnection=True`.
 # - **A notebook cannot find an item:** confirm all Jumpstart items were installed
 #   into the same workspace and retain the item names shown above.
 # - **No Data Agent appears:** create the base agent manually before running the

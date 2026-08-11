@@ -1,4 +1,4 @@
-﻿/// Supplier master; one row per company we buy from (the seller). Use for supplier attributes - type, country, rating - and to break purchasing/PO spend down by supplier. Not a customer.
+/// Supplier master; one row per company we buy from (the seller). Use for supplier attributes - type, country, rating - and to break purchasing/PO spend down by supplier. Not a customer.
 table Vendors
 
 	/// Surrogate vendor key (integer); internal. Use Vendor Name for supplier questions.

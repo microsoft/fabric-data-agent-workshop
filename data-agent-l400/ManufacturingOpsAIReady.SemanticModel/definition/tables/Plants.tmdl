@@ -1,4 +1,4 @@
-﻿/// Plant (factory) master; one row per plant. Each plant belongs to a region. Use for plant-level attributes - city, country, region - and to group facts by plant.
+/// Plant (factory) master; one row per plant. Each plant belongs to a region. Use for plant-level attributes - city, country, region - and to group facts by plant.
 table Plants
 
 	/// Surrogate plant key (integer); joins to facts/dims on PlantID. Use Name for plant questions.

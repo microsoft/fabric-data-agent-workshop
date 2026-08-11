@@ -1,4 +1,4 @@
-﻿/// Purchasing fact: PO lines for goods we buy from suppliers. One row per PO line. Use for spend, quantities, supplier lead time and on-time-delivery. Buying, not selling.
+/// Purchasing fact: PO lines for goods we buy from suppliers. One row per PO line. Use for spend, quantities, supplier lead time and on-time-delivery. Buying, not selling.
 table PurchaseOrders
 
 	/// Purchase order number (integer id). Count distinct for number of purchase orders.

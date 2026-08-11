@@ -1,4 +1,4 @@
-﻿/// Sales fact: order lines for products we sell to customers. One row per order line. Use for revenue, quantity, discount, cost and profit by customer, product, region and time.
+/// Sales fact: order lines for products we sell to customers. One row per order line. Use for revenue, quantity, discount, cost and profit by customer, product, region and time.
 table Sales
 
 	/// Sales order number (integer). One order can span several lines; count distinct for number of orders.

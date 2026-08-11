@@ -1,4 +1,4 @@
-﻿table Assets
+table Assets
 
 	column ID
 		dataType: int64

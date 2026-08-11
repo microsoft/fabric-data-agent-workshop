@@ -99,7 +99,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 
 # CELL ********************
 
-EVAL_XLSX_URL = "https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.0-test/eval/eval_set_L400.xlsx"
+EVAL_XLSX_URL = "https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.1-test/eval/eval_set_L400.xlsx"
 EVAL_LH_NAME = "mfgops_da_eval"
 EVAL_FILE_NAME = "eval_set_L400.xlsx"
 

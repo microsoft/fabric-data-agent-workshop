@@ -1,4 +1,4 @@
-﻿table Plants
+table Plants
 
 	column ID
 		dataType: int64

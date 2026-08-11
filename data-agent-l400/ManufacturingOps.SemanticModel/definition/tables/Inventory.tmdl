@@ -1,4 +1,4 @@
-﻿table Inventory
+table Inventory
 
 	column Date
 		dataType: dateTime

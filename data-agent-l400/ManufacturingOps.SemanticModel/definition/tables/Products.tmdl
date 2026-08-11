@@ -1,4 +1,4 @@
-﻿/// Product master loaded from PRODUCTS.csv.
+/// Product master loaded from PRODUCTS.csv.
 table Products
 
 	column ID

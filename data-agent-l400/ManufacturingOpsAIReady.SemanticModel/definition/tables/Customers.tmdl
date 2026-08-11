@@ -1,4 +1,4 @@
-﻿/// Customer master; one row per company we sell to (the buyer). Use for customer attributes - segment, region, country - and to break sales down by customer. Not a supplier.
+/// Customer master; one row per company we sell to (the buyer). Use for customer attributes - segment, region, country - and to break sales down by customer. Not a supplier.
 table Customers
 
 	/// Surrogate customer key (integer); internal join key. Use Customer Name for customer questions.

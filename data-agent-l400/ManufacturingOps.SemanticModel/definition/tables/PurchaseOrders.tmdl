@@ -1,4 +1,4 @@
-﻿table PurchaseOrders
+table PurchaseOrders
 
 	column PO_Number
 		dataType: int64

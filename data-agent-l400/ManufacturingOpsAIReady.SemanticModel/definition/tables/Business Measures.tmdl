@@ -1,4 +1,4 @@
-﻿/// Holder table for business KPIs and reliability/OEE measures; carries no data rows. Use its measures for analysis instead of writing formulas; do not query its columns.
+/// Holder table for business KPIs and reliability/OEE measures; carries no data rows. Use its measures for analysis instead of writing formulas; do not query its columns.
 table 'Business Measures'
 
 	/// Total net sales revenue (USD), Sales[Amount] summed after discount. Use for revenue/sales totals. Not profit (cost not removed) and not quantity.

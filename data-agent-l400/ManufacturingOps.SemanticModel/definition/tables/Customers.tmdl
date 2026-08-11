@@ -1,4 +1,4 @@
-﻿table Customers
+table Customers
 
 	column ID
 		dataType: int64

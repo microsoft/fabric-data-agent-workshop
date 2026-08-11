@@ -1,4 +1,4 @@
-﻿table SalesSummary
+table SalesSummary
 
 	column Date
 		dataType: dateTime

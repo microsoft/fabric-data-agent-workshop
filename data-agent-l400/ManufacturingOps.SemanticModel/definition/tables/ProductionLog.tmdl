@@ -1,4 +1,4 @@
-﻿table ProductionLog
+table ProductionLog
 
 	column Date
 		dataType: dateTime

@@ -1,4 +1,4 @@
-﻿/// Calendar table at day grain spanning all facts. Relate facts by date; use for any time filter, trend or time-intelligence (year, quarter, month, week).
+/// Calendar table at day grain spanning all facts. Relate facts by date; use for any time filter, trend or time-intelligence (year, quarter, month, week).
 table Date
 
 	/// Latest Date based on the last Production Log date. Always use this date for relative date calculations.

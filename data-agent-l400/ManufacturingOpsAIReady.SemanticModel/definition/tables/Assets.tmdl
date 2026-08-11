@@ -1,4 +1,4 @@
-﻿/// Physical equipment we operate on the plant floor; one row per unit. Use for the machines we run - location, maker, type. Equipment we run, not a product we sell. Joins to ProductionLog via DeviceID.
+/// Physical equipment we operate on the plant floor; one row per unit. Use for the machines we run - location, maker, type. Equipment we run, not a product we sell. Joins to ProductionLog via DeviceID.
 table Assets
 
 	/// Surrogate equipment key (integer); internal join key. Use Name for equipment questions.

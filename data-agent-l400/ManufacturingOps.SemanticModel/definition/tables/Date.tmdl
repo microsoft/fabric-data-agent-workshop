@@ -1,4 +1,4 @@
-﻿/// Calendar table calculated from the date range across Sales, Inventory, PurchaseOrders, ProductionLog, and SalesSummary.
+/// Calendar table calculated from the date range across Sales, Inventory, PurchaseOrders, ProductionLog, and SalesSummary.
 table Date
 
 	column Date
