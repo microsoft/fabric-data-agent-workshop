@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "WorkshopStart",
+    "description": ""
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "37bd6fdc-9a94-5b6c-9bb6-db0e372312fd"
+  }
+}

@@ -1,0 +1,57 @@
+﻿/// Product master loaded from PRODUCTS.csv.
+table Products
+
+	column ID
+		dataType: int64
+		isUnique
+		isKey
+		isNullable: false
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: ID
+
+	column Code
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Code
+
+	column Name
+		dataType: string
+		isUnique
+		summarizeBy: none
+		sourceColumn: Name
+
+	column Cat
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Cat
+
+	column SubCat
+		dataType: string
+		summarizeBy: none
+		sourceColumn: SubCat
+
+	column Price
+		dataType: double
+		formatString: 0.00
+		summarizeBy: sum
+		sourceColumn: Price
+
+	column Cost
+		dataType: double
+		formatString: 0.00
+		summarizeBy: sum
+		sourceColumn: Cost
+
+	partition Products = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath="PRODUCTS.csv"]),[Delimiter=",", Columns=7, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ID", Int64.Type}, {"Code", type text}, {"Name", type text}, {"Cat", type text}, {"SubCat", type text}, {"Price", type number}, {"Cost", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

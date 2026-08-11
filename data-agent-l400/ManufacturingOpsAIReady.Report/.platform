@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "ManufacturingOpsAIReady",
+    "description": ""
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "f111c224-99b0-5e0c-830a-4d418248e2ee"
+  }
+}

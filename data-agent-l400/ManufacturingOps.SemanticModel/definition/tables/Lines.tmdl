@@ -1,0 +1,60 @@
+﻿table Lines
+
+	column LineID
+		dataType: int64
+		isUnique
+		isKey
+		isNullable: false
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: LineID
+
+	column line_name
+		dataType: string
+		isUnique
+		summarizeBy: none
+		sourceColumn: line_name
+
+	column PlantID
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: PlantID
+
+	column loc
+		dataType: string
+		summarizeBy: none
+		sourceColumn: loc
+
+	column DeviceID
+		dataType: string
+		summarizeBy: none
+		sourceColumn: DeviceID
+
+	column Type
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Type
+
+	column asset
+		dataType: string
+		summarizeBy: none
+		sourceColumn: asset
+
+	column Mfr
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Mfr
+
+	partition Lines = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath="lines.csv"]),[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"LineID", Int64.Type}, {"line_name", type text}, {"PlantID", Int64.Type}, {"loc", type text}, {"DeviceID", type text}, {"Type", type text}, {"asset", type text}, {"Mfr", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

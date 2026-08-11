@@ -1,0 +1,44 @@
+﻿table Vendors
+
+	column id
+		dataType: int64
+		isUnique
+		isKey
+		isNullable: false
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: id
+
+	column vendor_name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: vendor_name
+
+	column type
+		dataType: string
+		summarizeBy: none
+		sourceColumn: type
+
+	column country
+		dataType: string
+		summarizeBy: none
+		sourceColumn: country
+
+	column rating
+		dataType: double
+		formatString: 0.0
+		summarizeBy: average
+		sourceColumn: rating
+
+	partition Vendors = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath="vendor list.csv"]),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"id", Int64.Type}, {"vendor_name", type text}, {"type", type text}, {"country", type text}, {"rating", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

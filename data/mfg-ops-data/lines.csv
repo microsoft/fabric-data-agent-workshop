@@ -1,0 +1,9 @@
+LineID,line_name,PlantID,loc,DeviceID,Type,asset,Mfr
+1,Line A1 - Pump Assembly,1,Floor-A,pump-001,Assembly,Feed Pump A1,Siemens
+2,Line B1 - Pump Assembly,1,Floor-B,pump-002,Assembly,Feed Pump B1,Siemens
+3,Line C1 - Turbine Assembly,2,Building-C,turbine-001,Assembly,Gas Turbine C1,GE
+4,Line D1 - Turbine Assembly,2,Building-D,turbine-002,Assembly,Gas Turbine D1,GE
+5,Line A2 - Valve Machining,1,Floor-A,mill-001,Machining,CNC Machining Center A2,Mazak
+6,Line B2 - Motor Winding,1,Floor-B,winder-001,Winding,Coil Winder B2,Marsilli
+7,Line C2 - Sensor Calibration,2,Building-C,calib-001,Calibration,Calibration Rig C2,Fluke
+8,Line D2 - Final Test,2,Building-D,test-001,Test,Final Test Bench D2,NI

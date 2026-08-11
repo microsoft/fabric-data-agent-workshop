@@ -1,0 +1,50 @@
+﻿/// Customer master; one row per company we sell to (the buyer). Use for customer attributes - segment, region, country - and to break sales down by customer. Not a supplier.
+table Customers
+
+	/// Surrogate customer key (integer); internal join key. Use Customer Name for customer questions.
+	column ID
+		dataType: int64
+		isHidden
+		isUnique
+		isKey
+		isNullable: false
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: ID
+
+	/// Company we sell to (the buyer); free-text names, e.g. 'Atlas Energy'. Use for sales/revenue/orders by customer. Not a product or supplier. Partial-text match.
+	column 'Customer Name'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: custName
+
+	/// Customer industry segment, e.g. 'Utility','Mining'. Use to group or filter customers by industry. Partial-text match.
+	column segment
+		dataType: string
+		summarizeBy: none
+		sourceColumn: segment
+
+	/// Customer sales region code, e.g. 'US-West','APAC'. Use to break customers or sales down by region. Partial-text match.
+	column Region
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Region
+
+	/// Customer country, full name, e.g. 'United States'. Use to filter or group customers by country. Partial-text match.
+	column country
+		dataType: string
+		summarizeBy: none
+		sourceColumn: country
+
+	partition Customers = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath="Customers_Master.csv"]),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ID", Int64.Type}, {"custName", type text}, {"segment", type text}, {"Region", type text}, {"country", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,12 @@
+id,vendor_name,type,country,rating
+1,Siemens Industrial,OEM Components,Germany,4.6
+2,GE Power Systems,OEM Components,United States,4.4
+3,Honeywell Sensing,OEM Components,United States,4.7
+4,NordSteel AG,Raw Material - Steel,Germany,4.1
+5,CopperLine Metals,Raw Material - Copper,Chile,3.9
+6,PrecisionCast Foundry,Castings,United States,4.2
+7,ElectroParts Co,Electronics,Taiwan,4.0
+8,SealTech Polymers,Seals & Gaskets,United States,4.3
+9,BearingWorks Ltd,Bearings,Japan,4.5
+10,FastenRight Supply,Fasteners,United States,3.8
+11,AquaFlow Components,Seals & Gaskets,United States,4.2

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "ManufacturingOpsAIReady",
+    "description": ""
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "4aa3432c-9885-5885-a582-179335f67f17"
+  }
+}

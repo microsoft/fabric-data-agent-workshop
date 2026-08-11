@@ -1,0 +1,95 @@
+﻿/// Calendar table calculated from the date range across Sales, Inventory, PurchaseOrders, ProductionLog, and SalesSummary.
+table Date
+
+	column Date
+		dataType: dateTime
+		isUnique
+		isKey
+		isNullable: false
+		formatString: Short Date
+		summarizeBy: none
+		sourceColumn: [Date]
+
+	column Year
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: [Year]
+
+	column Quarter
+		dataType: string
+		summarizeBy: none
+		sourceColumn: [Quarter]
+
+	column 'Quarter Number'
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: [Quarter Number]
+
+	column 'Month Number'
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: [Month Number]
+
+	column 'Month Name'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: [Month Name]
+
+	column 'Year Month'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: [Year Month]
+
+	column 'Week Number'
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: [Week Number]
+
+	column 'Day of Week Number'
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: [Day of Week Number]
+
+	column 'Day of Week'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: [Day of Week]
+
+	column 'Is Weekend'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: [Is Weekend]
+
+	partition Date = calculated
+		mode: import
+		source =
+				VAR __Dates =
+				    UNION(
+				        SELECTCOLUMNS(Sales, "Date", Sales[Date]),
+				        SELECTCOLUMNS(Inventory, "Date", Inventory[Date]),
+				        SELECTCOLUMNS(PurchaseOrders, "Date", PurchaseOrders[Date]),
+				        SELECTCOLUMNS(ProductionLog, "Date", ProductionLog[Date]),
+				        SELECTCOLUMNS(SalesSummary, "Date", SalesSummary[Date])
+				    )
+				VAR __MinDate = MINX(__Dates, [Date])
+				VAR __MaxDate = MAXX(__Dates, [Date])
+				RETURN
+				    ADDCOLUMNS(
+				        CALENDAR(__MinDate, __MaxDate),
+				        "Year", YEAR([Date]),
+				        "Quarter", "Q" & FORMAT([Date], "Q"),
+				        "Quarter Number", QUARTER([Date]),
+				        "Month Number", MONTH([Date]),
+				        "Month Name", FORMAT([Date], "MMMM"),
+				        "Year Month", FORMAT([Date], "yyyy-MM"),
+				        "Week Number", WEEKNUM([Date], 2),
+				        "Day of Week Number", WEEKDAY([Date], 2),
+				        "Day of Week", FORMAT([Date], "dddd"),
+				        "Is Weekend", WEEKDAY([Date], 2) > 5
+				    )
+

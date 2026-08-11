@@ -1,0 +1,34 @@
+﻿/// Manufacturing Ops AI Ready — governed semantic model for Helios Industrial plant operations and reliability (production, downtime, scrap, attainment, OEE) plus commercial context (sales/customers, purchasing/vendors, inventory and equipment/assets). Curated for AI: column descriptions, synonyms, governed measures and time intelligence.
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["Products","Customers","Plants","Vendors","Assets","Lines","Inventory","PurchaseOrders","ProductionLog","Sales","SalesSummary","DataFolder","AsOfDate"]
+
+annotation PBI_ProTooling = ["MCP-PBIModeling","TMDLView_Desktop","DevMode","CopilotTooling_PrepDataForAI","DaxQueryView_Desktop","MCP-PBIModeling-Hosted","WebModelingEdit"]
+
+annotation __LastRPTime = 134306961819201313
+
+ref table Customers
+ref table Plants
+ref table Vendors
+ref table Assets
+ref table Lines
+ref table Inventory
+ref table PurchaseOrders
+ref table ProductionLog
+ref table Sales
+ref table SalesSummary
+ref table Date
+ref table Products
+ref table 'Business Measures'
+
+ref cultureInfo en-US
+

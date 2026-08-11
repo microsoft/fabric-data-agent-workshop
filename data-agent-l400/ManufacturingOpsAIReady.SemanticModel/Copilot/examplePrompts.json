@@ -1,0 +1,13 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/semanticModel/copilot/examplePrompts/1.0.0/schema.json",
+  "prompts": [
+    "Which plants have the highest defect rate?",
+    "What are sales by product?",
+    "Which production lines produced the most units?",
+    "What inventory is available by product and plant?",
+    "Which vendors have the best on time PO rate?",
+    "Show downtime percentage by plant and line.",
+    "What products are below reorder level?",
+    "Compare production yield by shift."
+  ]
+}

@@ -1,0 +1,72 @@
+﻿/// Production-line master; one row per line. A line runs on an equipment unit at a plant. Use for which-line questions and to relate production to its line, equipment and plant.
+table Lines
+
+	/// Surrogate line key (integer); internal. Use line_name for line questions.
+	column LineID
+		dataType: int64
+		isHidden
+		isUnique
+		isKey
+		isNullable: false
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: LineID
+
+	/// Production line name, e.g. 'Line A1 - Pump Assembly'. Use for which-line questions; matches ProductionLog[line_name]. Partial-text match.
+	column line_name
+		dataType: string
+		isUnique
+		summarizeBy: none
+		sourceColumn: line_name
+
+	/// Plant key (integer) where the line runs; joins to Plants[ID]. Internal.
+	column PlantID
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: PlantID
+
+	/// Area of the line within the plant, e.g. 'Floor-A'. Use for where-located questions. Partial-text match.
+	column Location
+		dataType: string
+		summarizeBy: none
+		sourceColumn: loc
+
+	/// Device id of the equipment on this line; joins to Assets[Device_Id] and ProductionLog[DeviceID]. Internal.
+	column DeviceID
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: DeviceID
+
+	/// Line type/stage, e.g. 'Assembly'. Use to group lines by function. Partial-text match.
+	column Type
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Type
+
+	/// Equipment running on this line, e.g. 'Feed Pump A1'; matches Assets[Name]. Partial-text match.
+	column asset
+		dataType: string
+		summarizeBy: none
+		sourceColumn: asset
+
+	/// Maker of the line equipment, e.g. 'Siemens'. Use to group or filter lines by maker. Partial-text match.
+	column Manufacturer
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Mfr
+
+	partition Lines = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath="lines.csv"]),[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"LineID", Int64.Type}, {"line_name", type text}, {"PlantID", Int64.Type}, {"loc", type text}, {"DeviceID", type text}, {"Type", type text}, {"asset", type text}, {"Mfr", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

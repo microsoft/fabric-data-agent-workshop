@@ -1,0 +1,12 @@
+ID,Device_Id,Name,type,Mfr,PlantID,Location
+1,pump-001,Feed Pump A1,IndustrialPump,Siemens,1,Floor-A
+2,pump-002,Feed Pump B1,IndustrialPump,Siemens,1,Floor-B
+3,turbine-001,Gas Turbine C1,GasTurbine,GE,2,Building-C
+4,turbine-002,Gas Turbine D1,GasTurbine,GE,2,Building-D
+5,sensor-001,Area Temp Sensor A,TempSensor,Honeywell,1,Floor-A
+6,sensor-002,Area Pressure Sensor B,PressureSensor,Honeywell,1,Floor-B
+7,mill-001,CNC Machining Center A2,CNCMachine,Mazak,1,Floor-A
+8,winder-001,Coil Winder B2,WindingMachine,Marsilli,1,Floor-B
+9,calib-001,Calibration Rig C2,CalibrationRig,Fluke,2,Building-C
+10,test-001,Final Test Bench D2,TestBench,NI,2,Building-D
+11,pump-aqua-01,AquaFlow Transfer Pump,IndustrialPump,Siemens,1,Floor-A

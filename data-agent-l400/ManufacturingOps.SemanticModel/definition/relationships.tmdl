@@ -1,0 +1,74 @@
+﻿relationship Assets_PlantID_Plants_ID
+	fromColumn: Assets.PlantID
+	toColumn: Plants.ID
+
+relationship Lines_PlantID_Plants_ID
+	fromColumn: Lines.PlantID
+	toColumn: Plants.ID
+
+relationship Inventory_Plant_Plants_Name
+	fromColumn: Inventory.Plant
+	toColumn: Plants.Name
+
+relationship PurchaseOrders_VendorName_Vendors_vendor_name
+	fromColumn: PurchaseOrders.VendorName
+	toColumn: Vendors.vendor_name
+
+relationship PurchaseOrders_Plant_Plants_Name
+	fromColumn: PurchaseOrders.Plant
+	toColumn: Plants.Name
+
+relationship Sales_custName_Customers_custName
+	fromColumn: Sales.custName
+	toColumn: Customers.custName
+
+relationship SalesSummary_custName_Customers_custName
+	fromColumn: SalesSummary.custName
+	toColumn: Customers.custName
+
+relationship ProductionLog_line_name_Lines_line_name
+	fromColumn: ProductionLog.line_name
+	toColumn: Lines.line_name
+
+relationship Lines_DeviceID_Assets_Device_Id
+	isActive: false
+	fromColumn: Lines.DeviceID
+	toColumn: Assets.Device_Id
+
+relationship ProductionLog_DeviceID_Assets_Device_Id
+	isActive: false
+	fromColumn: ProductionLog.DeviceID
+	toColumn: Assets.Device_Id
+
+relationship Sales_Date_Date_Date
+	fromColumn: Sales.Date
+	toColumn: Date.Date
+
+relationship Inventory_Date_Date_Date
+	fromColumn: Inventory.Date
+	toColumn: Date.Date
+
+relationship PurchaseOrders_Date_Date_Date
+	fromColumn: PurchaseOrders.Date
+	toColumn: Date.Date
+
+relationship ProductionLog_Date_Date_Date
+	fromColumn: ProductionLog.Date
+	toColumn: Date.Date
+
+relationship SalesSummary_Date_Date_Date
+	fromColumn: SalesSummary.Date
+	toColumn: Date.Date
+
+relationship Inventory_Product_Products_Name
+	fromColumn: Inventory.Product
+	toColumn: Products.Name
+
+relationship Sales_Prod_Products_Name
+	fromColumn: Sales.Prod
+	toColumn: Products.Name
+
+relationship ProductionLog_product_name_Products_Name
+	fromColumn: ProductionLog.product_name
+	toColumn: Products.Name
+

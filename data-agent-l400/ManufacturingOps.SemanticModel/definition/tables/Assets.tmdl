@@ -1,0 +1,57 @@
+﻿table Assets
+
+	column ID
+		dataType: int64
+		isUnique
+		isKey
+		isNullable: false
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: ID
+
+	column Device_Id
+		dataType: string
+		isUnique
+		summarizeBy: none
+		sourceColumn: Device_Id
+
+	column Name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Name
+
+	column type
+		dataType: string
+		summarizeBy: none
+		sourceColumn: type
+
+	column Mfr
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Mfr
+
+	column PlantID
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: PlantID
+
+	column Location
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Location
+
+	partition Assets = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath="Assets.csv"]),[Delimiter=",", Columns=7, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ID", Int64.Type}, {"Device_Id", type text}, {"Name", type text}, {"type", type text}, {"Mfr", type text}, {"PlantID", Int64.Type}, {"Location", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

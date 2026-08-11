@@ -1,0 +1,58 @@
+﻿/// Inventory snapshot fact: on-hand stock by product and plant over time. One row per date, product and plant. Use for stock levels, reorder points and in-transit questions.
+table Inventory
+
+	/// Snapshot date of the inventory reading (day grain). Use for stock-over-time; relate to Date.
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// Product on hand; matches Products[Name]. Use to filter inventory by product. Partial-text match.
+	column Product
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Product
+
+	/// Plant holding the stock, e.g. 'Riverside Plant'; matches Plants[Name]. Use to filter inventory by plant. Partial-text match.
+	column Plant
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Plant
+
+	/// On-hand quantity in units at the snapshot; current stock level. Sum or average for stock analysis.
+	column Qty
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Qty
+
+	/// Reorder point in units; stock at or below this should be reordered. Compare to Qty for low stock.
+	column Reorder
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Reorder
+
+	/// Units in transit (ordered, not yet received). Add to on-hand for incoming availability.
+	column InTransit
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: InTransit
+
+	partition Inventory = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath="inventory.csv"]),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Date", type date}, {"Product", type text}, {"Plant", type text}, {"Qty", Int64.Type}, {"Reorder", Int64.Type}, {"InTransit", Int64.Type}}),
+				    #"Filtered AsOf" = Table.SelectRows(#"Changed Type", each [Date] <= (if AsOfDate = null or Text.Trim(AsOfDate) = "" then Date.From(DateTimeZone.FixedLocalNow()) else Date.FromText(Text.Trim(AsOfDate))))
+				in
+				    #"Filtered AsOf"
+
+	annotation PBI_ResultType = Table
+

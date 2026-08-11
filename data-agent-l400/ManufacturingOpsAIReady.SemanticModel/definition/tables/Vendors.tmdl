@@ -1,0 +1,51 @@
+﻿/// Supplier master; one row per company we buy from (the seller). Use for supplier attributes - type, country, rating - and to break purchasing/PO spend down by supplier. Not a customer.
+table Vendors
+
+	/// Surrogate vendor key (integer); internal. Use Vendor Name for supplier questions.
+	column id
+		dataType: int64
+		isHidden
+		isUnique
+		isKey
+		isNullable: false
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: id
+
+	/// Company we buy from (the seller); free-text names, e.g. 'Siemens Industrial'. Use for purchases/PO spend/lead time by supplier. Not a customer or product. Partial-text match.
+	column 'Vendor Name'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: vendor_name
+
+	/// Supplier category, e.g. 'OEM Components','Bearings'. Use to group vendors by what they supply. Partial-text match.
+	column type
+		dataType: string
+		summarizeBy: none
+		sourceColumn: type
+
+	/// Vendor country, full name, e.g. 'Germany'. Use to filter or group suppliers by country. Partial-text match.
+	column country
+		dataType: string
+		summarizeBy: none
+		sourceColumn: country
+
+	/// Supplier quality rating on a ~0-5 scale (higher is better), e.g. 4.6. Use to rank or filter suppliers.
+	column rating
+		dataType: double
+		formatString: 0.0
+		summarizeBy: average
+		sourceColumn: rating
+
+	partition Vendors = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath="vendor list.csv"]),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"id", Int64.Type}, {"vendor_name", type text}, {"type", type text}, {"country", type text}, {"rating", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,189 @@
+﻿/// Dedicated table for business KPIs and demo measures.
+table 'Business Measures'
+
+	/// Total sales revenue from Sales[Amount].
+	measure 'Total Sales' = SUM(Sales[Amount])
+		formatString: $#,0.00;-$#,0.00;$#,0.00
+		displayFolder: Sales
+
+	/// Total gross profit from Sales[Profit].
+	measure 'Total Profit' = SUM(Sales[Profit])
+		formatString: $#,0.00;-$#,0.00;$#,0.00
+		displayFolder: Sales
+
+	/// Gross profit as a percentage of sales revenue.
+	measure 'Profit Margin %' = DIVIDE([Total Profit], [Total Sales])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Sales
+
+	/// Total sales quantity.
+	measure 'Total Sales Qty' = SUM(Sales[Qty])
+		formatString: #,0
+		displayFolder: Sales
+
+	/// Average realized selling price per sold unit.
+	measure 'Average Selling Price' = DIVIDE([Total Sales], [Total Sales Qty])
+		formatString: $#,0.00;-$#,0.00;$#,0.00
+		displayFolder: Sales
+
+	/// Year-to-date sales based on the model Date table.
+	measure 'Sales YTD' = TOTALYTD([Total Sales], 'Date'[Date])
+		formatString: $#,0.00;-$#,0.00;$#,0.00
+		displayFolder: Sales\Time Intelligence
+
+	/// Year-to-date profit based on the model Date table.
+	measure 'Profit YTD' = TOTALYTD([Total Profit], 'Date'[Date])
+		formatString: $#,0.00;-$#,0.00;$#,0.00
+		displayFolder: Sales\Time Intelligence
+
+	/// Total on-hand inventory quantity.
+	measure 'Total Inventory Qty' = SUM(Inventory[Qty])
+		formatString: #,0
+		displayFolder: Inventory
+
+	/// Total inventory quantity currently in transit.
+	measure 'Inventory In Transit Qty' = SUM(Inventory[InTransit])
+		formatString: #,0
+		displayFolder: Inventory
+
+	/// Shortfall quantity where inventory is below reorder threshold.
+	measure 'Inventory Below Reorder Qty' = SUMX(FILTER(Inventory, Inventory[Qty] < Inventory[Reorder]), Inventory[Reorder] - Inventory[Qty])
+		formatString: #,0
+		displayFolder: Inventory
+
+	/// Count of product-plant-date combinations where quantity is below reorder level.
+	measure 'Inventory Risk SKU Count' = COUNTROWS(FILTER(SUMMARIZE(Inventory, Inventory[Date], Inventory[Product], Inventory[Plant], "Qty", SUM(Inventory[Qty]), "Reorder", SUM(Inventory[Reorder])), [Qty] < [Reorder]))
+		formatString: #,0
+		displayFolder: Inventory
+
+	/// Total purchase order spend.
+	measure 'Purchase Order Amount' = SUM(PurchaseOrders[Amount])
+		formatString: $#,0.00;-$#,0.00;$#,0.00
+		displayFolder: Procurement
+
+	/// Count of purchase order rows.
+	measure 'PO Count' = COUNTROWS(PurchaseOrders)
+		formatString: #,0
+		displayFolder: Procurement
+
+	/// Count of purchase order rows delivered on time.
+	measure 'On Time PO Count' = CALCULATE(COUNTROWS(PurchaseOrders), PurchaseOrders[OnTime] = TRUE())
+		formatString: #,0
+		displayFolder: Procurement
+
+	/// Percentage of purchase order rows delivered on time.
+	measure 'On Time PO Rate' = DIVIDE([On Time PO Count], [PO Count])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Procurement
+
+	/// Average actual days minus promised days across purchase orders.
+	measure 'Average Supplier Delay Days' = AVERAGEX(PurchaseOrders, PurchaseOrders[ActualDays] - PurchaseOrders[PromisedDays])
+		formatString: 0.00
+		displayFolder: Procurement
+
+	/// Total produced quantity.
+	measure 'Production Qty' = SUM(ProductionLog[Qty])
+		formatString: #,0
+		displayFolder: Production
+
+	/// Total good units produced.
+	measure 'Good Units' = SUM(ProductionLog[Good])
+		formatString: #,0
+		displayFolder: Production
+
+	/// Total scrapped units.
+	measure 'Scrap Units' = SUM(ProductionLog[Scrap])
+		formatString: #,0
+		displayFolder: Production
+
+	/// Good units as a percentage of total production quantity.
+	measure 'Production Yield %' = DIVIDE([Good Units], [Production Qty])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Production
+
+	/// Scrap units as a percentage of total production quantity.
+	measure 'Scrap Rate %' = DIVIDE([Scrap Units], [Production Qty])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Production
+
+	/// Total production runtime minutes.
+	measure 'Runtime Minutes' = SUM(ProductionLog[Runtime])
+		formatString: #,0
+		displayFolder: Production
+
+	/// Total production downtime minutes.
+	measure 'Downtime Minutes' = SUM(ProductionLog[Down])
+		formatString: #,0
+		displayFolder: Production
+
+	/// Downtime minutes divided by runtime plus downtime minutes.
+	measure 'Downtime %' = DIVIDE([Downtime Minutes], [Runtime Minutes] + [Downtime Minutes])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Production
+
+	/// Actual production quantity divided by planned production quantity.
+	measure 'Schedule Attainment %' = DIVIDE(SUM(ProductionLog[Qty]), SUM(ProductionLog[Planned]))
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Production
+
+	/// Sales amount for Turbines and Pumps only, also referred as TP or tp sales. If users asks about TP or tp sales, use this measure.
+	measure sls_amt_x =
+			// Sales amount for Turbines and Pumps only.
+			CALCULATE([Total Sales], Products[Cat] IN { "Turbines", "Pumps" })
+		formatString: $#,0.00;-$#,0.00;$#,0.00
+		displayFolder: Ambiguous Names Demo
+
+	measure gm2_pct =
+			// Gross margin percentage excluding Spare Parts.
+			DIVIDE(
+			    CALCULATE([Total Profit], Products[Cat] <> "Spare Parts"),
+			    CALCULATE([Total Sales], Products[Cat] <> "Spare Parts")
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Ambiguous Names Demo
+
+	measure po_ok_flagish =
+			// On-time purchase order count divided by high-value purchase order count.
+			DIVIDE(
+			    CALCULATE(
+			        COUNTROWS(PurchaseOrders),
+			        PurchaseOrders[OnTime] = TRUE(),
+			        PurchaseOrders[ActualDays] <= PurchaseOrders[PromisedDays]
+			    ),
+			    CALCULATE(COUNTROWS(PurchaseOrders), PurchaseOrders[Amount] >= 100000)
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Ambiguous Names Demo
+
+	measure prd_yld_day =
+			// Day Production yield, excluding Night shift.
+			DIVIDE(
+			    SUMX(FILTER(ProductionLog, ProductionLog[Shift] <> "Night"), ProductionLog[Good]),
+			    SUMX(FILTER(ProductionLog, ProductionLog[Shift] <> "Night"), ProductionLog[Qty])
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Ambiguous Names Demo
+
+	measure inv_rsk_u =
+			// Unresolved inventory shortfall after considering in-transit quantity.
+			SUMX(
+			    FILTER(
+			        Inventory,
+			        Inventory[Qty] < Inventory[Reorder]
+			            && Inventory[InTransit] < (Inventory[Reorder] - Inventory[Qty])
+			    ),
+			    Inventory[Reorder] - Inventory[Qty] - Inventory[InTransit]
+			)
+		formatString: #,0
+		displayFolder: Ambiguous Names Demo
+
+	column Value
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: [Value]
+
+	partition 'Business Measures' = calculated
+		mode: import
+		source = ROW("Value", 0)
+

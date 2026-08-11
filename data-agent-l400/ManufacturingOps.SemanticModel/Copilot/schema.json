@@ -1,0 +1,1264 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/semanticModel/copilot/schema/1.0.0/schema.json",
+  "tables": [
+    {
+      "id": "04a2d9c7-a668-4344-a871-2ed6c4296091",
+      "name": "Assets",
+      "visibility": "Visible",
+      "columns": [
+        {
+          "id": "ea970e1e-65b1-49d7-b430-781a82de8423",
+          "name": "ID",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        },
+        {
+          "id": "6d1bbe9f-d87e-4570-8750-e037bd227b78",
+          "name": "Device_Id",
+          "visibility": "Visible",
+          "synonyms": [
+            "device id",
+            "asset id"
+          ]
+        },
+        {
+          "id": "3485a626-1661-4398-a8e9-d31a0cd0dbaf",
+          "name": "Name",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "asset name",
+            "equipment name",
+            "machine name"
+          ]
+        },
+        {
+          "id": "f928dceb-897d-4cdf-9976-387a3980bcea",
+          "name": "type",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "asset type",
+            "equipment type"
+          ]
+        },
+        {
+          "id": "c7e6b9cd-62ce-4bfd-9310-f37c0af809d3",
+          "name": "Mfr",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "manufacturer",
+            "maker"
+          ]
+        },
+        {
+          "id": "b16466d7-d5af-4949-8050-e43833d982f5",
+          "name": "PlantID",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        },
+        {
+          "id": "47abcd6e-dd94-491c-8ad0-693f7b46d5aa",
+          "name": "Location",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "asset location",
+            "equipment location"
+          ]
+        }
+      ],
+      "measures": [],
+      "hierarchies": [],
+      "synonyms": [
+        "equipment",
+        "devices",
+        "machines"
+      ]
+    },
+    {
+      "id": "c9a15083-1903-4590-8941-81f0a4105299",
+      "name": "Business Measures",
+      "visibility": "Visible",
+      "columns": [
+        {
+          "id": "b169afe1-1c59-4af0-b442-e7085770cc65",
+          "name": "Value",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        }
+      ],
+      "measures": [
+        {
+          "id": "96e11cb2-659c-4cbb-a38f-50ccd14537d5",
+          "name": "Total Sales",
+          "visibility": "Visible",
+          "synonyms": [
+            "sales",
+            "revenue",
+            "sales amount"
+          ]
+        },
+        {
+          "id": "c1877965-56db-444b-8950-604d11ddc402",
+          "name": "Total Profit",
+          "visibility": "Visible",
+          "synonyms": [
+            "profit",
+            "gross profit"
+          ]
+        },
+        {
+          "id": "01b4ca1a-d5e9-47a2-8b63-2db492a2c8e7",
+          "name": "Profit Margin %",
+          "visibility": "Visible",
+          "synonyms": [
+            "margin",
+            "profit margin",
+            "gross margin percent"
+          ]
+        },
+        {
+          "id": "eb1ad1ac-4c66-4e94-89a5-8a7561d3b860",
+          "name": "Total Sales Qty",
+          "visibility": "Visible",
+          "synonyms": [
+            "units sold",
+            "sales units",
+            "quantity sold"
+          ]
+        },
+        {
+          "id": "c71d30cb-61a4-4b98-9652-6dfd53c493f5",
+          "name": "Average Selling Price",
+          "visibility": "Visible",
+          "synonyms": [
+            "ASP",
+            "average price"
+          ]
+        },
+        {
+          "id": "dc07b13d-9e2e-4ac5-a220-5005dc02f6fe",
+          "name": "Sales YTD",
+          "visibility": "Visible",
+          "synonyms": [
+            "year to date sales",
+            "YTD sales"
+          ]
+        },
+        {
+          "id": "7e2eaf8e-6dfa-4922-8618-3b2bcb883344",
+          "name": "Profit YTD",
+          "visibility": "Visible",
+          "synonyms": [
+            "year to date profit",
+            "YTD profit"
+          ]
+        },
+        {
+          "id": "7842b202-6405-474f-8fdd-655d3ba8da7f",
+          "name": "Total Inventory Qty",
+          "visibility": "Visible",
+          "synonyms": [
+            "inventory quantity",
+            "stock on hand",
+            "available inventory"
+          ]
+        },
+        {
+          "id": "4c0a606f-08ad-49fd-9bc0-f5f1d37f2fed",
+          "name": "Inventory In Transit Qty",
+          "visibility": "Visible",
+          "synonyms": [
+            "in transit inventory",
+            "inventory in transit"
+          ]
+        },
+        {
+          "id": "f678888b-fa6d-48e3-babd-65eb42c16e94",
+          "name": "Inventory Below Reorder Qty",
+          "visibility": "Visible",
+          "synonyms": [
+            "below reorder quantity",
+            "inventory shortage",
+            "reorder gap"
+          ]
+        },
+        {
+          "id": "ebd4e1ce-4cd5-41c2-b52f-57db897dcfb3",
+          "name": "Inventory Risk SKU Count",
+          "visibility": "Visible",
+          "synonyms": [
+            "at risk SKUs",
+            "inventory risk",
+            "stockout risk"
+          ]
+        },
+        {
+          "id": "753916e2-5956-4585-af96-57151700027c",
+          "name": "Purchase Order Amount",
+          "visibility": "Visible",
+          "synonyms": [
+            "purchase order cost",
+            "PO amount",
+            "procurement spend"
+          ]
+        },
+        {
+          "id": "64519276-f8a7-460a-b3da-a3ce05d380d5",
+          "name": "PO Count",
+          "visibility": "Visible",
+          "synonyms": [
+            "purchase order count",
+            "number of POs"
+          ]
+        },
+        {
+          "id": "2acbc46a-7e27-46b1-b62c-24cd246f929a",
+          "name": "On Time PO Count",
+          "visibility": "Visible",
+          "synonyms": [
+            "on time purchase orders",
+            "on time POs"
+          ]
+        },
+        {
+          "id": "3b760ac9-4e4e-4944-b2d4-852ffd3d33df",
+          "name": "On Time PO Rate",
+          "visibility": "Visible",
+          "synonyms": [
+            "on time delivery rate",
+            "supplier on time rate",
+            "PO on time percentage"
+          ]
+        },
+        {
+          "id": "64d5e424-2abb-456e-874f-b22af6c5a86f",
+          "name": "Average Supplier Delay Days",
+          "visibility": "Visible",
+          "synonyms": [
+            "supplier delay",
+            "average delay days",
+            "late delivery days"
+          ]
+        },
+        {
+          "id": "c0aac562-ef22-4cad-adae-e89013a39993",
+          "name": "Production Qty",
+          "visibility": "Visible",
+          "synonyms": [
+            "production output",
+            "produced units",
+            "units produced"
+          ]
+        },
+        {
+          "id": "51301a32-00ab-4d41-9dcf-e95c04589825",
+          "name": "Good Units",
+          "visibility": "Visible",
+          "synonyms": [
+            "good production",
+            "accepted units"
+          ]
+        },
+        {
+          "id": "acb0a9f7-b14c-41a8-8ff9-af61e8dd0a27",
+          "name": "Scrap Units",
+          "visibility": "Visible",
+          "synonyms": [
+            "defects",
+            "scrap",
+            "defective units",
+            "quality issues"
+          ]
+        },
+        {
+          "id": "297ed87d-cb47-41dc-a102-811afd2a97a5",
+          "name": "Production Yield %",
+          "visibility": "Visible",
+          "synonyms": [
+            "yield",
+            "production yield",
+            "good unit rate"
+          ]
+        },
+        {
+          "id": "4d4b1788-78cc-44ea-a4ef-abc37c25ccaf",
+          "name": "Scrap Rate %",
+          "visibility": "Visible",
+          "synonyms": [
+            "defect rate",
+            "scrap rate",
+            "quality issue rate"
+          ]
+        },
+        {
+          "id": "9101483e-ea7c-429b-ad03-998101d7e479",
+          "name": "Runtime Minutes",
+          "visibility": "Visible",
+          "synonyms": [
+            "runtime",
+            "operating minutes"
+          ]
+        },
+        {
+          "id": "a3bfb19e-910b-45ed-a300-f298f4359420",
+          "name": "Downtime Minutes",
+          "visibility": "Visible",
+          "synonyms": [
+            "downtime",
+            "down minutes"
+          ]
+        },
+        {
+          "id": "4e0ddeec-def6-44b4-8413-dfc112ac11bd",
+          "name": "Downtime %",
+          "visibility": "Visible",
+          "synonyms": [
+            "downtime rate",
+            "downtime percentage"
+          ]
+        },
+        {
+          "id": "94e4fa59-a306-43ff-b46f-f9d65d68f144",
+          "name": "Schedule Attainment %",
+          "visibility": "Visible",
+          "synonyms": [
+            "schedule attainment",
+            "production plan attainment",
+            "plan attainment"
+          ]
+        },
+        {
+          "id": "dfed4772-f60d-4237-b5d4-a1f537562909",
+          "name": "sls_amt_x",
+          "visibility": "Visible",
+          "synonyms": []
+        },
+        {
+          "id": "fd2a5d73-f82c-4b51-a757-297a134d8de4",
+          "name": "gm2_pct",
+          "visibility": "Visible",
+          "synonyms": []
+        },
+        {
+          "id": "47eaca1e-9274-480d-960a-82f070c9b5a7",
+          "name": "po_ok_flagish",
+          "visibility": "Visible",
+          "synonyms": []
+        },
+        {
+          "id": "4b9f2eb9-5e0f-4767-bc66-f0d11a7eb023",
+          "name": "prd_yld_day",
+          "visibility": "Visible",
+          "synonyms": []
+        },
+        {
+          "id": "bded1e2e-06df-4899-bec1-fb9442a649bc",
+          "name": "inv_rsk_u",
+          "visibility": "Visible",
+          "synonyms": []
+        }
+      ],
+      "hierarchies": [],
+      "synonyms": [
+        "metrics",
+        "KPIs",
+        "measures"
+      ]
+    },
+    {
+      "id": "145bfe42-8c12-4735-a9e3-93291d943840",
+      "name": "Customers",
+      "visibility": "Visible",
+      "columns": [
+        {
+          "id": "43475d04-af7a-4f5a-884a-c2e62f104057",
+          "name": "ID",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        },
+        {
+          "id": "b6d3e170-ccfe-49ac-a78b-d3bbb9a7de06",
+          "name": "custName",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "customer name",
+            "account name"
+          ]
+        },
+        {
+          "id": "befe5391-fc29-496e-86ea-1e4a215ce863",
+          "name": "segment",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "customer segment",
+            "market segment"
+          ]
+        },
+        {
+          "id": "35095b01-0549-4d5c-b593-7fe05b4083be",
+          "name": "Region",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": []
+        },
+        {
+          "id": "82f00d0e-e7e8-490a-be78-faa0eea57cec",
+          "name": "country",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "customer country"
+          ]
+        }
+      ],
+      "measures": [],
+      "hierarchies": [],
+      "synonyms": [
+        "customer",
+        "accounts"
+      ]
+    },
+    {
+      "id": "274fe294-7172-4e75-b762-5b388dee3530",
+      "name": "Date",
+      "visibility": "Visible",
+      "columns": [
+        {
+          "id": "9b1e886d-a355-4525-8972-43f6a37a9a4d",
+          "name": "Date",
+          "visibility": "Visible",
+          "synonyms": []
+        },
+        {
+          "id": "35e416e4-be39-4ef5-bc95-4349a397013c",
+          "name": "Year",
+          "visibility": "Visible",
+          "synonyms": []
+        },
+        {
+          "id": "4eed736b-81d0-4760-8661-c3d7b0e7aa0a",
+          "name": "Quarter",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": []
+        },
+        {
+          "id": "9c953241-eb5c-459b-8ddf-5e247eb93078",
+          "name": "Quarter Number",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        },
+        {
+          "id": "b42e43b9-9feb-4eb2-9635-a90cfe4bc9f6",
+          "name": "Month Number",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        },
+        {
+          "id": "71b9b544-bbfe-4043-ae94-ec117d8a06d4",
+          "name": "Month Name",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "month"
+          ]
+        },
+        {
+          "id": "aa7c37b4-f5d5-4148-ba2d-869c0e0d9c31",
+          "name": "Year Month",
+          "visibility": "Visible",
+          "synonyms": [
+            "month year",
+            "year-month"
+          ]
+        },
+        {
+          "id": "b593e25f-8acc-4d76-bf1b-7e91c91d712c",
+          "name": "Week Number",
+          "visibility": "Visible",
+          "synonyms": [
+            "week"
+          ]
+        },
+        {
+          "id": "23ab4558-1fc0-4e0d-b611-2d53b6f4b066",
+          "name": "Day of Week Number",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        },
+        {
+          "id": "49c09372-3d45-4b0d-bc84-e89696a96fe3",
+          "name": "Day of Week",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "weekday"
+          ]
+        },
+        {
+          "id": "db77f7dc-6e7a-4cbe-bfd5-6e7f9cb16896",
+          "name": "Is Weekend",
+          "visibility": "Visible",
+          "synonyms": [
+            "weekend"
+          ]
+        }
+      ],
+      "measures": [],
+      "hierarchies": [],
+      "synonyms": [
+        "calendar",
+        "time",
+        "period"
+      ]
+    },
+    {
+      "id": "f52a9f09-069b-4a3c-9668-9b4a36c2214a",
+      "name": "Inventory",
+      "visibility": "Visible",
+      "columns": [
+        {
+          "id": "33982255-c3ba-411e-9d51-3f50252d49cc",
+          "name": "Date",
+          "visibility": "Visible",
+          "synonyms": []
+        },
+        {
+          "id": "906cc6a0-a264-47a7-901a-e7c3d0929de4",
+          "name": "Product",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "item",
+            "SKU"
+          ]
+        },
+        {
+          "id": "7a0c8721-1391-4382-8b94-34680acd2ac2",
+          "name": "Plant",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "factory",
+            "site"
+          ]
+        },
+        {
+          "id": "b3d56935-3378-4864-94cf-5438462c5c7a",
+          "name": "Qty",
+          "visibility": "Visible",
+          "synonyms": [
+            "inventory quantity",
+            "stock quantity"
+          ]
+        },
+        {
+          "id": "1ce5ba47-2cfe-4b55-b009-5130f7565c88",
+          "name": "Reorder",
+          "visibility": "Visible",
+          "synonyms": [
+            "reorder point",
+            "reorder level"
+          ]
+        },
+        {
+          "id": "45bf7d7b-f9cd-4ec1-b293-8e69d256de60",
+          "name": "InTransit",
+          "visibility": "Visible",
+          "synonyms": [
+            "in transit",
+            "in transit quantity"
+          ]
+        }
+      ],
+      "measures": [],
+      "hierarchies": [],
+      "synonyms": [
+        "stock",
+        "inventory position"
+      ]
+    },
+    {
+      "id": "6a1f6e1d-0ad3-4e5e-bebc-9a91b1a7b848",
+      "name": "Lines",
+      "visibility": "Visible",
+      "columns": [
+        {
+          "id": "edc64822-acb1-4836-9aa3-921461740151",
+          "name": "LineID",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        },
+        {
+          "id": "a095c57c-a80d-46a8-910c-766501342cbf",
+          "name": "line_name",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "line name",
+            "production line"
+          ]
+        },
+        {
+          "id": "25aa462e-a614-4b06-813f-5611512146d1",
+          "name": "PlantID",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        },
+        {
+          "id": "46168b19-9f33-4d84-b588-e9560eae70a0",
+          "name": "loc",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "location",
+            "line location"
+          ]
+        },
+        {
+          "id": "24da858d-75ab-49c7-a803-3bda41a28cb1",
+          "name": "DeviceID",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        },
+        {
+          "id": "7c0e7861-2ce6-420e-bbd8-30c3d4b60005",
+          "name": "Type",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "line type"
+          ]
+        },
+        {
+          "id": "d388321d-bdff-47d2-9b05-d512c287c183",
+          "name": "asset",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "asset",
+            "equipment"
+          ]
+        },
+        {
+          "id": "db2e24c1-9b2d-4ee3-b13a-377bef72646f",
+          "name": "Mfr",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "manufacturer"
+          ]
+        }
+      ],
+      "measures": [],
+      "hierarchies": [],
+      "synonyms": [
+        "line",
+        "production line",
+        "manufacturing line"
+      ]
+    },
+    {
+      "id": "f461104a-bda7-4591-9641-7a349d382b22",
+      "name": "Plants",
+      "visibility": "Visible",
+      "columns": [
+        {
+          "id": "880b261d-c91e-4505-ab96-d4918fdf0120",
+          "name": "ID",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        },
+        {
+          "id": "9e9c6618-aaa2-4f90-9fc8-3680f17445e7",
+          "name": "Name",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "plant name",
+            "factory name",
+            "site name"
+          ]
+        },
+        {
+          "id": "7e479336-9912-4a84-8e2a-d1cd717d455d",
+          "name": "Region",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": []
+        },
+        {
+          "id": "df8054cd-0229-4599-bb0e-275b65d6c341",
+          "name": "Country",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": []
+        },
+        {
+          "id": "c9e5466d-7b6e-4b27-a75c-001449a558ba",
+          "name": "City",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": []
+        },
+        {
+          "id": "11d77a06-d40e-4601-878b-128c5cd3d4e4",
+          "name": "Year",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        }
+      ],
+      "measures": [],
+      "hierarchies": [],
+      "synonyms": [
+        "plant",
+        "factory",
+        "site"
+      ]
+    },
+    {
+      "id": "ba03b13c-5ec6-4c12-8590-f6c5b61df19f",
+      "name": "ProductionLog",
+      "visibility": "Visible",
+      "columns": [
+        {
+          "id": "98579e33-5efb-45b6-b2d5-c00a84c6516a",
+          "name": "Date",
+          "visibility": "Visible",
+          "synonyms": []
+        },
+        {
+          "id": "954cf078-6877-43dc-9f55-1b85ab406f4f",
+          "name": "Timestamp",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        },
+        {
+          "id": "e6397336-4789-4345-8bf7-ed9c05d1ff0d",
+          "name": "Year",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        },
+        {
+          "id": "24795045-7e7a-4503-b0d0-b485a6d67c6a",
+          "name": "line_name",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "line name",
+            "production line"
+          ]
+        },
+        {
+          "id": "acce7de1-5c0d-4897-812c-a827321a5410",
+          "name": "DeviceID",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        },
+        {
+          "id": "0228be0a-351b-478e-b9ff-e415c77b7a19",
+          "name": "product_name",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "product",
+            "item",
+            "SKU"
+          ]
+        },
+        {
+          "id": "11bfe9fa-c7dc-48b4-81de-186cf34b491c",
+          "name": "Shift",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": []
+        },
+        {
+          "id": "279bb91f-dd22-47fd-bf8e-8567afce8d7c",
+          "name": "Planned",
+          "visibility": "Visible",
+          "synonyms": [
+            "planned production",
+            "production plan"
+          ]
+        },
+        {
+          "id": "9884393d-8541-4c94-ac4b-cf6fbfe87ff6",
+          "name": "Qty",
+          "visibility": "Visible",
+          "synonyms": [
+            "production quantity",
+            "units produced"
+          ]
+        },
+        {
+          "id": "e8edd939-b345-4319-93fa-dd39260848c8",
+          "name": "Good",
+          "visibility": "Visible",
+          "synonyms": [
+            "good units",
+            "accepted units"
+          ]
+        },
+        {
+          "id": "f56bf5b6-b88a-44e6-bcb2-642195f5ac4b",
+          "name": "Scrap",
+          "visibility": "Visible",
+          "synonyms": [
+            "defects",
+            "scrap units",
+            "quality issues"
+          ]
+        },
+        {
+          "id": "aa0ce3d5-dbbf-45e3-93f0-02c58a7f51de",
+          "name": "Runtime",
+          "visibility": "Visible",
+          "synonyms": [
+            "runtime minutes",
+            "operating time"
+          ]
+        },
+        {
+          "id": "368816d9-25c8-48b8-b451-73f7fbd88e7d",
+          "name": "Down",
+          "visibility": "Visible",
+          "synonyms": [
+            "downtime minutes",
+            "down time"
+          ]
+        }
+      ],
+      "measures": [],
+      "hierarchies": [],
+      "synonyms": [
+        "production",
+        "production log",
+        "manufacturing output"
+      ]
+    },
+    {
+      "id": "2c5f8169-fe25-4194-ae57-543a12ae592f",
+      "name": "Products",
+      "visibility": "Visible",
+      "columns": [
+        {
+          "id": "710363ca-518d-4b37-8e58-cbf413e4c5d5",
+          "name": "ID",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        },
+        {
+          "id": "9069329d-4f43-4065-a412-a69353f6c1de",
+          "name": "Code",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "product code",
+            "SKU code"
+          ]
+        },
+        {
+          "id": "f2820c6b-99bd-4878-9ff6-06d38d5e1a44",
+          "name": "Name",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "product name",
+            "item name",
+            "SKU name"
+          ]
+        },
+        {
+          "id": "2474c733-d929-4b25-a327-aee5640444bb",
+          "name": "Cat",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "category",
+            "product category"
+          ]
+        },
+        {
+          "id": "43ed3b72-a2a1-4287-abb9-fdcc4d0ea44a",
+          "name": "SubCat",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "subcategory",
+            "product subcategory"
+          ]
+        },
+        {
+          "id": "9a29335f-7013-421f-8e1e-245336b3f657",
+          "name": "Price",
+          "visibility": "Visible",
+          "synonyms": [
+            "list price"
+          ]
+        },
+        {
+          "id": "313c978f-40bd-4ba9-bba7-7d7e51b4e3cf",
+          "name": "Cost",
+          "visibility": "Visible",
+          "synonyms": [
+            "product cost",
+            "unit cost"
+          ]
+        }
+      ],
+      "measures": [],
+      "hierarchies": [],
+      "synonyms": [
+        "product",
+        "item",
+        "SKU"
+      ]
+    },
+    {
+      "id": "17ce3266-2987-457e-a921-fb200e993abf",
+      "name": "PurchaseOrders",
+      "visibility": "Visible",
+      "columns": [
+        {
+          "id": "07a37b23-3396-48dc-b101-5de1826f7591",
+          "name": "PO_Number",
+          "visibility": "Visible",
+          "synonyms": [
+            "purchase order number",
+            "PO number"
+          ]
+        },
+        {
+          "id": "442a31aa-31cc-45b7-beba-312ac77c0e27",
+          "name": "Date",
+          "visibility": "Visible",
+          "synonyms": []
+        },
+        {
+          "id": "813bdb5d-e57d-4501-97af-963df5fb0aae",
+          "name": "VendorName",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "vendor",
+            "supplier",
+            "supplier name"
+          ]
+        },
+        {
+          "id": "c9162e17-d508-476c-8c9d-eb27fbb0cda9",
+          "name": "Plant",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "factory",
+            "site"
+          ]
+        },
+        {
+          "id": "da1f1390-bda3-499d-8b0e-bafb35191e91",
+          "name": "Qty",
+          "visibility": "Visible",
+          "synonyms": [
+            "purchase order quantity",
+            "ordered quantity"
+          ]
+        },
+        {
+          "id": "a1ae67d3-3a07-4923-b5d3-5971cc6808ba",
+          "name": "UnitCost",
+          "visibility": "Visible",
+          "synonyms": [
+            "unit cost",
+            "purchase unit cost"
+          ]
+        },
+        {
+          "id": "3bf03a30-7a67-4569-87cb-32f5c5af4ae4",
+          "name": "Amount",
+          "visibility": "Visible",
+          "synonyms": [
+            "purchase amount",
+            "purchase order cost"
+          ]
+        },
+        {
+          "id": "748388fa-fee2-4847-95e2-a467f68ae5d0",
+          "name": "PromisedDays",
+          "visibility": "Visible",
+          "synonyms": [
+            "promised days",
+            "expected delivery days"
+          ]
+        },
+        {
+          "id": "1f0089d1-194d-4d46-91e4-f673ccd1aea7",
+          "name": "ActualDays",
+          "visibility": "Visible",
+          "synonyms": [
+            "actual delivery days",
+            "delivery days"
+          ]
+        },
+        {
+          "id": "999cfe9a-d11e-490c-a5b4-5d4773d7998c",
+          "name": "OnTime",
+          "visibility": "Visible",
+          "synonyms": [
+            "on time",
+            "delivered on time"
+          ]
+        }
+      ],
+      "measures": [],
+      "hierarchies": [],
+      "synonyms": [
+        "purchase orders",
+        "POs",
+        "procurement"
+      ]
+    },
+    {
+      "id": "29805a9f-5a4b-435b-a102-295783ced49c",
+      "name": "Sales",
+      "visibility": "Visible",
+      "columns": [
+        {
+          "id": "7890029f-3317-44da-ab75-87facaaa8a69",
+          "name": "OrderNo",
+          "visibility": "Visible",
+          "synonyms": [
+            "order number",
+            "order count"
+          ]
+        },
+        {
+          "id": "d4decad8-cf02-49e0-b085-6a3b79e545cb",
+          "name": "Date",
+          "visibility": "Visible",
+          "synonyms": []
+        },
+        {
+          "id": "557a756b-96e6-4588-8152-d141e7cfd020",
+          "name": "Year",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        },
+        {
+          "id": "6be935d4-cd5c-4898-a623-c378d053a6e5",
+          "name": "custName",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "customer",
+            "customer name"
+          ]
+        },
+        {
+          "id": "01881055-a767-4a21-83dc-7da77b84f31f",
+          "name": "region",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "sales region"
+          ]
+        },
+        {
+          "id": "f86177a7-02d0-4814-9039-e5eccf33054f",
+          "name": "Prod",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "product",
+            "item",
+            "SKU"
+          ]
+        },
+        {
+          "id": "5bc1e885-0658-4d74-8b5e-2149ef5c63ee",
+          "name": "Cat",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "category",
+            "product category"
+          ]
+        },
+        {
+          "id": "f82708c8-e4ec-4d08-b6c3-cb86caa22f7a",
+          "name": "Qty",
+          "visibility": "Visible",
+          "synonyms": [
+            "quantity sold",
+            "units sold"
+          ]
+        },
+        {
+          "id": "ab64c74e-d53f-4098-be21-8362f049c3f8",
+          "name": "Price",
+          "visibility": "Visible",
+          "synonyms": [
+            "selling price"
+          ]
+        },
+        {
+          "id": "cf8e05e5-b593-4a6f-9eba-52ff072fb5c1",
+          "name": "Disc",
+          "visibility": "Visible",
+          "synonyms": [
+            "discount"
+          ]
+        },
+        {
+          "id": "016607d8-25eb-4514-9f04-2c32ddcda76e",
+          "name": "Amount",
+          "visibility": "Visible",
+          "synonyms": [
+            "sales amount",
+            "revenue"
+          ]
+        },
+        {
+          "id": "d5753c10-63c1-4692-99c2-fd2608bcb9f2",
+          "name": "Cost",
+          "visibility": "Visible",
+          "synonyms": [
+            "sales cost",
+            "cost of sales"
+          ]
+        },
+        {
+          "id": "91ae35eb-c270-4de8-925f-c7eb02006621",
+          "name": "Profit",
+          "visibility": "Visible",
+          "synonyms": [
+            "sales profit"
+          ]
+        }
+      ],
+      "measures": [],
+      "hierarchies": [],
+      "synonyms": [
+        "sales",
+        "orders",
+        "revenue transactions"
+      ]
+    },
+    {
+      "id": "bb3c7167-2650-4832-9611-58b028ecdfa9",
+      "name": "SalesSummary",
+      "visibility": "Visible",
+      "columns": [
+        {
+          "id": "1fa7c956-1a6c-4ded-bfbf-52befe023a3a",
+          "name": "Date",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        },
+        {
+          "id": "9ce7ec73-7ab1-4b0d-91bc-aa580b222b2c",
+          "name": "custName",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        },
+        {
+          "id": "762562fe-0fc9-4bed-bfe2-67029141ef81",
+          "name": "Amount",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        }
+      ],
+      "measures": [],
+      "hierarchies": [],
+      "synonyms": [
+        "sales summary"
+      ]
+    },
+    {
+      "id": "a7ec714b-7ed3-4a34-ab08-bf8f58f47b8c",
+      "name": "Vendors",
+      "visibility": "Visible",
+      "columns": [
+        {
+          "id": "d5204912-77d1-4a11-9871-994e3af79b99",
+          "name": "id",
+          "visibility": "Visible",
+          "index": "None",
+          "synonyms": []
+        },
+        {
+          "id": "e01d2edb-4d3e-4978-9501-fe4a97a1746c",
+          "name": "vendor_name",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "vendor name",
+            "supplier",
+            "supplier name"
+          ]
+        },
+        {
+          "id": "d0e8e801-a02d-4c6b-8f1c-a7c505c46220",
+          "name": "type",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "vendor type",
+            "supplier type"
+          ]
+        },
+        {
+          "id": "647ffd93-7f51-4050-b0f0-cdfa35f14b87",
+          "name": "country",
+          "visibility": "Visible",
+          "index": "All",
+          "synonyms": [
+            "vendor country",
+            "supplier country"
+          ]
+        },
+        {
+          "id": "924ebd88-209c-40ac-8c0a-62b80f0ba394",
+          "name": "rating",
+          "visibility": "Visible",
+          "synonyms": [
+            "vendor rating",
+            "supplier rating"
+          ]
+        }
+      ],
+      "measures": [],
+      "hierarchies": [],
+      "synonyms": [
+        "vendors",
+        "suppliers"
+      ]
+    }
+  ]
+}
