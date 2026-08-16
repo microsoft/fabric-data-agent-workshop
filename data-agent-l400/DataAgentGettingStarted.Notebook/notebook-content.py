@@ -87,11 +87,12 @@
 
 # ## Start with the lab instructions
 #
-# **[Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/pawarbi/fda-l400/v1.0.0/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20L400.pdf)**
+# **Authoritative instructions:** [Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/pawarbi/fda-l400/v1.0.1/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20L400.pdf)
 #
-# [Browse the lab-instructions folder](https://github.com/pawarbi/fda-l400/tree/v1.0.0/documentation/lab-instructions)
+# **Optional Markdown quick-reference companion:** [Read the Markdown on GitHub](https://github.com/pawarbi/fda-l400/blob/v1.0.1/documentation/lab-instructions/data-agent-lab-instructions.md)
 #
-# The lab instructions remain the primary workshop guide.
+# The PDF is the authoritative workshop guide and source of truth. The optional
+# Markdown quick-reference companion is not a replacement for the PDF.
 
 # MARKDOWN ********************
 

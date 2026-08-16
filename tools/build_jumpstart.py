@@ -15,12 +15,16 @@ EXPECTED_SOURCE_HEAD = "0efe648"
 LOGICAL_ID = "data-agent-l400"
 REPO_OWNER = "pawarbi"
 REPO_NAME = "fda-l400"
-WORKSHOP_VERSION = "v1.0.0"
+WORKSHOP_VERSION = "v1.0.1"
 RAW_ROOT = (
     f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{WORKSHOP_VERSION}"
 )
 LAB_PDF_NAME = "Fabric Data Agent Workshop L400.pdf"
 LAB_PDF_RELATIVE_PATH = f"documentation/lab-instructions/{LAB_PDF_NAME}"
+LAB_MARKDOWN_NAME = "data-agent-lab-instructions.md"
+LAB_MARKDOWN_RELATIVE_PATH = (
+    f"documentation/lab-instructions/{LAB_MARKDOWN_NAME}"
+)
 NAMESPACE = uuid.UUID("6908bc73-6001-475c-8dd5-774509e183bf")
 PBIX_FILES = {
     "ManufacturingOps.pbix": (
@@ -301,11 +305,12 @@ The recommended Jumpstart installation deploys these seven notebook items only:
 Data Agents are intentionally not installed. Creating them is part of the lab.""",
         f"""## Start with the lab instructions
 
-**[Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{WORKSHOP_VERSION}/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20L400.pdf)**
+**Authoritative instructions:** [Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{WORKSHOP_VERSION}/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20L400.pdf)
 
-[Browse the lab-instructions folder](https://github.com/{REPO_OWNER}/{REPO_NAME}/tree/{WORKSHOP_VERSION}/documentation/lab-instructions)
+**Optional Markdown quick-reference companion:** [Read the Markdown on GitHub](https://github.com/{REPO_OWNER}/{REPO_NAME}/blob/{WORKSHOP_VERSION}/documentation/lab-instructions/{LAB_MARKDOWN_NAME})
 
-The lab instructions remain the primary workshop guide.""",
+The PDF is the authoritative workshop guide and source of truth. The optional
+Markdown quick-reference companion is not a replacement for the PDF.""",
         """## Required setup after installation
 
 Complete this exact sequence:
@@ -507,8 +512,10 @@ deploy the Git/TMDL semantic model and report definitions.
 After installation:
 
 1. Open `DataAgentGettingStarted`.
-2. Open the immutable workshop-version PDF:
+2. Open the immutable workshop-version authoritative PDF:
    [Fabric Data Agent Workshop L400](https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{WORKSHOP_VERSION}/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20L400.pdf).
+   An [optional Markdown quick-reference companion](https://github.com/{REPO_OWNER}/{REPO_NAME}/blob/{WORKSHOP_VERSION}/documentation/lab-instructions/{LAB_MARKDOWN_NAME})
+   is available on GitHub; it is not a replacement for the PDF.
 3. In the same workspace, open `InstallWorkshopAssets` and select **Run all**.
 4. Wait for explicit success confirming both PBIX imports, that all returned
    reports and semantic models were moved into the same `data-agent-l400`
@@ -575,6 +582,7 @@ def main() -> None:
     source = args.source.resolve()
     target = args.target.resolve()
     canonical_pdf = target / LAB_PDF_RELATIVE_PATH
+    canonical_markdown = target / LAB_MARKDOWN_RELATIVE_PATH
     workshop_pdf = (
         args.workshop_pdf.resolve()
         if args.workshop_pdf
@@ -584,7 +592,13 @@ def main() -> None:
         raise RuntimeError(
             "Workshop PDF not found. Pass --workshop-pdf with the authoritative PDF."
         )
+    if not canonical_markdown.is_file():
+        raise RuntimeError(
+            "Optional participant Markdown companion not found at "
+            f"{canonical_markdown}."
+        )
     workshop_pdf_bytes = workshop_pdf.read_bytes()
+    workshop_markdown_bytes = canonical_markdown.read_bytes()
     if source == target:
         raise RuntimeError("Source and target must be different repositories.")
     if not (target / ".git").is_dir():
@@ -644,18 +658,30 @@ def main() -> None:
         docs = target / "documentation"
         canonical_pdf.parent.mkdir(parents=True)
         canonical_pdf.write_bytes(workshop_pdf_bytes)
+        canonical_markdown.write_bytes(workshop_markdown_bytes)
         write_text(
             docs / "README.md",
             "# Documentation\n\n"
             "GitHub-hosted workshop documentation. This folder is not a Fabric "
             "workspace item.\n\n"
-            "- [Lab instructions](lab-instructions/)\n",
+            f"- **Authoritative instructions:** [Fabric Data Agent Workshop L400 "
+            f"(PDF)]({RAW_ROOT}/documentation/lab-instructions/"
+            "Fabric%20Data%20Agent%20Workshop%20L400.pdf)\n"
+            f"- **Optional Markdown quick-reference companion:** "
+            f"[Read the Markdown on GitHub](https://github.com/{REPO_OWNER}/"
+            f"{REPO_NAME}/blob/{WORKSHOP_VERSION}/documentation/lab-instructions/"
+            f"{LAB_MARKDOWN_NAME}) — not a replacement for the PDF.\n",
         )
         write_text(
             docs / "lab-instructions" / "README.md",
             "# Lab instructions\n\n"
-            f"- [Fabric Data Agent Workshop L400]"
-            f"({LAB_PDF_NAME.replace(' ', '%20')})\n",
+            f"- **Authoritative instructions:** [Fabric Data Agent Workshop L400 "
+            f"(PDF)]({RAW_ROOT}/documentation/lab-instructions/"
+            "Fabric%20Data%20Agent%20Workshop%20L400.pdf)\n"
+            f"- **Optional Markdown quick-reference companion:** "
+            f"[Read the Markdown on GitHub](https://github.com/{REPO_OWNER}/"
+            f"{REPO_NAME}/blob/{WORKSHOP_VERSION}/documentation/lab-instructions/"
+            f"{LAB_MARKDOWN_NAME}) — not a replacement for the PDF.\n",
         )
 
         for source_name, (folder_name, display_name) in NOTEBOOKS.items():

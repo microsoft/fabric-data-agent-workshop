@@ -52,7 +52,7 @@
 # CELL ********************
 
 # PARAMETERS
-DATA_SOURCE_REF = "v1.0.0"  # Use an immutable release tag or commit for reproducible runs.
+DATA_SOURCE_REF = "v1.0.1"  # Use an immutable release tag or commit for reproducible runs.
 github_base = (
     "https://raw.githubusercontent.com/pawarbi/fda-l400/"
     f"{DATA_SOURCE_REF}/data/mfg-ops-data"

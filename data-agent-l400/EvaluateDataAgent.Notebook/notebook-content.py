@@ -181,7 +181,7 @@ print(
 
 # CELL ********************
 
-DATA_SOURCE_REF = "v1.0.0"  # Use an immutable release tag or commit for reproducible runs.
+DATA_SOURCE_REF = "v1.0.1"  # Use an immutable release tag or commit for reproducible runs.
 EVAL_XLSX_URL = (
     "https://raw.githubusercontent.com/pawarbi/fda-l400/"
     f"{DATA_SOURCE_REF}/eval/eval_set_L400.xlsx"
