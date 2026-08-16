@@ -10,7 +10,7 @@ annotation __PBI_TimeIntelligenceEnabled = 0
 
 annotation PBI_QueryOrder = ["Products","Customers","Plants","Vendors","Assets","Lines","Inventory","PurchaseOrders","ProductionLog","Sales","SalesSummary","DataFolder","AsOfDate"]
 
-annotation PBI_ProTooling = ["MCP-PBIModeling","TMDLView_Desktop","DevMode","CopilotTooling_PrepDataForAI","WebModelingEdit"]
+annotation PBI_ProTooling = ["MCP-PBIModeling","TMDLView_Desktop","DevMode","CopilotTooling_PrepDataForAI","WebModelingEdit","Copilot","CopilotMeasureDescriptions"]
 
 ref table Customers
 ref table Plants

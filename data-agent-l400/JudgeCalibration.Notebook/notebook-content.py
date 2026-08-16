@@ -5,7 +5,7 @@
 # META {
 # META   "kernel_info": {
 # META     "name": "jupyter",
-# META     "jupyter_kernel_name": "python3.12"
+# META     "jupyter_kernel_name": "python3.11"
 # META   },
 # META   "dependencies": {
 # META     "lakehouse": {
@@ -98,9 +98,10 @@ REPEATS = 3
 JUDGE_REGISTRY_EXPERIMENT = "mfg-ops-judge-registry"
 
 EVAL_LH_NAME = "mfgops_da_eval"
+DATA_SOURCE_REF = "v0.1.2-test"  # Use an immutable release tag or commit for reproducible runs.
 CALIBRATION_XLSX_URL = (
-    "https://raw.githubusercontent.com/pawarbi/data-agent-L400-workshop/"
-    "main/eval/judge_calibration_labeling.xlsx"
+    "https://raw.githubusercontent.com/pawarbi/fda-l400/"
+    f"{DATA_SOURCE_REF}/eval/judge_calibration_labeling.xlsx"
 )
 CALIBRATION_FILE_NAME = "judge_calibration_labeling.xlsx"
 DEVELOPMENT_SHEET = "calibration_development"
@@ -697,3 +698,14 @@ print(json.dumps(example_result, indent=2))
 # 6. Refine the rubric using development only.
 # 7. Run the new holdout once.
 # 8. Register only after all gates pass.
+
+# CELL ********************
+
+notebookutils.session.stop()
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "jupyter_python"
+# META }

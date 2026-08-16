@@ -41,11 +41,6 @@ table 'Business Measures'
 		formatString: #,0
 		displayFolder: Inventory
 
-	/// Units in transit (count) - ordered but not yet received. Use for incoming stock. Not on-hand quantity.
-	measure 'Inventory In Transit Qty' = SUM(Inventory[InTransit])
-		formatString: #,0
-		displayFolder: Inventory
-
 	/// Total shortfall units (count): for rows below reorder point, sum of (reorder - on-hand). Use to size restock. A quantity, not a row count.
 	measure 'Inventory Below Reorder Qty' = SUMX(FILTER(Inventory, Inventory[Qty] < Inventory[Reorder]), Inventory[Reorder] - Inventory[Qty])
 		formatString: #,0
@@ -103,7 +98,7 @@ table 'Business Measures'
 		formatString: 0.00%;-0.00%;0.00%
 		displayFolder: Production
 
-	/// Scrapped units as a percent of produced (scrap / produced). Use for scrap rate %. A rate, not the scrap unit count.
+	/// Scrapped units as a percent of produced (scrap / produced). Use for scrap rate %. A rate, not the scrap unit count. RQX
 	measure 'Scrap Rate %' = DIVIDE([Scrap Units], [Production Qty])
 		formatString: 0.00%;-0.00%;0.00%
 		displayFolder: Production
@@ -157,7 +152,7 @@ table 'Business Measures'
 		formatString: 0.00%;-0.00%;0.00%
 		displayFolder: Ambiguous Names Demo
 
-	/// Day Production Yield. day yield pct = Production yield excluding Night shift. Use if the user asks about Day production yield
+	/// Day Production Yield (DPY). day yield pct = Production yield excluding Night shift. Use if the user asks about Day production yield
 	measure 'Day Yield Pct' =
 			// Production yield excluding Night shift.
 			DIVIDE(
@@ -190,7 +185,7 @@ table 'Business Measures'
 		formatString: 0.00%;-0.00%;0.00%
 		displayFolder: Reliability
 
-	/// RQX. Quality = good / produced (%), the OEE quality component. A rate; same value as Production Yield, used in OEE.
+	/// Quality = good / produced (%), the OEE quality component. A rate; same value as Production Yield, used in OEE.
 	measure 'Quality %' = DIVIDE([Good Units], [Production Qty])
 		formatString: 0.00%;-0.00%;0.00%
 		displayFolder: Reliability

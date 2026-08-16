@@ -41,12 +41,7 @@ table 'Business Measures'
 		formatString: #,0
 		displayFolder: Inventory
 
-	/// Total inventory quantity currently in transit.
-	measure 'Inventory In Transit Qty' = SUM(Inventory[InTransit])
-		formatString: #,0
-		displayFolder: Inventory
-
-	/// Shortfall quantity where inventory is below reorder threshold.
+	/// Calculates the total quantity by which current inventory levels fall below their reorder thresholds across all items.
 	measure 'Inventory Below Reorder Qty' = SUMX(FILTER(Inventory, Inventory[Qty] < Inventory[Reorder]), Inventory[Reorder] - Inventory[Qty])
 		formatString: #,0
 		displayFolder: Inventory
@@ -126,7 +121,6 @@ table 'Business Measures'
 		formatString: 0.00%;-0.00%;0.00%
 		displayFolder: Production
 
-	/// Sales amount for Turbines and Pumps only, also referred as TP or tp sales. If users asks about TP or tp sales, use this measure.
 	measure sls_amt_x =
 			// Sales amount for Turbines and Pumps only.
 			CALCULATE([Total Sales], Products[Cat] IN { "Turbines", "Pumps" })

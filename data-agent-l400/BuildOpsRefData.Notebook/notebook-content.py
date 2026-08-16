@@ -5,7 +5,7 @@
 # META {
 # META   "kernel_info": {
 # META     "name": "jupyter",
-# META     "jupyter_kernel_name": "python3.12"
+# META     "jupyter_kernel_name": "python3.11"
 # META   },
 # META   "dependencies": {
 # META     "lakehouse": {
@@ -52,7 +52,11 @@
 # CELL ********************
 
 # PARAMETERS
-github_base = "https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.1-test/data/mfg-ops-data"
+DATA_SOURCE_REF = "v0.1.2-test"  # Use an immutable release tag or commit for reproducible runs.
+github_base = (
+    "https://raw.githubusercontent.com/pawarbi/fda-l400/"
+    f"{DATA_SOURCE_REF}/data/mfg-ops-data"
+)
 lakehouse_name = "OpsRefData"
 schema_name = "dbo"
 view_schema = "fda"

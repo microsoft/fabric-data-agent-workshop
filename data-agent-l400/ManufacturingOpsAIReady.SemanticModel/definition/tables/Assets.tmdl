@@ -38,7 +38,7 @@ table Assets
 		summarizeBy: none
 		sourceColumn: Mfr
 
-	/// Plant key (integer) where the asset is installed; joins to Plants[ID]. Internal; use Plants[Name].
+	/// Plant key (integer) where the asset is installed; joins to Plants[ID]. Internal; use Plants[Plant Name].
 	column PlantID
 		dataType: int64
 		isHidden

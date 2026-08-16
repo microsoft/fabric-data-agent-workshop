@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
   "metadata": {
     "type": "Notebook",
-    "displayName": "EvaluateDataAgentAssistantsFallback",
+    "displayName": "DataAgentSetup",
     "description": ""
   },
   "config": {
     "version": "2.0",
-    "logicalId": "f449257c-9fb0-51ee-aaee-60151ba97529"
+    "logicalId": "17818723-6f14-5da5-8b8a-f4058100501e"
   }
 }

@@ -10,13 +10,13 @@ table Inventory
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	/// Product on hand; matches Products[Name]. Use to filter inventory by product. Partial-text match.
+	/// Product on hand; matches Products[Product Name]. Use to filter inventory by product. Partial-text match.
 	column Product
 		dataType: string
 		summarizeBy: none
 		sourceColumn: Product
 
-	/// Plant holding the stock, e.g. 'Riverside Plant'; matches Plants[Name]. Use to filter inventory by plant. Partial-text match.
+	/// Plant holding the stock, e.g. 'Riverside Plant'; matches Plants[Plant Name]. Use to filter inventory by plant. Partial-text match.
 	column Plant
 		dataType: string
 		summarizeBy: none

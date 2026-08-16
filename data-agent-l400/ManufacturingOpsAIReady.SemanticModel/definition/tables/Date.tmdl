@@ -9,7 +9,7 @@ table Date
 	measure 'Todays Date' = TODAY()
 		formatString: General Date
 
-	measure 'Latest Month Number' = MONTH([Todays Date])
+	measure 'Latest Month Number' = MONTH([Latest Date])
 		formatString: 0
 
 	/// Calendar date at day grain; key of the date dimension. Relate facts by date; use for any time filter, trend or time-intelligence.

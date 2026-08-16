@@ -1,4 +1,4 @@
-/// Pre-aggregated daily sales: net revenue by customer and day. One row per customer-day. Lighter than Sales; use for quick revenue-by-customer/day totals when line detail is not needed.
+/// Intentional teaching sample of customer sales data. This table is incomplete and contains duplicate customer-date rows, so it must not be used for revenue totals or reporting. Use the Sales table for all sales and revenue analysis. Use SalesSummary only for demonstrating data-quality and grain-validation issues.
 table SalesSummary
 
 	/// Day of the summarized sales (day grain). Relate to Date for trends.
@@ -16,7 +16,7 @@ table SalesSummary
 		summarizeBy: none
 		sourceColumn: custName
 
-	/// Total net sales revenue for that customer and day (currency, USD). Sum for revenue totals.
+	/// Sample sales amount from an incomplete, duplicate-prone dataset. Do not aggregate for revenue totals; use Sales[Amount] or the Total Sales measure instead.
 	column Amount
 		dataType: double
 		formatString: 0.00

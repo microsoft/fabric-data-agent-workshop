@@ -25,7 +25,7 @@ table PurchaseOrders
 		summarizeBy: none
 		sourceColumn: VendorName
 
-	/// Plant receiving the purchase, e.g. 'Riverside Plant'; matches Plants[Name]. Partial-text match.
+	/// Plant receiving the purchase, e.g. 'Riverside Plant'; matches Plants[Plant Name]. Partial-text match.
 	column Plant
 		dataType: string
 		summarizeBy: none

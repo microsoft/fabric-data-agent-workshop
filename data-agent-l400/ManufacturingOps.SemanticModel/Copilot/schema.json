@@ -170,15 +170,6 @@
           ]
         },
         {
-          "id": "4c0a606f-08ad-49fd-9bc0-f5f1d37f2fed",
-          "name": "Inventory In Transit Qty",
-          "visibility": "Visible",
-          "synonyms": [
-            "in transit inventory",
-            "inventory in transit"
-          ]
-        },
-        {
           "id": "f678888b-fa6d-48e3-babd-65eb42c16e94",
           "name": "Inventory Below Reorder Qty",
           "visibility": "Visible",

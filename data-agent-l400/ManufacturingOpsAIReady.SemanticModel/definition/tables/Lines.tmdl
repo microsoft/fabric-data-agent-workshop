@@ -46,7 +46,7 @@ table Lines
 		summarizeBy: none
 		sourceColumn: Type
 
-	/// Equipment running on this line, e.g. 'Feed Pump A1'; matches Assets[Name]. Partial-text match.
+	/// Equipment running on this line, e.g. 'Feed Pump A1'; matches Assets[Asset Name]. Partial-text match.
 	column asset
 		dataType: string
 		summarizeBy: none

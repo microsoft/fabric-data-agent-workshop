@@ -24,7 +24,7 @@
         },
         {
           "id": "3485a626-1661-4398-a8e9-d31a0cd0dbaf",
-          "name": "Name",
+          "name": "Asset Name",
           "visibility": "Visible",
           "index": "All",
           "synonyms": [
@@ -49,8 +49,7 @@
           "visibility": "Visible",
           "index": "All",
           "synonyms": [
-            "manufacturer",
-            "maker"
+            "machine"
           ]
         },
         {
@@ -170,15 +169,6 @@
           ]
         },
         {
-          "id": "4c0a606f-08ad-49fd-9bc0-f5f1d37f2fed",
-          "name": "Inventory In Transit Qty",
-          "visibility": "Hidden",
-          "synonyms": [
-            "in transit inventory",
-            "inventory in transit"
-          ]
-        },
-        {
           "id": "f678888b-fa6d-48e3-babd-65eb42c16e94",
           "name": "Inventory Below Reorder Qty",
           "visibility": "Hidden",
@@ -239,7 +229,7 @@
         {
           "id": "64d5e424-2abb-456e-874f-b22af6c5a86f",
           "name": "Average Supplier Delay Days",
-          "visibility": "Visible",
+          "visibility": "Hidden",
           "synonyms": [
             "supplier delay",
             "average delay days",
@@ -337,7 +327,9 @@
           "id": "dfed4772-f60d-4237-b5d4-a1f537562909",
           "name": "sls_amt_x",
           "visibility": "Hidden",
-          "synonyms": []
+          "synonyms": [
+            "TP sales"
+          ]
         },
         {
           "id": "fd2a5d73-f82c-4b51-a757-297a134d8de4",
@@ -354,8 +346,10 @@
         {
           "id": "4b9f2eb9-5e0f-4767-bc66-f0d11a7eb023",
           "name": "Day Yield Pct",
-          "visibility": "Hidden",
-          "synonyms": []
+          "visibility": "Visible",
+          "synonyms": [
+            "DPY"
+          ]
         },
         {
           "id": "bded1e2e-06df-4899-bec1-fb9442a649bc",
@@ -737,7 +731,7 @@
         },
         {
           "id": "9e9c6618-aaa2-4f90-9fc8-3680f17445e7",
-          "name": "Name",
+          "name": "Plant Name",
           "visibility": "Visible",
           "index": "All",
           "synonyms": [
@@ -931,7 +925,7 @@
         },
         {
           "id": "f2820c6b-99bd-4878-9ff6-06d38d5e1a44",
-          "name": "Name",
+          "name": "Product Name",
           "visibility": "Visible",
           "index": "All",
           "synonyms": [

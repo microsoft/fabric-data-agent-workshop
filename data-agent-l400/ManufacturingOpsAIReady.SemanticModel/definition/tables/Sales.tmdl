@@ -40,7 +40,7 @@ table Sales
 		summarizeBy: none
 		sourceColumn: region
 
-	/// Product sold on this line; matches Products[Name]. Use to break sales down by product. Partial-text match.
+	/// Product sold on this line; matches Products[Product Name]. Use to break sales down by product. Partial-text match.
 	column Prod
 		dataType: string
 		summarizeBy: none

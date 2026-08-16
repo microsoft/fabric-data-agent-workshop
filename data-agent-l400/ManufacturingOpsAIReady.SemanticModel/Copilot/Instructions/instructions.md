@@ -18,5 +18,5 @@ For Day Production Yield question use [Day Yield Pct] measure.
 RQX = [Quality %] measure
 
 For all questions related to "machines" use Assets[Manufacturer] column
-
-Product[Price] column should not be used for calculating sales or revenue. ONLY use measures, if present.
+Products[Price] column should not be used for calculating sales or revenue. ONLY use measures, if present.
+For named-entity columns (e.g., names, places, organizations), use CONTAINSSTRING for partial-text matching by default. Use exact-match filters only when the user explicitly requests a specific entity.

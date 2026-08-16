@@ -5,7 +5,7 @@
 # META {
 # META   "kernel_info": {
 # META     "name": "jupyter",
-# META     "jupyter_kernel_name": "python3.12"
+# META     "jupyter_kernel_name": "python3.11"
 # META   },
 # META   "dependencies": {
 # META     "lakehouse": {
@@ -17,35 +17,15 @@
 
 # MARKDOWN ********************
 
-# # Fabric Data Agent L400 Workshop
+# # DataAgentSetup - Fabric Data Agent L400
 #
-# **Start here after installing the Jumpstart.** This notebook prepares the two
-# semantic models, then gives you the exact run order for the hands-on lab.
+# **Run this notebook after `DataAgentGettingStarted`.** It performs the one-time
+# environment setup required by the workshop: configure and bind the anonymous
+# public GitHub Web connection, then refresh both semantic models.
 #
-# ## What this Jumpstart installs
-#
-# | Item | Purpose |
-# | --- | --- |
-# | `ManufacturingOps` | Baseline semantic model and report |
-# | `ManufacturingOpsAIReady` | AI-ready semantic model and report |
-# | `BuildOpsRefData` | Builds the multi-source `OpsRefData` Lakehouse |
-# | `CreateMultiSourceDataAgent` | Creates and configures the multi-source agent |
-# | `JudgeCalibration` | Calibrates and registers the champion LLM judge |
-# | `EvaluateDataAgent` | Runs the primary evaluation workflow |
-# | `EvaluateDataAgentAssistantsFallback` | Temporary fallback evaluation path |
-#
-# ## Learning objectives
-#
-# 1. Compare a baseline and AI-ready Power BI semantic model.
-# 2. Build a governed multi-source Fabric Data Agent.
-# 3. Define fixed evaluation questions and live DAX ground truth.
-# 4. Calibrate an LLM judge against human labels.
-# 5. Track quality, failure modes, and drift with MLflow.
-#
-# > **Important:** The workshop intentionally teaches you to create the Data
-# > Agents. They are not pre-created by the Jumpstart. Complete the semantic-model
-# > lab first, create the base agent named `MfgOps_DA_AIReady_SAP`, and then follow
-# > the notebook run order below.
+# Do not replace this setup with manual refreshes unless instructed by the lab.
+# The executable cells below preserve the connection-binding and semantic-model
+# refresh sequence expected by the Jumpstart.
 
 # MARKDOWN ********************
 
@@ -58,7 +38,7 @@ CONFIGURE_ANONYMOUS_WEB_CONNECTIONS = True
 REFRESH_SEMANTIC_MODELS = True
 
 SOURCE_REPOSITORY = "pawarbi/fda-l400"
-SOURCE_REPOSITORY_REF = "v0.1.1-test"
+SOURCE_REPOSITORY_REF = "v0.1.2-test"
 SEMANTIC_MODELS = ["ManufacturingOps", "ManufacturingOpsAIReady"]
 EXPECTED_WEB_SOURCE = (
     "https://raw.githubusercontent.com/"
@@ -350,9 +330,7 @@ else:
 # 5. Run `CreateMultiSourceDataAgent` to add the Lakehouse source and publish the
 #    multi-source agent.
 # 6. Run `JudgeCalibration` before evaluating the agent.
-# 7. Run `EvaluateDataAgent`. Use
-#    `EvaluateDataAgentAssistantsFallback` only if the primary Responses API path
-#    is unavailable in your tenant.
+# 7. Run `EvaluateDataAgent`.
 #
 # ## Guardrail to verify
 #
@@ -364,7 +342,7 @@ else:
 #
 # - **Refresh says credentials are missing:** rerun the connection cell above.
 # - **Connection creation returns 404:** confirm the source ref is
-#   `v0.1.1-test` and do not remove `skipTestConnection=True`.
+#   `v0.1.2-test` and do not remove `skipTestConnection=True`.
 # - **A notebook cannot find an item:** confirm all Jumpstart items were installed
 #   into the same workspace and retain the item names shown above.
 # - **No Data Agent appears:** create the base agent manually before running the

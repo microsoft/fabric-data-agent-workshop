@@ -5,7 +5,7 @@
 # META {
 # META   "kernel_info": {
 # META     "name": "jupyter",
-# META     "jupyter_kernel_name": "python3.12"
+# META     "jupyter_kernel_name": "python3.11"
 # META   },
 # META   "dependencies": {
 # META     "lakehouse": {
@@ -79,6 +79,38 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 
 # MARKDOWN ********************
 
+# ## Select the Data Agent
+#
+# Change only `DATA_AGENT_NAME` to the display name of the Data Agent you want to evaluate. The notebook confirms that the agent exists in the current workspace before continuing.
+
+# CELL ********************
+
+# Change only this value to evaluate a different Data Agent.
+DATA_AGENT_NAME = "MfgOps_DA_AIReady_SAP"
+
+CURRENT_WORKSPACE_ID = fabric.get_notebook_workspace_id()
+available_data_agents = fabric.list_items("DataAgent")["Display Name"]
+available_data_agent_names = set(
+    available_data_agents.dropna().astype(str)
+)
+
+if DATA_AGENT_NAME not in available_data_agent_names:
+    raise ValueError(
+        f"Data Agent {DATA_AGENT_NAME!r} was not found in the current workspace. "
+        f"Available Data Agents: {sorted(available_data_agent_names)}"
+    )
+
+print(f"Data Agent found: {DATA_AGENT_NAME}")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "jupyter_python"
+# META }
+
+# MARKDOWN ********************
+
 # ## Configuration
 #
 # `GT_MODEL` is the trusted model we treat as the answer key. `AGENT` is the one Data
@@ -94,12 +126,6 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 
 # CELL ********************
 
-EVAL_XLSX_URL = "https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.1-test/eval/eval_set_L400.xlsx"
-EVAL_LH_NAME = "mfgops_da_eval"
-EVAL_FILE_NAME = "eval_set_L400.xlsx"
-
-# Use the workspace where this notebook is running
-CURRENT_WORKSPACE_ID = fabric.get_notebook_workspace_id()
 GT_WORKSPACE = CURRENT_WORKSPACE_ID
 GT_MODEL = "ManufacturingOpsAIReady"
 
@@ -108,22 +134,30 @@ REFRESH = "No"
 REFRESH_POLL_SECONDS = 15
 REFRESH_TIMEOUT_SECONDS = 1800
 
-# The agent under evaluation. Change this (and STAGE) to evaluate a different agent.
 AGENT = {
-    "label":     "MfgOps Data Agent - AI Ready SAP",
-    "name":      "MfgOps_DA_AIReady_SAP",
+    "label": DATA_AGENT_NAME,
+    "name": DATA_AGENT_NAME,
     "workspace": CURRENT_WORKSPACE_ID,
-    "table":     "eval_results_l400",
+    "table": "eval_results_l400",
     "data_agent_stage": "sandbox",
 }
-STAGE = "after"   # free-form RUN label: baseline / monitor / before / after / optimize ...
+STAGE = "after"  # RUN label: baseline / monitor / before / after / optimize
 
-EXPERIMENT  = "mfg-ops-data-agent-eval"
-REPEATS = 1             # independent evaluation attempts per question
+EXPERIMENT = "mfg-ops-data-agent-eval"
+REPEATS = 1  # Independent evaluation attempts per question
+TEST_MODE = True
+TEST_CASE_IDS = [
+    "highest_scrap_rate_line",
+    "avg_day_production_yield_this_year",
+    "highest_sales_product_this_year",
+]
 
 RUN_TS = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
 mlflow.set_experiment(EXPERIMENT)
-print(f"Experiment: {EXPERIMENT} | stage: {STAGE} | agent: {AGENT['label']} | {RUN_TS} UTC")
+print(
+    f"Experiment: {EXPERIMENT} | stage: {STAGE} | "
+    f"agent: {AGENT['label']} | {RUN_TS} UTC"
+)
 
 # METADATA ********************
 
@@ -150,6 +184,14 @@ print(f"Experiment: {EXPERIMENT} | stage: {STAGE} | agent: {AGENT['label']} | {R
 # so this works in a Python 3.12 notebook without a Spark session.
 
 # CELL ********************
+
+DATA_SOURCE_REF = "v0.1.2-test"  # Use an immutable release tag or commit for reproducible runs.
+EVAL_XLSX_URL = (
+    "https://raw.githubusercontent.com/pawarbi/fda-l400/"
+    f"{DATA_SOURCE_REF}/eval/eval_set_L400.xlsx"
+)
+EVAL_LH_NAME = "mfgops_da_eval"
+EVAL_FILE_NAME = "eval_set_L400.xlsx"
 
 lakehouses = notebookutils.lakehouse.list()
 lakehouse_names = {
@@ -210,6 +252,14 @@ missing = required - set(cases.columns)
 assert not missing, f"Evaluation set is missing columns: {sorted(missing)}"
 assert cases["id"].is_unique, "Evaluation IDs must be unique."
 assert cases["question"].is_unique, "Evaluation questions must be unique."
+
+if TEST_MODE:
+    missing_test_ids = set(TEST_CASE_IDS) - set(cases["id"])
+    assert not missing_test_ids, (
+        f"Test cases are missing from the workbook: {sorted(missing_test_ids)}"
+    )
+    cases = cases.set_index("id").loc[TEST_CASE_IDS].reset_index()
+    print(f"TEST_MODE: running {len(cases)} cases: {TEST_CASE_IDS}")
 
 cases[[
     "id", "answer_type", "question", "expected_measure",
@@ -297,14 +347,23 @@ else:
 
 # CELL ********************
 
-def format_gt(df):
+def is_percentage_measure(expected_measure, column_name):
+    text = f"{expected_measure} {column_name}".lower()
+    return "%" in text or " pct" in text or "percent" in text
+
+
+def format_gt(df, expected_measure=""):
     rows = []
     for _, r in df.iterrows():
         parts = []
         for col, val in r.items():
             name = col.strip("[]").split("[")[-1].rstrip("]")
-            if isinstance(val, float) and "%" in col:
-                parts.append(f"{name}: {val * 100:.2f}%")
+            if isinstance(val, (int, float)) and is_percentage_measure(
+                expected_measure,
+                col,
+            ):
+                percentage = val * 100 if abs(val) <= 1.5 else val
+                parts.append(f"{name}: {percentage:.2f}%")
             elif isinstance(val, float) and val == int(val):
                 parts.append(f"{name}: {int(val):,}")
             elif isinstance(val, (int, float)):
@@ -314,11 +373,13 @@ def format_gt(df):
         rows.append(", ".join(parts))
     return " | ".join(rows)
 
+
 def ground_truth(row):
     if row["answer_type"] == "behavioral":
         return row["expected_behavior"], 1
     df = fabric.evaluate_dax(GT_MODEL, row["dax"], workspace=GT_WORKSPACE)
-    return format_gt(df), len(df)
+    return format_gt(df, row["expected_measure"]), len(df)
+
 
 ground_truth_results = []
 for _, row in cases.iterrows():
@@ -977,46 +1038,9 @@ else:
 # META   "language_group": "jupyter_python"
 # META }
 
-# MARKDOWN ********************
-
-# ## Step 9 - Compare two stages (before vs after)
-#
-# To show a before/after story, run this notebook twice - once with `STAGE = \"before\"`
-# against the messy agent, once with `STAGE = \"after\"` against the cleaned agent.
-# This cell reads the latest run of each stage from MLflow and compares them. It is
-# empty until both stages exist.
-
 # CELL ********************
 
-runs_all = mlflow.search_runs(experiment_names=[EXPERIMENT], order_by=["start_time DESC"])
-latest = runs_all.dropna(subset=["tags.stage"]).groupby("tags.stage").first()
-
-want = ["before", "after"]
-have = [s for s in want if s in latest.index]
-if len(have) < 2:
-    print(f"Need both stages to compare. Found: {list(latest.index)}.")
-else:
-    cmp = latest.loc[have, ["metrics.overall_accuracy",
-                            "metrics.factual_accuracy",
-                            "metrics.behavioral_accuracy"]].mul(100)
-    cmp.columns = ["overall", "factual", "behavioral"]
-
-    fig, ax = plt.subplots(figsize=(8, 4))
-    x = range(len(cmp.columns))
-    width = 0.35
-    for i, stage in enumerate(have):
-        ax.bar([p + i * width for p in x], cmp.loc[stage], width, label=stage)
-    ax.set_xticks([p + width / 2 for p in x])
-    ax.set_xticklabels(cmp.columns)
-    ax.set_ylim(0, 100)
-    ax.set_ylabel("accuracy %")
-    ax.set_title("Before vs after")
-    ax.legend(title="stage")
-    for i, stage in enumerate(have):
-        for j, v in enumerate(cmp.loc[stage]):
-            ax.text(j + i * width, v + 1, f"{v:.0f}%", ha="center")
-    plt.show()
-    display(cmp.round(1))
+notebookutils.session.stop()
 
 # METADATA ********************
 

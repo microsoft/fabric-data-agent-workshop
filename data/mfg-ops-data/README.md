@@ -81,7 +81,8 @@ clarification** when the phrasing is ambiguous (e.g. "show me AquaFlow").
 
 ## Used by the Lab 3 Lakehouse build
 
-`NB_Build_OpsRefLakehouse` derives both lakehouse tables **deterministically** from a
+`NB_OpsRefLakehouse_Build_and_Views_L400.ipynb` derives both Lakehouse tables
+**deterministically** from a
 subset of the files above (no extra raw data):
 
 - **`downtime_reasons`** ← `ProductionLog.csv` + `lines.csv` + `Plants.csv`
@@ -91,7 +92,5 @@ subset of the files above (no extra raw data):
 
 ## Regenerating / re-anchoring dates
 
-These CSVs are produced by `generate_workshop_data.py` (date self-correcting via the
-`AsOfDate` Power Query parameter). The fact tables are generated far into the future and
-trimmed to "as of today" at refresh, so the model never goes stale. See the semantic-model
-README for details.
+The semantic models use the optional `AsOfDate` Power Query parameter to trim fact data.
+When it is blank, refresh uses the current date.

@@ -39,7 +39,7 @@ table ProductionLog
 		summarizeBy: none
 		sourceColumn: DeviceID
 
-	/// Product made on this line/shift; matches Products[Name], e.g. 'HelioGen 1000 Gas Turbine'. Use to find which line or shift produces a product. Partial-text match.
+	/// Product made on this line/shift; matches Products[Product Name], e.g. 'HelioGen 1000 Gas Turbine'. Use to find which line or shift produces a product. Partial-text match.
 	column product_name
 		dataType: string
 		summarizeBy: none

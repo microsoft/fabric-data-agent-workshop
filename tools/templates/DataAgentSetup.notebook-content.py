@@ -1,0 +1,349 @@
+# Fabric notebook source
+
+# METADATA ********************
+
+# META {
+# META   "kernel_info": {
+# META     "name": "jupyter",
+# META     "jupyter_kernel_name": "python3.12"
+# META   },
+# META   "dependencies": {
+# META     "lakehouse": {
+# META       "default_lakehouse_name": "",
+# META       "default_lakehouse_workspace_id": ""
+# META     }
+# META   }
+# META }
+
+# MARKDOWN ********************
+
+# # DataAgentSetup - Fabric Data Agent L400
+#
+# **Run this notebook after `DataAgentGettingStarted`.** It performs the one-time
+# environment setup required by the workshop: configure and bind the anonymous
+# public GitHub Web connection, then refresh both semantic models.
+#
+# Do not replace this setup with manual refreshes unless instructed by the lab.
+# The executable cells below preserve the connection-binding and semantic-model
+# refresh sequence expected by the Jumpstart.
+
+# MARKDOWN ********************
+
+# ## Step 1 - Review parameters
+
+# CELL ********************
+
+# Post-install parameters
+CONFIGURE_ANONYMOUS_WEB_CONNECTIONS = True
+REFRESH_SEMANTIC_MODELS = True
+
+SOURCE_REPOSITORY = "pawarbi/fda-l400"
+SOURCE_REPOSITORY_REF = "v0.1.2-test"
+SEMANTIC_MODELS = ["ManufacturingOps", "ManufacturingOpsAIReady"]
+EXPECTED_WEB_SOURCE = (
+    "https://raw.githubusercontent.com/"
+    f"{SOURCE_REPOSITORY}/{SOURCE_REPOSITORY_REF}/data/mfg-ops-data"
+)
+
+print("Source:", f"{SOURCE_REPOSITORY}@{SOURCE_REPOSITORY_REF}")
+print("Web data source:", EXPECTED_WEB_SOURCE)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "jupyter_python"
+# META }
+
+# MARKDOWN ********************
+
+# ## Step 2 - Configure the public GitHub Web connection
+#
+# Run this cell once after installation. No GitHub credential or token is required.
+
+# CELL ********************
+
+import hashlib
+import time
+
+import notebookutils
+import requests
+import sempy.fabric as fabric
+
+
+workspace_id = str(fabric.get_notebook_workspace_id())
+access_token = notebookutils.credentials.getToken("pbi")
+
+
+def list_fabric_values(url):
+    headers = {"Authorization": f"Bearer {access_token}"}
+    values = []
+    next_url = url
+    while next_url:
+        response = requests.get(next_url, headers=headers, timeout=60)
+        response.raise_for_status()
+        payload = response.json()
+        values.extend(payload.get("value", []))
+        next_url = payload.get("continuationUri")
+    return values
+
+
+def get_web_creation_metadata():
+    types = list_fabric_values(
+        "https://api.fabric.microsoft.com/v1/connections/"
+        "supportedConnectionTypes?showAllCreationMethods=true"
+    )
+    web_type = next(
+        (item for item in types if item.get("type", "").lower() == "web"),
+        None,
+    )
+    if web_type is None:
+        raise RuntimeError("The tenant did not return Web as a supported connection type.")
+    if "Anonymous" not in web_type.get("supportedCredentialTypes", []):
+        raise RuntimeError("The tenant does not support Anonymous Web connections.")
+    if not web_type.get("supportsSkipTestConnection"):
+        raise RuntimeError("The tenant does not support skipTestConnection for Web.")
+
+    for method in web_type.get("creationMethods", []):
+        parameters = method.get("parameters", [])
+        names = {parameter.get("name", "").lower() for parameter in parameters}
+        required = {
+            parameter.get("name", "").lower()
+            for parameter in parameters
+            if parameter.get("required")
+        }
+        if "url" in names and required.issubset({"url"}):
+            return method
+    raise RuntimeError("No supported Web creation method accepts only a URL.")
+
+
+def find_anonymous_web_connection(connection_details):
+    for connection in list_fabric_values(
+        "https://api.fabric.microsoft.com/v1/connections"
+    ):
+        if (
+            connection.get("connectivityType") == "ShareableCloud"
+            and connection.get("connectionDetails") == connection_details
+            and connection.get("credentialDetails", {}).get("credentialType")
+            == "Anonymous"
+        ):
+            return connection
+    return None
+
+
+def create_anonymous_web_connection(connection_details):
+    creation_method = get_web_creation_metadata()
+    path = connection_details["path"]
+    parameters = []
+    for parameter in creation_method.get("parameters", []):
+        if parameter.get("name", "").lower() == "url":
+            parameters.append(
+                {
+                    "dataType": parameter["dataType"],
+                    "name": parameter["name"],
+                    "value": path,
+                }
+            )
+        elif parameter.get("required"):
+            raise RuntimeError(
+                f"Unsupported required Web parameter: {parameter['name']}"
+            )
+
+    suffix = hashlib.sha256(path.encode("utf-8")).hexdigest()[:8]
+    response = requests.post(
+        "https://api.fabric.microsoft.com/v1/connections",
+        headers={
+            "Authorization": f"Bearer {access_token}",
+            "Content-Type": "application/json",
+        },
+        json={
+            "connectivityType": "ShareableCloud",
+            "displayName": f"data_agent_l400_GitHub_Web_{suffix}",
+            "connectionDetails": {
+                "type": "Web",
+                "creationMethod": creation_method["name"],
+                "parameters": parameters,
+            },
+            "privacyLevel": "Public",
+            "credentialDetails": {
+                "singleSignOnType": "None",
+                "connectionEncryption": "NotEncrypted",
+                "skipTestConnection": True,
+                "credentials": {"credentialType": "Anonymous"},
+            },
+        },
+        timeout=60,
+    )
+    if response.status_code != 201:
+        raise RuntimeError(
+            "Anonymous Web connection creation failed: "
+            f"HTTP {response.status_code} {response.text}"
+        )
+    return response.json()
+
+
+def find_model_id(model_name):
+    items = fabric.list_items(workspace=workspace_id)
+    matches = items[
+        (items["Type"] == "SemanticModel")
+        & (items["Display Name"] == model_name)
+    ]
+    if matches.empty:
+        raise RuntimeError(
+            f"Semantic model {model_name!r} was not found in this workspace."
+        )
+    return str(matches.iloc[0]["Id"])
+
+
+def bind_anonymous_web_connection(model_name):
+    model_id = find_model_id(model_name)
+    connections_url = (
+        "https://api.fabric.microsoft.com/v1/workspaces/"
+        f"{workspace_id}/items/{model_id}/connections"
+    )
+    references = []
+    for _ in range(30):
+        references = [
+            reference
+            for reference in list_fabric_values(connections_url)
+            if reference.get("connectionDetails", {}).get("type", "").lower()
+            == "web"
+            and reference.get("connectionDetails", {}).get("path")
+            == EXPECTED_WEB_SOURCE
+        ]
+        if references:
+            break
+        time.sleep(5)
+    if not references:
+        raise RuntimeError(
+            f"No Web source matching {EXPECTED_WEB_SOURCE!r} was found for "
+            f"{model_name}."
+        )
+
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json",
+    }
+    for reference in references:
+        details = reference["connectionDetails"]
+        connection = find_anonymous_web_connection(details)
+        if connection is None:
+            connection = create_anonymous_web_connection(details)
+            print("Created connection:", connection["displayName"])
+        else:
+            print("Using connection:", connection["displayName"])
+
+        response = requests.post(
+            "https://api.fabric.microsoft.com/v1/workspaces/"
+            f"{workspace_id}/semanticModels/{model_id}/bindConnection",
+            headers=headers,
+            json={
+                "connectionBinding": {
+                    "id": connection["id"],
+                    "connectivityType": "ShareableCloud",
+                    "connectionDetails": details,
+                }
+            },
+            timeout=60,
+        )
+        if response.status_code != 200:
+            raise RuntimeError(
+                f"Binding failed for {model_name}: "
+                f"HTTP {response.status_code} {response.text}"
+            )
+    print(f"Bound Anonymous Web connection: {model_name}")
+
+
+if CONFIGURE_ANONYMOUS_WEB_CONNECTIONS:
+    for semantic_model in SEMANTIC_MODELS:
+        bind_anonymous_web_connection(semantic_model)
+else:
+    print("Anonymous Web connection configuration skipped.")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "jupyter_python"
+# META }
+
+# MARKDOWN ********************
+
+# ## Step 3 - Refresh the semantic models
+
+# CELL ********************
+
+def refresh_semantic_model(model_name):
+    print(f"Starting full refresh: {model_name}")
+    request_id = fabric.refresh_dataset(
+        dataset=model_name,
+        workspace=workspace_id,
+        refresh_type="full",
+    )
+    for _ in range(160):
+        details = fabric.get_refresh_execution_details(
+            dataset=model_name,
+            refresh_request_id=request_id,
+            workspace=workspace_id,
+        )
+        if details.status == "Completed":
+            print(f"Refresh completed: {model_name}")
+            return
+        if details.status in {"Failed", "Cancelled"}:
+            messages = ""
+            if details.messages is not None and not details.messages.empty:
+                messages = "\n".join(
+                    details.messages["Message"].astype(str).tolist()
+                )
+            raise RuntimeError(
+                f"Refresh {details.status.lower()} for {model_name}. {messages}"
+            )
+        time.sleep(15)
+    raise TimeoutError(f"Refresh timed out for {model_name} after 40 minutes.")
+
+
+if REFRESH_SEMANTIC_MODELS:
+    for semantic_model in SEMANTIC_MODELS:
+        refresh_semantic_model(semantic_model)
+else:
+    print("Semantic model refresh skipped.")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "jupyter_python"
+# META }
+
+# MARKDOWN ********************
+
+# ## Workshop run order
+#
+# After the two refreshes complete:
+#
+# 1. Open `ManufacturingOps.Report` and inspect the baseline model experience.
+# 2. Open `ManufacturingOpsAIReady.Report` and compare the AI-ready metadata.
+# 3. In the Fabric Data Agent experience, create the base agent
+#    `MfgOps_DA_AIReady_SAP` over `ManufacturingOpsAIReady`.
+# 4. Run `BuildOpsRefData` to create the `OpsRefData` Lakehouse, tables, views,
+#    and function.
+# 5. Run `CreateMultiSourceDataAgent` to add the Lakehouse source and publish the
+#    multi-source agent.
+# 6. Run `JudgeCalibration` before evaluating the agent.
+# 7. Run `EvaluateDataAgent`.
+#
+# ## Guardrail to verify
+#
+# The agent should not answer unsupported questions about vendors, purchase
+# orders, or semantic-model sales facts. The evaluation set includes questions
+# that verify refusal behavior and correct source routing.
+#
+# ## Troubleshooting
+#
+# - **Refresh says credentials are missing:** rerun the connection cell above.
+# - **Connection creation returns 404:** confirm the source ref is
+#   `v0.1.2-test` and do not remove `skipTestConnection=True`.
+# - **A notebook cannot find an item:** confirm all Jumpstart items were installed
+#   into the same workspace and retain the item names shown above.
+# - **No Data Agent appears:** create the base agent manually before running the
+#   multi-source setup notebook; this is an intentional lab step.
