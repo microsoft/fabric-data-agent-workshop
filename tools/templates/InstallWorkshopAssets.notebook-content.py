@@ -32,17 +32,16 @@
 # notebook. Wait for the final success message confirming both imports and
 # folder placement before opening reports or creating the Fabric Data Agent.
 #
-# The imports use `CreateOrOverwrite`. A safe rerun replaces the same-named
-# reports and semantic models, including empty Git-deployed items left by an
-# older `v0.1.3-test` installation.
+# The imports use `CreateOrOverwrite`, so a safe rerun replaces the same-named
+# reports and semantic models.
 
 # MARKDOWN ********************
 
 # ## Step 1 - Review the immutable asset manifest
 #
-# The assets are downloaded from the immutable `v0.1.7-test` tag. SHA-256
-# validation prevents an incomplete download or Git LFS pointer from being
-# imported.
+# The assets are downloaded from the immutable workshop version configured
+# below. SHA-256 validation prevents an incomplete download or Git LFS pointer
+# from being imported.
 
 # CELL ********************
 
@@ -58,7 +57,7 @@ import requests
 
 
 REPOSITORY = "pawarbi/fda-l400"
-REPOSITORY_REF = "v0.1.7-test"
+REPOSITORY_REF = "__WORKSHOP_VERSION__"
 EXPECTED_FOLDER_NAME = "data-agent-l400"
 RAW_BASE_URL = (
     f"https://raw.githubusercontent.com/{REPOSITORY}/{REPOSITORY_REF}"
@@ -612,9 +611,8 @@ print("The reports and semantic models are ready for the workshop labs.")
 # - **Notebook at workspace root:** reinstall using the recommended Jumpstart
 #   flow so `InstallWorkshopAssets` is inside `data-agent-l400`; the notebook
 #   intentionally stops before importing when no containing folder is detected.
-# - **Name conflicts:** the notebook intentionally uses `CreateOrOverwrite`.
-#   It replaces the same-named report and semantic model, including empty
-#   Git-deployed items from an older `v0.1.3-test` installation.
+# - **Name conflicts:** the notebook intentionally uses `CreateOrOverwrite`,
+#   replacing the same-named report and semantic model.
 # - **Failed import:** read the surfaced import response and import ID, correct
 #   the reported issue, then select **Run all** again.
 # - **Timed-out import:** use the surfaced import ID to inspect the import in

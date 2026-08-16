@@ -19,10 +19,6 @@
 
 # # Data Agent Evaluation - L400
 #
-# **Author:** Sandeep Pawar  
-# **Date:** 2026-08-08  
-# **Version:** 1.0
-#
 # `[Fixed eval set] -> [Live DAX ground truth or expected behavior] -> [Run Data Agent] -> [Load registered champion judge] -> [Grade responses] -> [Human review] -> [Log and compare in MLflow]`
 #
 # This notebook evaluates manufacturing operations questions against live semantic-model ground
@@ -67,7 +63,7 @@ from fabric.dataagent.client import FabricDataAgentManagement, FabricOpenAIRespo
 from synapse.ml.fabric.credentials import get_openai_httpx_sync_client
 import openai
 
-# The SDK still calls a few of its own deprecated APIs internally -- hide that noise.
+# Suppress known FutureWarning messages from installed libraries.
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 # METADATA ********************
@@ -185,7 +181,7 @@ print(
 
 # CELL ********************
 
-DATA_SOURCE_REF = "v0.1.7-test"  # Use an immutable release tag or commit for reproducible runs.
+DATA_SOURCE_REF = "v0.1.8-test"  # Use an immutable release tag or commit for reproducible runs.
 EVAL_XLSX_URL = (
     "https://raw.githubusercontent.com/pawarbi/fda-l400/"
     f"{DATA_SOURCE_REF}/eval/eval_set_L400.xlsx"
@@ -523,9 +519,7 @@ def judge(question, expected, actual):
 
 mgmt = FabricDataAgentManagement(AGENT["name"], AGENT["workspace"])
 
-# get_configuration()/get_datasources() are present in every SDK version, so we
-# read the config the same way everywhere. getattr handles the instructions
-# attribute being named either "instructions" or "ai_instructions".
+# Read the published configuration and support either instruction attribute name.
 cfg = mgmt.get_configuration()
 ai_instructions = str(getattr(cfg, "instructions", None) or getattr(cfg, "ai_instructions", None) or "")
 

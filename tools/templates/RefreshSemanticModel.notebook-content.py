@@ -40,7 +40,7 @@ CONFIGURE_ANONYMOUS_WEB_CONNECTIONS = True
 REFRESH_SEMANTIC_MODELS = True
 
 SOURCE_REPOSITORY = "pawarbi/fda-l400"
-SOURCE_REPOSITORY_REF = "v0.1.7-test"
+SOURCE_REPOSITORY_REF = "__WORKSHOP_VERSION__"
 SEMANTIC_MODELS = ["ManufacturingOps", "ManufacturingOpsAIReady"]
 EXPECTED_WEB_SOURCE = (
     "https://raw.githubusercontent.com/"
@@ -328,7 +328,7 @@ else:
 # ## Troubleshooting
 #
 # - **Refresh says credentials are missing:** rerun the connection cell above.
-# - **Connection creation returns 404:** confirm the source ref is
-#   `v0.1.7-test` and do not remove `skipTestConnection=True`.
+# - **Connection creation returns 404:** confirm the configured source URL is
+#   reachable and keep `skipTestConnection=True`.
 # - **A notebook cannot find an item:** confirm all recommended Jumpstart
 #   notebooks were installed into the same workspace and retain their item names.

@@ -19,10 +19,6 @@
 
 # # Calibrating the LLM Judge - L400
 #
-# **Author:** Sandeep Pawar  
-# **Date:** 2026-08-08  
-# **Version:** 1.0
-#
 # ## Quick flow
 #
 # `[Human-graded Excel] -> [Calibrate using AI] -> [Inspect disagreements] -> [Refine the prompt] -> [Tune on development] -> [Score sealed holdout] -> [Register trusted judge in MLflow]`
@@ -88,17 +84,19 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 # MARKDOWN ********************
 
 # ## Configuration
+#
+# This workshop uses `REPEATS = 1` for a faster calibration run. Production evaluation scenarios should generally use `REPEATS = 3` for more stable results.
 
 # CELL ********************
 
 JUDGE_MODEL = "gpt-5.1"
 JUDGE_API_VERSION = "2025-04-01-preview"
 JUDGE_SEED = 42
-REPEATS = 3
+REPEATS = 1  # Use 3 for more stable results in production evaluation scenarios.
 JUDGE_REGISTRY_EXPERIMENT = "mfg-ops-judge-registry"
 
 EVAL_LH_NAME = "mfgops_da_eval"
-DATA_SOURCE_REF = "v0.1.7-test"  # Use an immutable release tag or commit for reproducible runs.
+DATA_SOURCE_REF = "v0.1.8-test"  # Use an immutable release tag or commit for reproducible runs.
 CALIBRATION_XLSX_URL = (
     "https://raw.githubusercontent.com/pawarbi/fda-l400/"
     f"{DATA_SOURCE_REF}/eval/judge_calibration_labeling.xlsx"
@@ -501,8 +499,6 @@ judge_spec = {
     "n_development": int(len(cal)),
     "n_holdout": int(len(holdout)),
     "registered_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-    "author": "Sandeep Pawar",
-    "version": "1.0",
 }
 
 mlflow.set_experiment(JUDGE_REGISTRY_EXPERIMENT)
@@ -512,7 +508,6 @@ with mlflow.start_run(run_name=f"judge-l400-{RUBRIC_HASH}"):
         "judge_status": "champion",
         "rubric_hash": RUBRIC_HASH,
         "judge_model": JUDGE_MODEL,
-        "calibration_version": "1.0",
     })
     mlflow.log_params({
         "judge_model": JUDGE_MODEL,
@@ -655,7 +650,7 @@ print(json.dumps(example_result, indent=2))
 # - New answer types or failure patterns are introduced.
 # - The Data Agent scope changes enough to require new behavioral grading patterns.
 # - Human review finds recurring judge errors or reduced agreement.
-# - A new judge version is being considered for a release.
+# - A materially different judge configuration is being considered.
 # - Periodic governance review requires evidence that the judge remains reliable.
 #
 # Adding factual evaluation questions alone does not always require recalibration. Recalibrate
@@ -684,7 +679,6 @@ print(json.dumps(example_result, indent=2))
 # - Do not change the model and rubric simultaneously when diagnosing a regression.
 # - Do not assume high raw agreement alone is sufficient. Review kappa, recall on FAIL, false
 #   PASS results, disagreements, and unstable rows.
-#
 #
 # **If development passes but holdout fails, the judge has likely overfit the development set or lacks generalization. Do not register it as champion.**
 #

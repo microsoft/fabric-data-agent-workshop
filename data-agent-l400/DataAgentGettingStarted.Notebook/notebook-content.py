@@ -87,9 +87,9 @@
 
 # ## Start with the lab instructions
 #
-# **[Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.7-test/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20Labs%20-%20Aug%202026.pdf)**
+# **[Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.8-test/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20L400.pdf)**
 #
-# [Browse the lab-instructions folder](https://github.com/pawarbi/fda-l400/tree/v0.1.7-test/documentation/lab-instructions)
+# [Browse the lab-instructions folder](https://github.com/pawarbi/fda-l400/tree/v0.1.8-test/documentation/lab-instructions)
 #
 # The lab instructions remain the primary workshop guide.
 
@@ -100,8 +100,8 @@
 # Complete this exact sequence:
 #
 # 1. Open `DataAgentGettingStarted`.
-# 2. Open and read `documentation/lab-instructions` using the tagged GitHub links
-#    above.
+# 2. Open and read the lab instructions using the immutable workshop-version
+#    links above.
 # 3. In the same workspace, open `InstallWorkshopAssets` and select **Run all**.
 # 4. Wait for the explicit success message confirming both PBIX imports, that
 #    every returned report and semantic model was moved into the same
@@ -114,11 +114,10 @@
 #    in the order specified by the lab instructions.
 #
 # `InstallWorkshopAssets` is **required once after installation**. It uses
-# `CreateOrOverwrite`, so it can also replace same-named empty Git-deployed
-# reports and semantic models from an older `v0.1.3-test` installation. The
-# imported PBIX files contain cached data and do not require a refresh for the
-# labs. The folder move requires Contributor or higher workspace role and
-# delegated `Workspace.ReadWrite.All`.
+# `CreateOrOverwrite`, so rerunning it safely replaces the same-named reports and
+# semantic models. The imported PBIX files contain cached data and do not require
+# a refresh for the labs. The folder move requires Contributor or higher
+# workspace role and delegated `Workspace.ReadWrite.All`.
 
 # MARKDOWN ********************
 

@@ -2,6 +2,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import shutil
 import stat
 import subprocess
@@ -14,8 +15,12 @@ EXPECTED_SOURCE_HEAD = "0efe648"
 LOGICAL_ID = "data-agent-l400"
 REPO_OWNER = "pawarbi"
 REPO_NAME = "fda-l400"
-REPO_REF = "v0.1.7-test"
-RAW_ROOT = f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{REPO_REF}"
+WORKSHOP_VERSION = "v0.1.8-test"
+RAW_ROOT = (
+    f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{WORKSHOP_VERSION}"
+)
+LAB_PDF_NAME = "Fabric Data Agent Workshop L400.pdf"
+LAB_PDF_RELATIVE_PATH = f"documentation/lab-instructions/{LAB_PDF_NAME}"
 NAMESPACE = uuid.UUID("6908bc73-6001-475c-8dd5-774509e183bf")
 PBIX_FILES = {
     "ManufacturingOps.pbix": (
@@ -45,6 +50,16 @@ NOTEBOOKS = {
         "EvaluateDataAgent.Notebook",
         "EvaluateDataAgent",
     ),
+}
+GENERATED_WORKSPACE_ITEMS = {
+    *(folder_name for folder_name, _display_name in NOTEBOOKS.values()),
+    "DataAgentGettingStarted.Notebook",
+    "InstallWorkshopAssets.Notebook",
+    "RefreshSemanticModel.Notebook",
+    "ManufacturingOps.SemanticModel",
+    "ManufacturingOps.Report",
+    "ManufacturingOpsAIReady.SemanticModel",
+    "ManufacturingOpsAIReady.Report",
 }
 
 NAME_REPLACEMENTS = {
@@ -103,14 +118,67 @@ def rewrite_source_references(text: str) -> str:
     )
     text = text.replace(
         'DATA_SOURCE_REF = "main"',
-        f'DATA_SOURCE_REF = "{REPO_REF}"',
+        f'DATA_SOURCE_REF = "{WORKSHOP_VERSION}"',
     )
     for old, new in NAME_REPLACEMENTS.items():
         text = text.replace(old, new)
     return text
 
 
-def notebook_source(cells: list[dict]) -> str:
+def clean_participant_content(
+    content: str,
+    source_name: str,
+    cell_type: str,
+) -> str:
+    if cell_type == "markdown":
+        content = re.sub(
+            r"\n?\*\*(?:Author|Date|Version):\*\*[^\n]*\n?",
+            "\n",
+            content,
+        )
+        content = re.sub(r"\n{3,}", "\n\n", content)
+        if (
+            source_name == "NB_JudgeCalibration_L400.ipynb"
+            and content.strip() == "## Configuration"
+        ):
+            content += (
+                "\n\nThis workshop uses `REPEATS = 1` for a faster calibration run. "
+                "Production evaluation scenarios should generally use `REPEATS = 3` "
+                "for more stable results."
+            )
+        content = content.replace(
+            "A new judge version is being considered for a release.",
+            "A materially different judge configuration is being considered.",
+        )
+    else:
+        if source_name == "NB_JudgeCalibration_L400.ipynb":
+            content = content.replace(
+                "REPEATS = 3",
+                "REPEATS = 1  # Use 3 for more stable results in production evaluation scenarios.",
+            )
+            content = content.replace(
+                '    "author": "Sandeep Pawar",\n'
+                '    "version": "1.0",\n',
+                "",
+            )
+            content = content.replace(
+                '        "calibration_version": "1.0",\n',
+                "",
+            )
+        content = content.replace(
+            "# The SDK still calls a few of its own deprecated APIs internally -- hide that noise.",
+            "# Suppress known FutureWarning messages from installed libraries.",
+        )
+        content = content.replace(
+            "# get_configuration()/get_datasources() are present in every SDK version, so we\n"
+            "# read the config the same way everywhere. getattr handles the instructions\n"
+            "# attribute being named either \"instructions\" or \"ai_instructions\".",
+            "# Read the published configuration and support either instruction attribute name.",
+        )
+    return content
+
+
+def notebook_source(cells: list[dict], source_name: str = "") -> str:
     lines = [
         "# Fabric notebook source",
         "",
@@ -133,6 +201,11 @@ def notebook_source(cells: list[dict]) -> str:
     for cell in cells:
         content = "".join(cell.get("source", []))
         content = rewrite_source_references(content).rstrip("\n")
+        content = clean_participant_content(
+            content,
+            source_name,
+            cell["cell_type"],
+        )
         if cell["cell_type"] == "markdown":
             lines.extend(["# MARKDOWN ********************", ""])
             lines.extend(f"# {line}" if line else "#" for line in content.split("\n"))
@@ -155,7 +228,10 @@ def notebook_source(cells: list[dict]) -> str:
 
 def convert_notebook(source: Path, destination: Path, display_name: str) -> None:
     payload = json.loads(source.read_text(encoding="utf-8-sig"))
-    write_text(destination / "notebook-content.py", notebook_source(payload["cells"]))
+    write_text(
+        destination / "notebook-content.py",
+        notebook_source(payload["cells"], source.name),
+    )
     write_json(destination / ".platform", platform("Notebook", display_name))
 
 
@@ -225,9 +301,9 @@ The recommended Jumpstart installation deploys these seven notebook items only:
 Data Agents are intentionally not installed. Creating them is part of the lab.""",
         f"""## Start with the lab instructions
 
-**[Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{REPO_REF}/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20Labs%20-%20Aug%202026.pdf)**
+**[Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{WORKSHOP_VERSION}/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20L400.pdf)**
 
-[Browse the lab-instructions folder](https://github.com/{REPO_OWNER}/{REPO_NAME}/tree/{REPO_REF}/documentation/lab-instructions)
+[Browse the lab-instructions folder](https://github.com/{REPO_OWNER}/{REPO_NAME}/tree/{WORKSHOP_VERSION}/documentation/lab-instructions)
 
 The lab instructions remain the primary workshop guide.""",
         """## Required setup after installation
@@ -235,8 +311,8 @@ The lab instructions remain the primary workshop guide.""",
 Complete this exact sequence:
 
 1. Open `DataAgentGettingStarted`.
-2. Open and read `documentation/lab-instructions` using the tagged GitHub links
-   above.
+2. Open and read the lab instructions using the immutable workshop-version
+   links above.
 3. In the same workspace, open `InstallWorkshopAssets` and select **Run all**.
 4. Wait for the explicit success message confirming both PBIX imports, that
    every returned report and semantic model was moved into the same
@@ -249,11 +325,10 @@ Complete this exact sequence:
    in the order specified by the lab instructions.
 
 `InstallWorkshopAssets` is **required once after installation**. It uses
-`CreateOrOverwrite`, so it can also replace same-named empty Git-deployed
-reports and semantic models from an older `v0.1.3-test` installation. The
-imported PBIX files contain cached data and do not require a refresh for the
-labs. The folder move requires Contributor or higher workspace role and
-delegated `Workspace.ReadWrite.All`.""",
+`CreateOrOverwrite`, so rerunning it safely replaces the same-named reports and
+semantic models. The imported PBIX files contain cached data and do not require
+a refresh for the labs. The folder move requires Contributor or higher
+workspace role and delegated `Workspace.ReadWrite.All`.""",
         """## Populated-data acceptance gate
 
 After import and folder placement, `InstallWorkshopAssets` runs this exact query
@@ -284,6 +359,7 @@ It does not create or configure a Fabric Data Agent.""",
 def build_refresh_semantic_model(template: Path, destination: Path) -> None:
     text = template.read_text(encoding="utf-8-sig")
     text = text.replace("python3.12", "python3.11")
+    text = text.replace("__WORKSHOP_VERSION__", WORKSHOP_VERSION)
     write_text(destination / "notebook-content.py", text)
     write_json(destination / ".platform", platform("Notebook", "RefreshSemanticModel"))
 
@@ -291,6 +367,7 @@ def build_refresh_semantic_model(template: Path, destination: Path) -> None:
 def build_install_workshop_assets(template: Path, destination: Path) -> None:
     text = template.read_text(encoding="utf-8-sig")
     text = text.replace("python3.12", "python3.11")
+    text = text.replace("__WORKSHOP_VERSION__", WORKSHOP_VERSION)
     write_text(destination / "notebook-content.py", text)
     write_json(destination / ".platform", platform("Notebook", "InstallWorkshopAssets"))
 
@@ -406,9 +483,7 @@ def build_readme(target: Path) -> None:
         target / "README.md",
         f"""# Fabric Data Agent L400 Jumpstart
 
-Generated from `data-agent-L400-workshop` commit `{EXPECTED_SOURCE_HEAD}`.
-
-## Direct pre-registration installation
+## Install from GitHub
 
 ```python
 import fabric_jumpstart as jumpstart
@@ -416,28 +491,15 @@ import fabric_jumpstart as jumpstart
 jumpstart._install_from_github(
     logical_id="{LOGICAL_ID}",
     repo_url="https://github.com/{REPO_OWNER}/{REPO_NAME}",
-    repo_ref="{REPO_REF}",
-    workspace_path=".",
+    repo_ref="{WORKSHOP_VERSION}",
+    workspace_path="{LOGICAL_ID}",
     entry_point="DataAgentGettingStarted.Notebook",
     items_in_scope=["Notebook"],
 )
 ```
 
-`_install_from_github` is an underscore API for pre-registration testing.
 `workspace_id` is intentionally omitted so installation targets the current
 Fabric workspace. To target another workspace, pass its actual valid GUID.
-
-## Registered installation (later)
-
-```python
-import fabric_jumpstart as jumpstart
-
-jumpstart.install("{LOGICAL_ID}")
-```
-
-This command will work only after the Jumpstart is registered. Until then, use
-the direct pre-registration installation shown above. Any future registry
-configuration for this Jumpstart must scope deployment to `Notebook` items only.
 
 The recommended install deploys seven notebooks only. It intentionally does not
 deploy the Git/TMDL semantic model and report definitions.
@@ -445,7 +507,8 @@ deploy the Git/TMDL semantic model and report definitions.
 After installation:
 
 1. Open `DataAgentGettingStarted`.
-2. Open and read the tagged `documentation/lab-instructions` links.
+2. Open the immutable workshop-version PDF:
+   [Fabric Data Agent Workshop L400](https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{WORKSHOP_VERSION}/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20L400.pdf).
 3. In the same workspace, open `InstallWorkshopAssets` and select **Run all**.
 4. Wait for explicit success confirming both PBIX imports, that all returned
    reports and semantic models were moved into the same `data-agent-l400`
@@ -455,10 +518,10 @@ After installation:
    notebooks.
 
 `InstallWorkshopAssets` is required once. It imports populated PBIX files using
-`CreateOrOverwrite`, including replacement of same-named empty items from an
-older `v0.1.3-test` installation. Cached imported data is immediately available
-for the labs. `RefreshSemanticModel` is optional maintenance and is not required
-for the lab; use it only for a future data update or connection repair/rebinding.
+`CreateOrOverwrite`, so rerunning it safely replaces the same-named items.
+Cached imported data is immediately available for the labs.
+`RefreshSemanticModel` is optional maintenance and is not required for the lab;
+use it only for a future data update or connection repair/rebinding.
 
 The folder move uses the Fabric Core `bulkMove` API and requires Contributor or
 higher workspace role plus delegated `Workspace.ReadWrite.All`. If moving fails,
@@ -487,13 +550,9 @@ prevent final success.
 - `documentation/`: GitHub-only workshop and lab documentation.
 - `data/`: GitHub-only source data consumed by models and notebooks.
 - `eval/`: GitHub-only evaluation and calibration workbooks.
-- `tools/`: local rebuild tooling; not deployed to Fabric.
 
-The semantic model/report Git folders remain for reproducibility and reference,
-but the recommended `items_in_scope=["Notebook"]` install does not deploy them.
-The source workshop repository remains unchanged. PBIX models are freshly
-serialized with pbi-tools during rebuild; report and Copilot assets come
-directly from the latest PBIX packages.
+The semantic model/report Git folders remain for reference, but the recommended
+`items_in_scope=["Notebook"]` install does not deploy them.
 """,
     )
 
@@ -503,10 +562,29 @@ def main() -> None:
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--target", type=Path, required=True)
     parser.add_argument("--pbi-tools", type=Path, required=True)
+    parser.add_argument(
+        "--workshop-pdf",
+        type=Path,
+        help=(
+            "Authoritative workshop PDF. Defaults to the canonical PDF already "
+            "present in the target repository."
+        ),
+    )
     args = parser.parse_args()
 
     source = args.source.resolve()
     target = args.target.resolve()
+    canonical_pdf = target / LAB_PDF_RELATIVE_PATH
+    workshop_pdf = (
+        args.workshop_pdf.resolve()
+        if args.workshop_pdf
+        else canonical_pdf
+    )
+    if not workshop_pdf.is_file():
+        raise RuntimeError(
+            "Workshop PDF not found. Pass --workshop-pdf with the authoritative PDF."
+        )
+    workshop_pdf_bytes = workshop_pdf.read_bytes()
     if source == target:
         raise RuntimeError("Source and target must be different repositories.")
     if not (target / ".git").is_dir():
@@ -527,15 +605,12 @@ def main() -> None:
         extract_pbix(args.pbi_tools, baseline_pbix, build_root / "ManufacturingOps")
         extract_pbix(args.pbi_tools, ai_pbix, build_root / "ManufacturingOpsAIReady")
 
-        for relative in [
-            LOGICAL_ID,
-            "assets",
-            "data",
-            "eval",
-            "documentation",
-            "lab-instructions",
-        ]:
+        for relative in ["assets", "data", "eval", "documentation", "lab-instructions"]:
             replace_generated_path(target / relative)
+        workspace = target / LOGICAL_ID
+        workspace.mkdir(exist_ok=True)
+        for item_name in GENERATED_WORKSPACE_ITEMS:
+            replace_generated_path(workspace / item_name)
 
         shutil.copytree(source / "data", target / "data")
         shutil.copytree(source / "eval", target / "eval")
@@ -547,8 +622,6 @@ def main() -> None:
             "# Populated workshop PBIX assets",
             "",
             "Canonical PBIX files imported by `InstallWorkshopAssets`.",
-            "",
-            f"Source workshop commit: `{EXPECTED_SOURCE_HEAD}`.",
             "",
             "| File | Immutable raw URL | SHA-256 |",
             "| --- | --- | --- |",
@@ -569,7 +642,8 @@ def main() -> None:
         write_text(pbix_assets / "README.md", "\n".join(asset_lines) + "\n")
 
         docs = target / "documentation"
-        shutil.copytree(source / "lab-instructions", docs / "lab-instructions")
+        canonical_pdf.parent.mkdir(parents=True)
+        canonical_pdf.write_bytes(workshop_pdf_bytes)
         write_text(
             docs / "README.md",
             "# Documentation\n\n"
@@ -580,11 +654,10 @@ def main() -> None:
         write_text(
             docs / "lab-instructions" / "README.md",
             "# Lab instructions\n\n"
-            "- [Fabric Data Agent Workshop Labs - August 2026]"
-            "(Fabric%20Data%20Agent%20Workshop%20Labs%20-%20Aug%202026.pdf)\n",
+            f"- [Fabric Data Agent Workshop L400]"
+            f"({LAB_PDF_NAME.replace(' ', '%20')})\n",
         )
 
-        workspace = target / LOGICAL_ID
         for source_name, (folder_name, display_name) in NOTEBOOKS.items():
             convert_notebook(
                 source / "notebooks" / source_name,
