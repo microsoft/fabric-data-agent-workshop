@@ -13,7 +13,7 @@ EXPECTED_SOURCE_HEAD = "0efe648"
 LOGICAL_ID = "data-agent-l400"
 REPO_OWNER = "pawarbi"
 REPO_NAME = "fda-l400"
-REPO_REF = "v0.1.4-test"
+REPO_REF = "v0.1.3-test"
 RAW_ROOT = f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{REPO_REF}"
 NAMESPACE = uuid.UUID("6908bc73-6001-475c-8dd5-774509e183bf")
 
@@ -193,7 +193,7 @@ semantic models, create Fabric items, or otherwise change your environment.
 | Type | Installed item | Purpose |
 | --- | --- | --- |
 | Notebook | `DataAgentGettingStarted` | Orientation and navigation |
-| Notebook | `RefreshSemanticModel` | Required first-run connection binding and model data refresh; optional thereafter |
+| Notebook | `RefreshSemanticModel` | Optional Web connection binding/rebinding and model refresh |
 | Notebook | `BuildOpsRefData` | Builds the `OpsRefData` Lakehouse assets |
 | Notebook | `CreateMultiSourceDataAgent` | Adds the Lakehouse source and publishes the multi-source agent |
 | Notebook | `JudgeCalibration` | Calibrates and registers the LLM judge |
@@ -214,24 +214,15 @@ Complete the workshop in this order:
 
 1. Read `DataAgentGettingStarted`.
 2. Open and follow the lab instructions linked above.
-3. On a fresh Jumpstart installation, run all cells in `RefreshSemanticModel`
-   once and wait for both model refreshes to complete.
-4. Compare the `ManufacturingOps` and `ManufacturingOpsAIReady` reports/models.
-5. Create the base Data Agent as directed by the lab.
-6. Run the lab notebooks in the order specified by the instructions.""",
-        """## Fresh installation requirement
+3. Compare the `ManufacturingOps` and `ManufacturingOpsAIReady` reports/models.
+4. Create the base Data Agent as directed by the lab.
+5. Run the lab notebooks in the order specified by the instructions.""",
+        """## Optional maintenance
 
-Before opening or comparing the reports and semantic models, run all cells in
-`RefreshSemanticModel` once and wait for both refreshes to complete.
-
-Jumpstart uses Git-based Fabric/TMDL deployment. Git contains the semantic model
-definitions, but it does not contain imported VertiPaq data. The required first
-run binds or reuses the anonymous public Web connection and hydrates both
-semantic models.
-
-After the first successful refresh, rerun `RefreshSemanticModel` only when you
-want to update source data or repair/rebind the connection. It does not create
-or configure a Fabric Data Agent.""",
+`RefreshSemanticModel` can bind or rebind the anonymous public Web connection
+and refresh both semantic models with the latest source data. Skip it when
+`ManufacturingOps` and `ManufacturingOpsAIReady` already open and query
+successfully. It does not create or configure a Fabric Data Agent.""",
     ]
     write_text(destination / "notebook-content.py", markdown_notebook(cells))
     write_json(destination / ".platform", platform("Notebook", "DataAgentGettingStarted"))
@@ -386,16 +377,12 @@ jumpstart.install("{LOGICAL_ID}")
 This command will work only after the Jumpstart is registered. Until then, use
 the direct pre-registration installation shown above.
 
-After installation, read `DataAgentGettingStarted` and open the linked lab
-instructions. On a fresh Jumpstart installation, run all cells in
-`RefreshSemanticModel` once and wait for both semantic model refreshes to
-complete before opening or comparing reports or creating the Data Agent.
-
-Jumpstart deploys Git/TMDL definitions, which do not contain imported VertiPaq
-data. The required first run binds or reuses the anonymous public Web connection
-and hydrates both semantic models. After a successful first refresh, rerunning
-is optional and is used only to update data or repair/rebind the connection.
-`RefreshSemanticModel` does not create or configure a Data Agent.
+After installation, read `DataAgentGettingStarted`, open the linked lab
+instructions, and follow the lab flow to compare the reports and models, create
+the base Data Agent, and run the lab notebooks. `RefreshSemanticModel` is
+optional maintenance: use it only to bind or rebind the anonymous public Web
+connection and refresh both semantic models with the latest source data. Skip
+it when the installed models already open and query successfully.
 
 ## Repository layout
 
