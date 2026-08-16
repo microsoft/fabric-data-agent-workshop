@@ -17,15 +17,16 @@
 
 # MARKDOWN ********************
 
-# # DataAgentSetup - Fabric Data Agent L400
+# # RefreshSemanticModel - Fabric Data Agent L400
 #
-# **Run this notebook after `DataAgentGettingStarted`.** It performs the one-time
-# environment setup required by the workshop: configure and bind the anonymous
-# public GitHub Web connection, then refresh both semantic models.
+# **This notebook is optional.**
 #
-# Do not replace this setup with manual refreshes unless instructed by the lab.
-# The executable cells below preserve the connection-binding and semantic-model
-# refresh sequence expected by the Jumpstart.
+# Run it only when you want to bind or rebind the anonymous public Web
+# connection and refresh `ManufacturingOps` and `ManufacturingOpsAIReady` with
+# the latest source data. It is not required to complete the lab when the
+# installed semantic models already open and query successfully.
+#
+# This notebook does not create or configure a Fabric Data Agent.
 
 # MARKDOWN ********************
 
@@ -38,7 +39,7 @@ CONFIGURE_ANONYMOUS_WEB_CONNECTIONS = True
 REFRESH_SEMANTIC_MODELS = True
 
 SOURCE_REPOSITORY = "pawarbi/fda-l400"
-SOURCE_REPOSITORY_REF = "v0.1.2-test"
+SOURCE_REPOSITORY_REF = "v0.1.3-test"
 SEMANTIC_MODELS = ["ManufacturingOps", "ManufacturingOpsAIReady"]
 EXPECTED_WEB_SOURCE = (
     "https://raw.githubusercontent.com/"
@@ -317,33 +318,16 @@ else:
 
 # MARKDOWN ********************
 
-# ## Workshop run order
+# ## What this notebook changed
 #
-# After the two refreshes complete:
-#
-# 1. Open `ManufacturingOps.Report` and inspect the baseline model experience.
-# 2. Open `ManufacturingOpsAIReady.Report` and compare the AI-ready metadata.
-# 3. In the Fabric Data Agent experience, create the base agent
-#    `MfgOps_DA_AIReady_SAP` over `ManufacturingOpsAIReady`.
-# 4. Run `BuildOpsRefData` to create the `OpsRefData` Lakehouse, tables, views,
-#    and function.
-# 5. Run `CreateMultiSourceDataAgent` to add the Lakehouse source and publish the
-#    multi-source agent.
-# 6. Run `JudgeCalibration` before evaluating the agent.
-# 7. Run `EvaluateDataAgent`.
-#
-# ## Guardrail to verify
-#
-# The agent should not answer unsupported questions about vendors, purchase
-# orders, or semantic-model sales facts. The evaluation set includes questions
-# that verify refusal behavior and correct source routing.
+# The executable cells only create or reuse and bind the anonymous public Web
+# connection, then refresh `ManufacturingOps` and `ManufacturingOpsAIReady`.
+# They do not create or configure a Fabric Data Agent.
 #
 # ## Troubleshooting
 #
 # - **Refresh says credentials are missing:** rerun the connection cell above.
 # - **Connection creation returns 404:** confirm the source ref is
-#   `v0.1.2-test` and do not remove `skipTestConnection=True`.
+#   `v0.1.3-test` and do not remove `skipTestConnection=True`.
 # - **A notebook cannot find an item:** confirm all Jumpstart items were installed
 #   into the same workspace and retain the item names shown above.
-# - **No Data Agent appears:** create the base agent manually before running the
-#   multi-source setup notebook; this is an intentional lab step.

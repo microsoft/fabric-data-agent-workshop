@@ -13,7 +13,7 @@ EXPECTED_SOURCE_HEAD = "0efe648"
 LOGICAL_ID = "data-agent-l400"
 REPO_OWNER = "pawarbi"
 REPO_NAME = "fda-l400"
-REPO_REF = "v0.1.2-test"
+REPO_REF = "v0.1.3-test"
 RAW_ROOT = f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{REPO_REF}"
 NAMESPACE = uuid.UUID("6908bc73-6001-475c-8dd5-774509e183bf")
 
@@ -193,7 +193,7 @@ semantic models, create Fabric items, or otherwise change your environment.
 | Type | Installed item | Purpose |
 | --- | --- | --- |
 | Notebook | `DataAgentGettingStarted` | Orientation and navigation |
-| Notebook | `DataAgentSetup` | Connection binding and model refresh |
+| Notebook | `RefreshSemanticModel` | Optional Web connection binding/rebinding and model refresh |
 | Notebook | `BuildOpsRefData` | Builds the `OpsRefData` Lakehouse assets |
 | Notebook | `CreateMultiSourceDataAgent` | Adds the Lakehouse source and publishes the multi-source agent |
 | Notebook | `JudgeCalibration` | Calibrates and registers the LLM judge |
@@ -204,35 +204,35 @@ semantic models, create Fabric items, or otherwise change your environment.
 | Report | `ManufacturingOpsAIReady` | AI-ready report |
 
 Data Agents are intentionally not installed. Creating them is part of the lab.""",
-        f"""## Documentation and lab order
+        f"""## Start with the lab instructions
 
-- [Workshop documentation](https://github.com/{REPO_OWNER}/{REPO_NAME}/tree/{REPO_REF}/documentation)
-- [Lab instructions](https://github.com/{REPO_OWNER}/{REPO_NAME}/tree/{REPO_REF}/documentation/lab-instructions)
+**[Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{REPO_REF}/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20Labs%20-%20Aug%202026.pdf)**
+
+[Browse the lab-instructions folder](https://github.com/{REPO_OWNER}/{REPO_NAME}/tree/{REPO_REF}/documentation/lab-instructions)
 
 Complete the workshop in this order:
 
 1. Read `DataAgentGettingStarted`.
-2. Run `DataAgentSetup`.
+2. Open and follow the lab instructions linked above.
 3. Compare the `ManufacturingOps` and `ManufacturingOpsAIReady` reports/models.
-4. Create `MfgOps_DA_AIReady_SAP` over `ManufacturingOpsAIReady`.
-5. Run `BuildOpsRefData`.
-6. Run `CreateMultiSourceDataAgent`.
-7. Run `JudgeCalibration`.
-8. Run `EvaluateDataAgent`.""",
-        """## Next step
+4. Create the base Data Agent as directed by the lab.
+5. Run the lab notebooks in the order specified by the instructions.""",
+        """## Optional maintenance
 
-Open `DataAgentSetup` and run every cell. Wait for both semantic-model
-refreshes to complete before continuing with the lab.""",
+`RefreshSemanticModel` can bind or rebind the anonymous public Web connection
+and refresh both semantic models with the latest source data. Skip it when
+`ManufacturingOps` and `ManufacturingOpsAIReady` already open and query
+successfully. It does not create or configure a Fabric Data Agent.""",
     ]
     write_text(destination / "notebook-content.py", markdown_notebook(cells))
     write_json(destination / ".platform", platform("Notebook", "DataAgentGettingStarted"))
 
 
-def build_setup(template: Path, destination: Path) -> None:
+def build_refresh_semantic_model(template: Path, destination: Path) -> None:
     text = template.read_text(encoding="utf-8-sig")
     text = text.replace("python3.12", "python3.11")
     write_text(destination / "notebook-content.py", text)
-    write_json(destination / ".platform", platform("Notebook", "DataAgentSetup"))
+    write_json(destination / ".platform", platform("Notebook", "RefreshSemanticModel"))
 
 
 def extract_zip_prefix(pbix: Path, prefix: str, destination: Path) -> None:
@@ -377,8 +377,12 @@ jumpstart.install("{LOGICAL_ID}")
 This command will work only after the Jumpstart is registered. Until then, use
 the direct pre-registration installation shown above.
 
-After installation, open `DataAgentGettingStarted`, then run `DataAgentSetup`
-when directed to bind the public Web source and refresh both semantic models.
+After installation, read `DataAgentGettingStarted`, open the linked lab
+instructions, and follow the lab flow to compare the reports and models, create
+the base Data Agent, and run the lab notebooks. `RefreshSemanticModel` is
+optional maintenance: use it only to bind or rebind the anonymous public Web
+connection and refresh both semantic models with the latest source data. Skip
+it when the installed models already open and query successfully.
 
 ## Repository layout
 
@@ -455,9 +459,9 @@ def main() -> None:
                 display_name,
             )
         build_getting_started(workspace / "DataAgentGettingStarted.Notebook")
-        build_setup(
-            target / "tools" / "templates" / "DataAgentSetup.notebook-content.py",
-            workspace / "DataAgentSetup.Notebook",
+        build_refresh_semantic_model(
+            target / "tools" / "templates" / "RefreshSemanticModel.notebook-content.py",
+            workspace / "RefreshSemanticModel.Notebook",
         )
 
         build_semantic_model(

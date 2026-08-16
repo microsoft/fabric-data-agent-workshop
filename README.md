@@ -10,7 +10,7 @@ import fabric_jumpstart as jumpstart
 jumpstart._install_from_github(
     logical_id="data-agent-l400",
     repo_url="https://github.com/pawarbi/fda-l400",
-    repo_ref="v0.1.2-test",
+    repo_ref="v0.1.3-test",
     workspace_path=".",
     entry_point="DataAgentGettingStarted.Notebook",
     items_in_scope=["Notebook", "SemanticModel", "Report"],
@@ -31,8 +31,12 @@ jumpstart.install("data-agent-l400")
 This command will work only after the Jumpstart is registered. Until then, use
 the direct pre-registration installation shown above.
 
-After installation, open `DataAgentGettingStarted`, then run `DataAgentSetup`
-when directed to bind the public Web source and refresh both semantic models.
+After installation, read `DataAgentGettingStarted`, open the linked lab
+instructions, and follow the lab flow to compare the reports and models, create
+the base Data Agent, and run the lab notebooks. `RefreshSemanticModel` is
+optional maintenance: use it only to bind or rebind the anonymous public Web
+connection and refresh both semantic models with the latest source data. Skip
+it when the installed models already open and query successfully.
 
 ## Repository layout
 

@@ -63,7 +63,7 @@
 # | Type | Installed item | Purpose |
 # | --- | --- | --- |
 # | Notebook | `DataAgentGettingStarted` | Orientation and navigation |
-# | Notebook | `DataAgentSetup` | Connection binding and model refresh |
+# | Notebook | `RefreshSemanticModel` | Optional Web connection binding/rebinding and model refresh |
 # | Notebook | `BuildOpsRefData` | Builds the `OpsRefData` Lakehouse assets |
 # | Notebook | `CreateMultiSourceDataAgent` | Adds the Lakehouse source and publishes the multi-source agent |
 # | Notebook | `JudgeCalibration` | Calibrates and registers the LLM judge |
@@ -77,25 +77,25 @@
 
 # MARKDOWN ********************
 
-# ## Documentation and lab order
+# ## Start with the lab instructions
 #
-# - [Workshop documentation](https://github.com/pawarbi/fda-l400/tree/v0.1.2-test/documentation)
-# - [Lab instructions](https://github.com/pawarbi/fda-l400/tree/v0.1.2-test/documentation/lab-instructions)
+# **[Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.3-test/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20Labs%20-%20Aug%202026.pdf)**
+#
+# [Browse the lab-instructions folder](https://github.com/pawarbi/fda-l400/tree/v0.1.3-test/documentation/lab-instructions)
 #
 # Complete the workshop in this order:
 #
 # 1. Read `DataAgentGettingStarted`.
-# 2. Run `DataAgentSetup`.
+# 2. Open and follow the lab instructions linked above.
 # 3. Compare the `ManufacturingOps` and `ManufacturingOpsAIReady` reports/models.
-# 4. Create `MfgOps_DA_AIReady_SAP` over `ManufacturingOpsAIReady`.
-# 5. Run `BuildOpsRefData`.
-# 6. Run `CreateMultiSourceDataAgent`.
-# 7. Run `JudgeCalibration`.
-# 8. Run `EvaluateDataAgent`.
+# 4. Create the base Data Agent as directed by the lab.
+# 5. Run the lab notebooks in the order specified by the instructions.
 
 # MARKDOWN ********************
 
-# ## Next step
+# ## Optional maintenance
 #
-# Open `DataAgentSetup` and run every cell. Wait for both semantic-model
-# refreshes to complete before continuing with the lab.
+# `RefreshSemanticModel` can bind or rebind the anonymous public Web connection
+# and refresh both semantic models with the latest source data. Skip it when
+# `ManufacturingOps` and `ManufacturingOpsAIReady` already open and query
+# successfully. It does not create or configure a Fabric Data Agent.
