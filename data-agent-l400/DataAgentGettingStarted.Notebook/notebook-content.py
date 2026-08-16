@@ -48,7 +48,7 @@
 
 # ## Prerequisites
 #
-# - Install all Jumpstart items into the same Fabric workspace.
+# - Install all recommended Jumpstart notebook items into the same Fabric workspace.
 # - Use a capacity and tenant with notebooks, semantic models, reports, Data
 #   Agents, Lakehouses, and MLflow available.
 # - Confirm you can create workspace items and Fabric connections.
@@ -58,16 +58,24 @@
 
 # MARKDOWN ********************
 
-# ## Exact installed item inventory
+# ## Notebook-only Jumpstart inventory
 #
-# | Type | Installed item | Purpose |
+# The recommended Jumpstart installation deploys these seven notebook items only:
+#
+# | Installed notebook | Purpose |
+# | --- | --- |
+# | `DataAgentGettingStarted` | Orientation, setup sequence, and navigation |
+# | `InstallWorkshopAssets` | **Required once after installation:** imports both populated workshop PBIX files |
+# | `RefreshSemanticModel` | **Optional maintenance; not required for the lab** |
+# | `BuildOpsRefData` | Builds the `OpsRefData` Lakehouse assets |
+# | `CreateMultiSourceDataAgent` | Adds the Lakehouse source and publishes the multi-source agent |
+# | `JudgeCalibration` | Calibrates and registers the LLM judge |
+# | `EvaluateDataAgent` | Runs the evaluation workflow |
+#
+# `InstallWorkshopAssets` creates or overwrites these populated Power BI items:
+#
+# | Type | Created item | Purpose |
 # | --- | --- | --- |
-# | Notebook | `DataAgentGettingStarted` | Orientation and navigation |
-# | Notebook | `RefreshSemanticModel` | Optional Web connection binding/rebinding and model refresh |
-# | Notebook | `BuildOpsRefData` | Builds the `OpsRefData` Lakehouse assets |
-# | Notebook | `CreateMultiSourceDataAgent` | Adds the Lakehouse source and publishes the multi-source agent |
-# | Notebook | `JudgeCalibration` | Calibrates and registers the LLM judge |
-# | Notebook | `EvaluateDataAgent` | Runs the evaluation workflow |
 # | Semantic model | `ManufacturingOps` | Baseline model |
 # | Semantic model | `ManufacturingOpsAIReady` | AI-ready model |
 # | Report | `ManufacturingOps` | Baseline report |
@@ -79,23 +87,43 @@
 
 # ## Start with the lab instructions
 #
-# **[Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.3-test/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20Labs%20-%20Aug%202026.pdf)**
+# **[Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.5-test/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20Labs%20-%20Aug%202026.pdf)**
 #
-# [Browse the lab-instructions folder](https://github.com/pawarbi/fda-l400/tree/v0.1.3-test/documentation/lab-instructions)
+# [Browse the lab-instructions folder](https://github.com/pawarbi/fda-l400/tree/v0.1.5-test/documentation/lab-instructions)
 #
-# Complete the workshop in this order:
+# The lab instructions remain the primary workshop guide.
+
+# MARKDOWN ********************
+
+# ## Required setup after installation
 #
-# 1. Read `DataAgentGettingStarted`.
-# 2. Open and follow the lab instructions linked above.
-# 3. Compare the `ManufacturingOps` and `ManufacturingOpsAIReady` reports/models.
-# 4. Create the base Data Agent as directed by the lab.
-# 5. Run the lab notebooks in the order specified by the instructions.
+# Complete this exact sequence:
+#
+# 1. Open `DataAgentGettingStarted`.
+# 2. Open and read `documentation/lab-instructions` using the tagged GitHub links
+#    above.
+# 3. In the same workspace, open `InstallWorkshopAssets` and select **Run all**.
+# 4. Wait for the explicit success message confirming both PBIX imports before
+#    opening reports or creating the Data Agent.
+# 5. Continue with the `ManufacturingOps` and `ManufacturingOpsAIReady`
+#    report/model comparison.
+# 6. Create the base Data Agent and continue through the workshop lab notebooks
+#    in the order specified by the lab instructions.
+#
+# `InstallWorkshopAssets` is **required once after installation**. It uses
+# `CreateOrOverwrite`, so it can also replace same-named empty Git-deployed
+# reports and semantic models from an older `v0.1.3-test` installation. The
+# imported PBIX files contain cached data and do not require a refresh for the
+# labs.
 
 # MARKDOWN ********************
 
 # ## Optional maintenance
 #
 # `RefreshSemanticModel` can bind or rebind the anonymous public Web connection
-# and refresh both semantic models with the latest source data. Skip it when
-# `ManufacturingOps` and `ManufacturingOpsAIReady` already open and query
-# successfully. It does not create or configure a Fabric Data Agent.
+# and refresh both semantic models with the latest source data. It is **optional
+# maintenance and is not required for the lab** because `InstallWorkshopAssets`
+# imports populated PBIX files with cached data.
+#
+# Use it only for a future data update or to repair/rebind the Web connection.
+# It does not create or configure a Fabric Data Agent.

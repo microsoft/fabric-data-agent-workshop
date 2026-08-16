@@ -19,12 +19,13 @@
 
 # # RefreshSemanticModel - Fabric Data Agent L400
 #
-# **This notebook is optional.**
+# **Optional maintenance; not required for the lab.**
 #
-# Run it only when you want to bind or rebind the anonymous public Web
-# connection and refresh `ManufacturingOps` and `ManufacturingOpsAIReady` with
-# the latest source data. It is not required to complete the lab when the
-# installed semantic models already open and query successfully.
+# `InstallWorkshopAssets` imports populated PBIX files whose cached data is
+# sufficient for the workshop labs. Run this notebook only for a future data
+# update or when you need to bind, repair, or rebind the anonymous public Web
+# connection before refreshing `ManufacturingOps` and
+# `ManufacturingOpsAIReady`.
 #
 # This notebook does not create or configure a Fabric Data Agent.
 
@@ -39,7 +40,7 @@ CONFIGURE_ANONYMOUS_WEB_CONNECTIONS = True
 REFRESH_SEMANTIC_MODELS = True
 
 SOURCE_REPOSITORY = "pawarbi/fda-l400"
-SOURCE_REPOSITORY_REF = "v0.1.3-test"
+SOURCE_REPOSITORY_REF = "v0.1.5-test"
 SEMANTIC_MODELS = ["ManufacturingOps", "ManufacturingOpsAIReady"]
 EXPECTED_WEB_SOURCE = (
     "https://raw.githubusercontent.com/"
@@ -328,6 +329,6 @@ else:
 #
 # - **Refresh says credentials are missing:** rerun the connection cell above.
 # - **Connection creation returns 404:** confirm the source ref is
-#   `v0.1.3-test` and do not remove `skipTestConnection=True`.
-# - **A notebook cannot find an item:** confirm all Jumpstart items were installed
-#   into the same workspace and retain the item names shown above.
+#   `v0.1.5-test` and do not remove `skipTestConnection=True`.
+# - **A notebook cannot find an item:** confirm all recommended Jumpstart
+#   notebooks were installed into the same workspace and retain their item names.
