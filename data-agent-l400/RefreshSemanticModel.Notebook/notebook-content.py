@@ -19,12 +19,16 @@
 
 # # RefreshSemanticModel - Fabric Data Agent L400
 #
-# **This notebook is optional.**
+# **Required once after a fresh Jumpstart installation.**
 #
-# Run it only when you want to bind or rebind the anonymous public Web
-# connection and refresh `ManufacturingOps` and `ManufacturingOpsAIReady` with
-# the latest source data. It is not required to complete the lab when the
-# installed semantic models already open and query successfully.
+# Jumpstart's Git-based deployment installs the semantic model definitions, but
+# Git does not contain imported VertiPaq data. Run all cells and wait for both
+# refreshes to complete before opening reports or creating the Data Agent. This
+# first run binds or reuses the anonymous public Web connection and hydrates
+# `ManufacturingOps` and `ManufacturingOpsAIReady`.
+#
+# After the first successful refresh, rerunning this notebook is optional and
+# is used only to update source data or repair/rebind the connection.
 #
 # This notebook does not create or configure a Fabric Data Agent.
 
@@ -39,7 +43,7 @@ CONFIGURE_ANONYMOUS_WEB_CONNECTIONS = True
 REFRESH_SEMANTIC_MODELS = True
 
 SOURCE_REPOSITORY = "pawarbi/fda-l400"
-SOURCE_REPOSITORY_REF = "v0.1.3-test"
+SOURCE_REPOSITORY_REF = "v0.1.4-test"
 SEMANTIC_MODELS = ["ManufacturingOps", "ManufacturingOpsAIReady"]
 EXPECTED_WEB_SOURCE = (
     "https://raw.githubusercontent.com/"
@@ -304,8 +308,14 @@ def refresh_semantic_model(model_name):
 
 
 if REFRESH_SEMANTIC_MODELS:
+    refreshed_models = []
     for semantic_model in SEMANTIC_MODELS:
         refresh_semantic_model(semantic_model)
+        refreshed_models.append(semantic_model)
+    print(
+        "Ready: both semantic models completed their refreshes: "
+        + ", ".join(refreshed_models)
+    )
 else:
     print("Semantic model refresh skipped.")
 
@@ -328,6 +338,6 @@ else:
 #
 # - **Refresh says credentials are missing:** rerun the connection cell above.
 # - **Connection creation returns 404:** confirm the source ref is
-#   `v0.1.3-test` and do not remove `skipTestConnection=True`.
+#   `v0.1.4-test` and do not remove `skipTestConnection=True`.
 # - **A notebook cannot find an item:** confirm all Jumpstart items were installed
 #   into the same workspace and retain the item names shown above.

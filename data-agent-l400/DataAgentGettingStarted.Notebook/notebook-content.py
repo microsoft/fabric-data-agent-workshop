@@ -63,7 +63,7 @@
 # | Type | Installed item | Purpose |
 # | --- | --- | --- |
 # | Notebook | `DataAgentGettingStarted` | Orientation and navigation |
-# | Notebook | `RefreshSemanticModel` | Optional Web connection binding/rebinding and model refresh |
+# | Notebook | `RefreshSemanticModel` | Required first-run connection binding and model data refresh; optional thereafter |
 # | Notebook | `BuildOpsRefData` | Builds the `OpsRefData` Lakehouse assets |
 # | Notebook | `CreateMultiSourceDataAgent` | Adds the Lakehouse source and publishes the multi-source agent |
 # | Notebook | `JudgeCalibration` | Calibrates and registers the LLM judge |
@@ -79,23 +79,32 @@
 
 # ## Start with the lab instructions
 #
-# **[Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.3-test/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20Labs%20-%20Aug%202026.pdf)**
+# **[Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.4-test/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20Labs%20-%20Aug%202026.pdf)**
 #
-# [Browse the lab-instructions folder](https://github.com/pawarbi/fda-l400/tree/v0.1.3-test/documentation/lab-instructions)
+# [Browse the lab-instructions folder](https://github.com/pawarbi/fda-l400/tree/v0.1.4-test/documentation/lab-instructions)
 #
 # Complete the workshop in this order:
 #
 # 1. Read `DataAgentGettingStarted`.
 # 2. Open and follow the lab instructions linked above.
-# 3. Compare the `ManufacturingOps` and `ManufacturingOpsAIReady` reports/models.
-# 4. Create the base Data Agent as directed by the lab.
-# 5. Run the lab notebooks in the order specified by the instructions.
+# 3. On a fresh Jumpstart installation, run all cells in `RefreshSemanticModel`
+#    once and wait for both model refreshes to complete.
+# 4. Compare the `ManufacturingOps` and `ManufacturingOpsAIReady` reports/models.
+# 5. Create the base Data Agent as directed by the lab.
+# 6. Run the lab notebooks in the order specified by the instructions.
 
 # MARKDOWN ********************
 
-# ## Optional maintenance
+# ## Fresh installation requirement
 #
-# `RefreshSemanticModel` can bind or rebind the anonymous public Web connection
-# and refresh both semantic models with the latest source data. Skip it when
-# `ManufacturingOps` and `ManufacturingOpsAIReady` already open and query
-# successfully. It does not create or configure a Fabric Data Agent.
+# Before opening or comparing the reports and semantic models, run all cells in
+# `RefreshSemanticModel` once and wait for both refreshes to complete.
+#
+# Jumpstart uses Git-based Fabric/TMDL deployment. Git contains the semantic model
+# definitions, but it does not contain imported VertiPaq data. The required first
+# run binds or reuses the anonymous public Web connection and hydrates both
+# semantic models.
+#
+# After the first successful refresh, rerun `RefreshSemanticModel` only when you
+# want to update source data or repair/rebind the connection. It does not create
+# or configure a Fabric Data Agent.
