@@ -14,7 +14,7 @@ EXPECTED_SOURCE_HEAD = "0efe648"
 LOGICAL_ID = "data-agent-l400"
 REPO_OWNER = "pawarbi"
 REPO_NAME = "fda-l400"
-REPO_REF = "v0.1.5-test"
+REPO_REF = "v0.1.6-test"
 RAW_ROOT = f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{REPO_REF}"
 NAMESPACE = uuid.UUID("6908bc73-6001-475c-8dd5-774509e183bf")
 PBIX_FILES = {
@@ -238,9 +238,11 @@ Complete this exact sequence:
 2. Open and read `documentation/lab-instructions` using the tagged GitHub links
    above.
 3. In the same workspace, open `InstallWorkshopAssets` and select **Run all**.
-4. Wait for the explicit success message confirming both PBIX imports before
-   opening reports or creating the Data Agent.
-5. Continue with the `ManufacturingOps` and `ManufacturingOpsAIReady`
+4. Wait for the explicit success message confirming both PBIX imports and that
+   every returned report and semantic model was moved into the same
+   `data-agent-l400` folder as the notebooks.
+5. Only then continue with the `ManufacturingOps` and
+   `ManufacturingOpsAIReady`
    report/model comparison.
 6. Create the base Data Agent and continue through the workshop lab notebooks
    in the order specified by the lab instructions.
@@ -249,7 +251,8 @@ Complete this exact sequence:
 `CreateOrOverwrite`, so it can also replace same-named empty Git-deployed
 reports and semantic models from an older `v0.1.3-test` installation. The
 imported PBIX files contain cached data and do not require a refresh for the
-labs.""",
+labs. The folder move requires Contributor or higher workspace role and
+delegated `Workspace.ReadWrite.All`.""",
         """## Optional maintenance
 
 `RefreshSemanticModel` can bind or rebind the anonymous public Web connection
@@ -403,11 +406,12 @@ jumpstart._install_from_github(
     workspace_path=".",
     entry_point="DataAgentGettingStarted.Notebook",
     items_in_scope=["Notebook"],
-    workspace_id="<fabric-workspace-id>",
 )
 ```
 
 `_install_from_github` is an underscore API for pre-registration testing.
+`workspace_id` is intentionally omitted so installation targets the current
+Fabric workspace. To target another workspace, pass its actual valid GUID.
 
 ## Registered installation (later)
 
@@ -429,15 +433,22 @@ After installation:
 1. Open `DataAgentGettingStarted`.
 2. Open and read the tagged `documentation/lab-instructions` links.
 3. In the same workspace, open `InstallWorkshopAssets` and select **Run all**.
-4. Wait for explicit success for both PBIX imports before opening reports or
-   creating the Data Agent.
-5. Continue with report/model comparison and the workshop lab notebooks.
+4. Wait for explicit success confirming both PBIX imports and that all returned
+   reports and semantic models were moved into the same `data-agent-l400`
+   folder as the notebooks.
+5. Only then continue with report/model comparison and the workshop lab
+   notebooks.
 
 `InstallWorkshopAssets` is required once. It imports populated PBIX files using
 `CreateOrOverwrite`, including replacement of same-named empty items from an
 older `v0.1.3-test` installation. Cached imported data is immediately available
 for the labs. `RefreshSemanticModel` is optional maintenance and is not required
 for the lab; use it only for a future data update or connection repair/rebinding.
+
+The folder move uses the Fabric Core `bulkMove` API and requires Contributor or
+higher workspace role plus delegated `Workspace.ReadWrite.All`. If moving fails,
+the imports may remain at workspace root; `InstallWorkshopAssets` reports the
+API error and does not print final success.
 
 ## Repository layout
 

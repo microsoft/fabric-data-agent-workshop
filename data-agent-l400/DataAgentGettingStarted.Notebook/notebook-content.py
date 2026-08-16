@@ -87,9 +87,9 @@
 
 # ## Start with the lab instructions
 #
-# **[Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.5-test/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20Labs%20-%20Aug%202026.pdf)**
+# **[Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.6-test/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20Labs%20-%20Aug%202026.pdf)**
 #
-# [Browse the lab-instructions folder](https://github.com/pawarbi/fda-l400/tree/v0.1.5-test/documentation/lab-instructions)
+# [Browse the lab-instructions folder](https://github.com/pawarbi/fda-l400/tree/v0.1.6-test/documentation/lab-instructions)
 #
 # The lab instructions remain the primary workshop guide.
 
@@ -103,9 +103,11 @@
 # 2. Open and read `documentation/lab-instructions` using the tagged GitHub links
 #    above.
 # 3. In the same workspace, open `InstallWorkshopAssets` and select **Run all**.
-# 4. Wait for the explicit success message confirming both PBIX imports before
-#    opening reports or creating the Data Agent.
-# 5. Continue with the `ManufacturingOps` and `ManufacturingOpsAIReady`
+# 4. Wait for the explicit success message confirming both PBIX imports and that
+#    every returned report and semantic model was moved into the same
+#    `data-agent-l400` folder as the notebooks.
+# 5. Only then continue with the `ManufacturingOps` and
+#    `ManufacturingOpsAIReady`
 #    report/model comparison.
 # 6. Create the base Data Agent and continue through the workshop lab notebooks
 #    in the order specified by the lab instructions.
@@ -114,7 +116,8 @@
 # `CreateOrOverwrite`, so it can also replace same-named empty Git-deployed
 # reports and semantic models from an older `v0.1.3-test` installation. The
 # imported PBIX files contain cached data and do not require a refresh for the
-# labs.
+# labs. The folder move requires Contributor or higher workspace role and
+# delegated `Workspace.ReadWrite.All`.
 
 # MARKDOWN ********************
 
