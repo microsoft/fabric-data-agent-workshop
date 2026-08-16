@@ -87,9 +87,9 @@
 
 # ## Start with the lab instructions
 #
-# **[Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.6-test/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20Labs%20-%20Aug%202026.pdf)**
+# **[Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.7-test/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20Labs%20-%20Aug%202026.pdf)**
 #
-# [Browse the lab-instructions folder](https://github.com/pawarbi/fda-l400/tree/v0.1.6-test/documentation/lab-instructions)
+# [Browse the lab-instructions folder](https://github.com/pawarbi/fda-l400/tree/v0.1.7-test/documentation/lab-instructions)
 #
 # The lab instructions remain the primary workshop guide.
 
@@ -103,9 +103,10 @@
 # 2. Open and read `documentation/lab-instructions` using the tagged GitHub links
 #    above.
 # 3. In the same workspace, open `InstallWorkshopAssets` and select **Run all**.
-# 4. Wait for the explicit success message confirming both PBIX imports and that
+# 4. Wait for the explicit success message confirming both PBIX imports, that
 #    every returned report and semantic model was moved into the same
-#    `data-agent-l400` folder as the notebooks.
+#    `data-agent-l400` folder as the notebooks, and that both semantic models
+#    returned exactly two rows for the populated-data DAX validation.
 # 5. Only then continue with the `ManufacturingOps` and
 #    `ManufacturingOpsAIReady`
 #    report/model comparison.
@@ -118,6 +119,22 @@
 # imported PBIX files contain cached data and do not require a refresh for the
 # labs. The folder move requires Contributor or higher workspace role and
 # delegated `Workspace.ReadWrite.All`.
+
+# MARKDOWN ********************
+
+# ## Populated-data acceptance gate
+#
+# After import and folder placement, `InstallWorkshopAssets` runs this exact query
+# against both `ManufacturingOps` and `ManufacturingOpsAIReady`:
+#
+# ```dax
+# EVALUATE
+#     TOPN(2, 'Customers')
+# ```
+#
+# The notebook uses a bounded, logged retry for brief post-import availability
+# delays. Each model must return exactly two rows. A query failure or different
+# row count names the affected model and stops without final success.
 
 # MARKDOWN ********************
 

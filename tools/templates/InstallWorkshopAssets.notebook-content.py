@@ -40,7 +40,7 @@
 
 # ## Step 1 - Review the immutable asset manifest
 #
-# The assets are downloaded from the immutable `v0.1.6-test` tag. SHA-256
+# The assets are downloaded from the immutable `v0.1.7-test` tag. SHA-256
 # validation prevents an incomplete download or Git LFS pointer from being
 # imported.
 
@@ -58,7 +58,7 @@ import requests
 
 
 REPOSITORY = "pawarbi/fda-l400"
-REPOSITORY_REF = "v0.1.6-test"
+REPOSITORY_REF = "v0.1.7-test"
 EXPECTED_FOLDER_NAME = "data-agent-l400"
 RAW_BASE_URL = (
     f"https://raw.githubusercontent.com/{REPOSITORY}/{REPOSITORY_REF}"
@@ -489,8 +489,107 @@ for item in sorted(
     )
 
 print(
-    "\nSUCCESS: Both populated PBIX imports succeeded and every returned "
-    f"report and semantic model is in {folder_name} ({folder_id})."
+    "\nPlacement confirmed: both populated PBIX imports succeeded and every "
+    f"returned report and semantic model is in {folder_name} ({folder_id})."
+)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "jupyter_python"
+# META }
+
+# MARKDOWN ********************
+
+# ## Step 5 - Verify populated data in both semantic models
+#
+# SemPy runs this exact DAX query against `ManufacturingOps` and
+# `ManufacturingOpsAIReady` in the current workspace:
+#
+# ```dax
+# EVALUATE
+#     TOPN(2, 'Customers')
+# ```
+#
+# A bounded retry handles brief post-import model availability delays. Any
+# permanent query failure or result other than exactly two rows stops the
+# notebook without printing final installation success.
+
+# CELL ********************
+
+import sempy.fabric as fabric
+
+
+DAX_QUERY = """EVALUATE
+    TOPN(2, 'Customers')"""
+DAX_VALIDATION_ATTEMPTS = 12
+DAX_RETRY_SECONDS = 10
+SEMANTIC_MODELS = ["ManufacturingOps", "ManufacturingOpsAIReady"]
+
+
+def validate_populated_model(model_name):
+    for attempt in range(1, DAX_VALIDATION_ATTEMPTS + 1):
+        print(
+            f"DAX validation attempt {attempt}/{DAX_VALIDATION_ATTEMPTS}: "
+            f"{model_name}"
+        )
+        try:
+            result = fabric.evaluate_dax(
+                dataset=model_name,
+                dax_string=DAX_QUERY,
+                workspace=workspace_id,
+            )
+        except Exception as exc:
+            if attempt == DAX_VALIDATION_ATTEMPTS:
+                raise RuntimeError(
+                    f"DAX validation failed for {model_name} after "
+                    f"{DAX_VALIDATION_ATTEMPTS} attempts: {exc}"
+                ) from exc
+            print(
+                f"{model_name} is not queryable yet: "
+                f"{type(exc).__name__}: {exc}. "
+                f"Retrying in {DAX_RETRY_SECONDS} seconds."
+            )
+            time.sleep(DAX_RETRY_SECONDS)
+            continue
+
+        row_count = len(result.index)
+        if row_count != 2:
+            raise RuntimeError(
+                f"DAX validation for {model_name} returned {row_count} rows; "
+                "expected exactly 2. The imported model data is not ready or "
+                "does not match the workshop PBIX."
+            )
+        print(f"DAX validation passed: {model_name} returned exactly 2 rows.")
+        return result
+
+    raise RuntimeError(f"DAX validation retry loop ended unexpectedly: {model_name}")
+
+
+dax_validation_results = {}
+for semantic_model in SEMANTIC_MODELS:
+    dax_result = validate_populated_model(semantic_model)
+    dax_validation_results[semantic_model] = dax_result
+    print(f"\n{semantic_model} validation preview:")
+    display(dax_result.head(2))
+
+if set(dax_validation_results) != set(SEMANTIC_MODELS):
+    raise RuntimeError(
+        "DAX validation did not complete for both workshop semantic models."
+    )
+
+print("\nPopulated-data validation summary:")
+for semantic_model in SEMANTIC_MODELS:
+    print(
+        f"- {semantic_model}: "
+        f"{len(dax_validation_results[semantic_model].index)} rows"
+    )
+
+print(
+    "\nSUCCESS: Both populated PBIX imports succeeded, every returned report "
+    f"and semantic model is in {folder_name} ({folder_id}), and both semantic "
+    "models returned exactly 2 rows for the required DAX validation."
 )
 print("The reports and semantic models are ready for the workshop labs.")
 
@@ -523,6 +622,10 @@ print("The reports and semantic models are ready for the workshop labs.")
 # - **Move failure:** both imports may already exist at workspace root. The
 #   notebook surfaces the Fabric API response and does not print final success.
 #   Correct permissions or folder placement, then rerun.
+# - **DAX validation retries:** brief post-import availability errors are logged
+#   and retried for up to two minutes. A permanent SemPy/query failure or any
+#   row count other than exactly two names the affected semantic model and stops
+#   without final success.
 # - **Rerun behavior:** rerunning is safe and imports both PBIX files again.
 #   If a previous run stopped after one import, the next run overwrites that
 #   item and completes the pair.

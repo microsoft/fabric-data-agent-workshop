@@ -1,6 +1,6 @@
 /// Base raw-GitHub URL that holds the workshop CSV files. Change THIS one
 /// value (e.g. to your fork/branch) to re-point every table. No trailing slash.
-expression DataFolder = "https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.6-test/data/mfg-ops-data" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+expression DataFolder = "https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.7-test/data/mfg-ops-data" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
 
 	annotation PBI_ResultType = Text
 

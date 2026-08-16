@@ -14,7 +14,7 @@ EXPECTED_SOURCE_HEAD = "0efe648"
 LOGICAL_ID = "data-agent-l400"
 REPO_OWNER = "pawarbi"
 REPO_NAME = "fda-l400"
-REPO_REF = "v0.1.6-test"
+REPO_REF = "v0.1.7-test"
 RAW_ROOT = f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{REPO_REF}"
 NAMESPACE = uuid.UUID("6908bc73-6001-475c-8dd5-774509e183bf")
 PBIX_FILES = {
@@ -238,9 +238,10 @@ Complete this exact sequence:
 2. Open and read `documentation/lab-instructions` using the tagged GitHub links
    above.
 3. In the same workspace, open `InstallWorkshopAssets` and select **Run all**.
-4. Wait for the explicit success message confirming both PBIX imports and that
+4. Wait for the explicit success message confirming both PBIX imports, that
    every returned report and semantic model was moved into the same
-   `data-agent-l400` folder as the notebooks.
+   `data-agent-l400` folder as the notebooks, and that both semantic models
+   returned exactly two rows for the populated-data DAX validation.
 5. Only then continue with the `ManufacturingOps` and
    `ManufacturingOpsAIReady`
    report/model comparison.
@@ -253,6 +254,19 @@ reports and semantic models from an older `v0.1.3-test` installation. The
 imported PBIX files contain cached data and do not require a refresh for the
 labs. The folder move requires Contributor or higher workspace role and
 delegated `Workspace.ReadWrite.All`.""",
+        """## Populated-data acceptance gate
+
+After import and folder placement, `InstallWorkshopAssets` runs this exact query
+against both `ManufacturingOps` and `ManufacturingOpsAIReady`:
+
+```dax
+EVALUATE
+    TOPN(2, 'Customers')
+```
+
+The notebook uses a bounded, logged retry for brief post-import availability
+delays. Each model must return exactly two rows. A query failure or different
+row count names the affected model and stops without final success.""",
         """## Optional maintenance
 
 `RefreshSemanticModel` can bind or rebind the anonymous public Web connection
@@ -433,9 +447,10 @@ After installation:
 1. Open `DataAgentGettingStarted`.
 2. Open and read the tagged `documentation/lab-instructions` links.
 3. In the same workspace, open `InstallWorkshopAssets` and select **Run all**.
-4. Wait for explicit success confirming both PBIX imports and that all returned
+4. Wait for explicit success confirming both PBIX imports, that all returned
    reports and semantic models were moved into the same `data-agent-l400`
-   folder as the notebooks.
+   folder as the notebooks, and that both semantic models returned exactly two
+   rows for the populated-data DAX validation.
 5. Only then continue with report/model comparison and the workshop lab
    notebooks.
 
@@ -449,6 +464,19 @@ The folder move uses the Fabric Core `bulkMove` API and requires Contributor or
 higher workspace role plus delegated `Workspace.ReadWrite.All`. If moving fails,
 the imports may remain at workspace root; `InstallWorkshopAssets` reports the
 API error and does not print final success.
+
+The final acceptance gate runs this exact DAX query against both
+`ManufacturingOps` and `ManufacturingOpsAIReady`:
+
+```dax
+EVALUATE
+    TOPN(2, 'Customers')
+```
+
+SemPy retries only brief post-import model availability/query failures for a
+bounded period. Each semantic model must return exactly two rows. Permanent
+query failures or unexpected row counts are reported with the model name and
+prevent final success.
 
 ## Repository layout
 

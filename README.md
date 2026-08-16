@@ -10,7 +10,7 @@ import fabric_jumpstart as jumpstart
 jumpstart._install_from_github(
     logical_id="data-agent-l400",
     repo_url="https://github.com/pawarbi/fda-l400",
-    repo_ref="v0.1.6-test",
+    repo_ref="v0.1.7-test",
     workspace_path=".",
     entry_point="DataAgentGettingStarted.Notebook",
     items_in_scope=["Notebook"],
@@ -41,9 +41,10 @@ After installation:
 1. Open `DataAgentGettingStarted`.
 2. Open and read the tagged `documentation/lab-instructions` links.
 3. In the same workspace, open `InstallWorkshopAssets` and select **Run all**.
-4. Wait for explicit success confirming both PBIX imports and that all returned
+4. Wait for explicit success confirming both PBIX imports, that all returned
    reports and semantic models were moved into the same `data-agent-l400`
-   folder as the notebooks.
+   folder as the notebooks, and that both semantic models returned exactly two
+   rows for the populated-data DAX validation.
 5. Only then continue with report/model comparison and the workshop lab
    notebooks.
 
@@ -57,6 +58,19 @@ The folder move uses the Fabric Core `bulkMove` API and requires Contributor or
 higher workspace role plus delegated `Workspace.ReadWrite.All`. If moving fails,
 the imports may remain at workspace root; `InstallWorkshopAssets` reports the
 API error and does not print final success.
+
+The final acceptance gate runs this exact DAX query against both
+`ManufacturingOps` and `ManufacturingOpsAIReady`:
+
+```dax
+EVALUATE
+    TOPN(2, 'Customers')
+```
+
+SemPy retries only brief post-import model availability/query failures for a
+bounded period. Each semantic model must return exactly two rows. Permanent
+query failures or unexpected row counts are reported with the model name and
+prevent final success.
 
 ## Repository layout
 
