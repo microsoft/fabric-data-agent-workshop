@@ -15,7 +15,7 @@ EXPECTED_SOURCE_HEAD = "0efe648"
 LOGICAL_ID = "data-agent-l400"
 REPO_OWNER = "pawarbi"
 REPO_NAME = "fda-l400"
-WORKSHOP_VERSION = "v0.1.8-test"
+WORKSHOP_VERSION = "v1.0.0"
 RAW_ROOT = (
     f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{WORKSHOP_VERSION}"
 )

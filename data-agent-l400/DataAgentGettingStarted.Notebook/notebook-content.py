@@ -87,9 +87,9 @@
 
 # ## Start with the lab instructions
 #
-# **[Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.8-test/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20L400.pdf)**
+# **[Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/pawarbi/fda-l400/v1.0.0/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20L400.pdf)**
 #
-# [Browse the lab-instructions folder](https://github.com/pawarbi/fda-l400/tree/v0.1.8-test/documentation/lab-instructions)
+# [Browse the lab-instructions folder](https://github.com/pawarbi/fda-l400/tree/v1.0.0/documentation/lab-instructions)
 #
 # The lab instructions remain the primary workshop guide.
 

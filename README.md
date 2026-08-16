@@ -8,7 +8,7 @@ import fabric_jumpstart as jumpstart
 jumpstart._install_from_github(
     logical_id="data-agent-l400",
     repo_url="https://github.com/pawarbi/fda-l400",
-    repo_ref="v0.1.8-test",
+    repo_ref="v1.0.0",
     workspace_path="data-agent-l400",
     entry_point="DataAgentGettingStarted.Notebook",
     items_in_scope=["Notebook"],
@@ -25,7 +25,7 @@ After installation:
 
 1. Open `DataAgentGettingStarted`.
 2. Open the immutable workshop-version PDF:
-   [Fabric Data Agent Workshop L400](https://raw.githubusercontent.com/pawarbi/fda-l400/v0.1.8-test/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20L400.pdf).
+   [Fabric Data Agent Workshop L400](https://raw.githubusercontent.com/pawarbi/fda-l400/v1.0.0/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20L400.pdf).
 3. In the same workspace, open `InstallWorkshopAssets` and select **Run all**.
 4. Wait for explicit success confirming both PBIX imports, that all returned
    reports and semantic models were moved into the same `data-agent-l400`

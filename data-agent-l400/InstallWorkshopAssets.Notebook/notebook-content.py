@@ -57,7 +57,7 @@ import requests
 
 
 REPOSITORY = "pawarbi/fda-l400"
-REPOSITORY_REF = "v0.1.8-test"
+REPOSITORY_REF = "v1.0.0"
 EXPECTED_FOLDER_NAME = "data-agent-l400"
 RAW_BASE_URL = (
     f"https://raw.githubusercontent.com/{REPOSITORY}/{REPOSITORY_REF}"
