@@ -611,7 +611,8 @@ data agents in a Fabric notebook. Our goals for this lab:
 
 ### LLM-as-Judge calibration
 
-1. Open or download the judge calibration set Excel workbook for review.
+1. Open or download the [judge calibration set Excel workbook](https://github.com/pawarbi/data-agent-L400-workshop/blob/main/eval/judge_calibration_labeling.xlsx)
+   for review.
 
 2. Review its two sheets:
 
@@ -646,8 +647,9 @@ only work in Fabric notebook.
 > will fail. Run the **JudgeCalibration** and **EvaluateDataAgent** evaluation
 > notebooks inside Fabric.
 
-1. Download or review `eval_set_L400_test.xlsx`. It contains three test
-   questions and the following fields:
+1. Download or review
+   [`eval_set_L400_test.xlsx`](https://github.com/pawarbi/data-agent-L400-workshop/blob/main/eval/eval_set_L400_test.xlsx).
+   It contains three test questions and the following fields:
 
    - Goal of evaluation
    - Question
