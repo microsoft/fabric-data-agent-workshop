@@ -1,16 +1,5 @@
 # Fabric Data Agent L400 Jumpstart
 
-## Fabric Data Agent resources
-
-| Resource | Description |
-| --- | --- |
-| [Instructions Please](https://pawarbi.github.io/instructions-please/) | Interactive game for learning where Fabric Data Agent instructions belong. |
-| [Data Agent Inspector](https://data-agent-inspector.streamlit.app/) | Inspect and understand Fabric data agent behavior. |
-| [Fabric Data Agent Hub](https://fabricdatagent.com/) | Central hub for Fabric data agent resources. |
-| [RANCH](https://data-agent-ranch.streamlit.app/) | Migrate implementations from the Assistants API to the Responses API. |
-| [HALO](https://github.com/pawarbi/data-agent-halo) | Fabric data agent tooling and resources. |
-| [AXIS](https://pawarbi-axis-fabric-data-agent.hf.space/) | Fabric data agent experience hosted on Hugging Face Spaces. |
-
 ## Install from GitHub
 
 ```python
@@ -83,3 +72,15 @@ prevent final success.
 
 The semantic model/report Git folders remain for reference, but the recommended
 `items_in_scope=["Notebook"]` install does not deploy them.
+
+## Fabric Data Agent resources
+
+| Resource | Description |
+| --- | --- |
+| [Semantic model best practices](https://learn.microsoft.com/en-us/fabric/data-science/data-agent-configuration-best-practices) | Microsoft guidance for configuring semantic models for Fabric data agents. |
+| [Instructions Please](https://pawarbi.github.io/instructions-please/) | Interactive game for learning where Fabric Data Agent instructions belong. |
+| [Data Agent Inspector](https://data-agent-inspector.streamlit.app/) | Inspect and understand Fabric data agent behavior. |
+| [Fabric Data Agent Hub](https://fabricdatagent.com/) | Central hub for Fabric data agent resources. |
+| [RANCH](https://data-agent-ranch.streamlit.app/) | Migrate implementations from the Assistants API to the Responses API. |
+| [HALO](https://github.com/pawarbi/data-agent-halo) | Fabric data agent tooling and resources. |
+| [AXIS](https://pawarbi-axis-fabric-data-agent.hf.space/) | Fabric data agent experience hosted on Hugging Face Spaces. |
