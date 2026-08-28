@@ -1,0 +1,91 @@
+table ProductionLog
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Timestamp
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: Timestamp
+
+	column Year
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: Year
+
+	column line_name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: line_name
+
+	column DeviceID
+		dataType: string
+		summarizeBy: none
+		sourceColumn: DeviceID
+
+	column product_name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: product_name
+
+	column Shift
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Shift
+
+	column Planned
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Planned
+
+	column Qty
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Qty
+
+	column Good
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Good
+
+	column Scrap
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Scrap
+
+	column Runtime
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Runtime
+
+	column Down
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Down
+
+	partition ProductionLog = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath="ProductionLog.csv"]),[Delimiter=",", Columns=13, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Date", type date}, {"Timestamp", type datetime}, {"Year", Int64.Type}, {"line_name", type text}, {"DeviceID", type text}, {"product_name", type text}, {"Shift", type text}, {"Planned", Int64.Type}, {"Qty", Int64.Type}, {"Good", Int64.Type}, {"Scrap", Int64.Type}, {"Runtime", Int64.Type}, {"Down", Int64.Type}}),
+				    #"Filtered AsOf" = Table.SelectRows(#"Changed Type", each [Date] <= (if AsOfDate = null or Text.Trim(AsOfDate) = "" then Date.From(DateTimeZone.FixedLocalNow()) else Date.FromText(Text.Trim(AsOfDate))))
+				in
+				    #"Filtered AsOf"
+
+	annotation PBI_ResultType = Table
+

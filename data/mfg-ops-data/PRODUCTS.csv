@@ -1,0 +1,21 @@
+ID,Code,Name,Cat,SubCat,Price,Cost
+1,PMP-100,AquaFlow 100 Centrifugal Pump,Pumps,Centrifugal,4200.0,2600.0
+2,PMP-200,AquaFlow 200 Centrifugal Pump,Pumps,Centrifugal,5600.0,3400.0
+3,PMP-350,AquaFlow 350 Submersible Pump,Pumps,Submersible,7800.0,4900.0
+4,PMP-500,AquaFlow 500 Booster Pump,Pumps,Booster,9200.0,5800.0
+5,TRB-1000,HelioGen 1000 Gas Turbine,Turbines,Gas,142000.0,96000.0
+6,TRB-2000,HelioGen 2000 Gas Turbine,Turbines,Gas,198000.0,131000.0
+7,TRB-3000,HelioGen 3000 Steam Turbine,Turbines,Steam,256000.0,171000.0
+8,VLV-10,FlowGuard 10 Control Valve,Valves,Control,1800.0,1050.0
+9,VLV-25,FlowGuard 25 Control Valve,Valves,Control,2400.0,1450.0
+10,VLV-50,FlowGuard 50 Safety Valve,Valves,Safety,3100.0,1900.0
+11,MTR-15,TorqueMax 15 Induction Motor,Motors,Induction,2200.0,1300.0
+12,MTR-30,TorqueMax 30 Induction Motor,Motors,Induction,3600.0,2150.0
+13,MTR-60,TorqueMax 60 Servo Motor,Motors,Servo,5400.0,3300.0
+14,SNS-TMP,SenseLine Temperature Sensor,Sensors,Temperature,320.0,150.0
+15,SNS-PRS,SenseLine Pressure Sensor,Sensors,Pressure,410.0,190.0
+16,SNS-VIB,SenseLine Vibration Sensor,Sensors,Vibration,560.0,270.0
+17,SPR-SEAL,Pump Seal Kit,Spare Parts,Seals,95.0,48.0
+18,SPR-BRG,Turbine Bearing Set,Spare Parts,Bearings,640.0,360.0
+19,SPR-IMP,Pump Impeller,Spare Parts,Impellers,280.0,150.0
+20,SPR-BLD,Turbine Blade Set,Spare Parts,Blades,4100.0,2500.0

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "CreateMultiSourceDataAgent",
+    "description": ""
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "e9ef976d-716f-5de0-9a7a-b1f19d458f77"
+  }
+}

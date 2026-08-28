@@ -1,0 +1,11 @@
+/// Base raw-GitHub URL that holds the workshop CSV files. Change THIS one
+/// value (e.g. to your fork/branch) to re-point every table. No trailing slash.
+expression DataFolder = "https://raw.githubusercontent.com/microsoft/fabric-data-agent-workshop/v1.0.3/data/mfg-ops-data" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+
+	annotation PBI_ResultType = Text
+
+/// Snapshot cutoff. Leave EMPTY to roll to today on every refresh; set a fixed
+/// date like 2027-03-15 to pin the model to that day.
+expression AsOfDate = null meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=false]
+
+	annotation PBI_ResultType = Null

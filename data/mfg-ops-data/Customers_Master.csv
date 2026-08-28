@@ -1,0 +1,47 @@
+ID,custName,segment,Region,country
+1,Rhine Industries,Utility,US-West,United States
+2,Delta Petrochem,Utility,EU-West,France
+3,Rhine Water Works,Water Treatment,APAC,Australia
+4,Vertex Industries,Mining,APAC,Australia
+5,Nordic Mining,Water Treatment,US-West,United States
+6,Nordic Manufacturing,Water Treatment,US-West,United States
+7,Crown Mining,Oil & Gas,EU-West,France
+8,Granite Water Works,Manufacturing,APAC,Australia
+9,Iberia Resources,Utility,APAC,Australia
+10,Pioneer Refining,Manufacturing,EU-West,France
+11,Nordic Energy,Utility,APAC,Australia
+12,Apex Manufacturing,Mining,EU-West,France
+13,Titan Mining,Oil & Gas,US-East,United States
+14,Rhine Resources,Utility,APAC,Australia
+15,Nordic Water Works,Utility,EU-West,Germany
+16,Beacon Resources,Oil & Gas,EU-West,France
+17,Beacon Manufacturing,Oil & Gas,US-East,United States
+18,Apex Water Works,Mining,APAC,Australia
+19,Cascade Mining,Oil & Gas,EU-West,Germany
+20,Titan Industries,Utility,EU-West,Germany
+21,Pacific Power Co,Manufacturing,US-East,United States
+22,Pioneer Power Co,Manufacturing,APAC,Australia
+23,Liberty Refining,Water Treatment,EU-West,Germany
+24,Atlas Mining,Utility,US-West,United States
+25,Orion Resources,Manufacturing,EU-West,Germany
+26,Meridian Water Works,Oil & Gas,EU-West,Germany
+27,Crown Industries,Manufacturing,US-East,United States
+28,Vertex Utilities,Manufacturing,APAC,Australia
+29,Cascade Power Co,Manufacturing,EU-West,Germany
+30,Orion Manufacturing,Oil & Gas,APAC,Australia
+31,Summit Power Co,Manufacturing,EU-West,Germany
+32,Granite Energy,Manufacturing,APAC,Australia
+33,Liberty Energy,Water Treatment,EU-West,Germany
+34,Meridian Energy,Utility,US-West,United States
+35,Granite Industries,Oil & Gas,US-West,United States
+36,Crown Resources,Water Treatment,APAC,Australia
+37,Atlas Energy,Oil & Gas,EU-West,France
+38,Crown Refining,Mining,EU-West,France
+39,Meridian Mining,Mining,US-West,United States
+40,Summit Industries,Utility,US-East,United States
+41,Iberia Manufacturing,Utility,US-West,United States
+42,Delta Manufacturing,Utility,EU-West,Germany
+43,Vertex Mining,Mining,APAC,Australia
+44,Iberia Water Works,Mining,US-West,United States
+45,Meridian Petrochem,Manufacturing,EU-West,France
+46,AquaFlow Industries,Water Treatment,US-West,United States

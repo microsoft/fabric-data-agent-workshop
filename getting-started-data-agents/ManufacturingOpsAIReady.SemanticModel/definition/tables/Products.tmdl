@@ -1,0 +1,67 @@
+/// Finished-goods catalog; one row per product (SKU) we make and sell. Holds name, code, category, list price and standard cost. The things we sell, not equipment we run.
+table Products
+
+	/// Surrogate product key (integer); internal. Use Name for product questions.
+	column ID
+		dataType: int64
+		isHidden
+		isUnique
+		isKey
+		isNullable: false
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: ID
+
+		changedProperty = IsHidden
+
+	/// Product SKU code, e.g. 'PMP-200' (prefix=family, number=model). Use when a user gives a code, not the readable name.
+	column Code
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Code
+
+	/// Product (model) we make and sell. Form: brand + model# + type, e.g. 'HelioGen 1000 Gas Turbine'. Use for products made, produced or sold. Not equipment. Partial-text match.
+	column 'Product Name'
+		dataType: string
+		isUnique
+		summarizeBy: none
+		sourceColumn: Name
+
+	/// Broad product family, e.g. 'Pumps','Turbines'. Use to group or filter products by category. Partial-text match.
+	column Category
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Cat
+
+	/// Product sub-category, e.g. 'Centrifugal','Submersible'. Finer than Category. Partial-text match.
+	column Subcategory
+		dataType: string
+		summarizeBy: none
+		sourceColumn: SubCat
+
+	/// List selling price per unit (currency); standard sell price. Compare with Cost for margin.
+	column Price
+		dataType: double
+		formatString: 0.00
+		summarizeBy: sum
+		sourceColumn: Price
+
+	/// Standard cost per unit (currency) to make or buy the product. Compare with Price for margin.
+	column Cost
+		dataType: double
+		formatString: 0.00
+		summarizeBy: sum
+		sourceColumn: Cost
+
+	partition Products = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath="PRODUCTS.csv"]),[Delimiter=",", Columns=7, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ID", Int64.Type}, {"Code", type text}, {"Name", type text}, {"Cat", type text}, {"SubCat", type text}, {"Price", type number}, {"Cost", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

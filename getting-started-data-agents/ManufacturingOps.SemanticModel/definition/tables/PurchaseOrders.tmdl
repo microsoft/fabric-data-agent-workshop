@@ -1,0 +1,74 @@
+table PurchaseOrders
+
+	column PO_Number
+		dataType: int64
+		formatString: 0
+		summarizeBy: count
+		sourceColumn: PO_Number
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column VendorName
+		dataType: string
+		summarizeBy: none
+		sourceColumn: VendorName
+
+	column Plant
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Plant
+
+	column Qty
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Qty
+
+	column UnitCost
+		dataType: double
+		formatString: 0.00
+		summarizeBy: average
+		sourceColumn: UnitCost
+
+	column Amount
+		dataType: double
+		formatString: 0.00
+		summarizeBy: sum
+		sourceColumn: Amount
+
+	column PromisedDays
+		dataType: int64
+		formatString: 0
+		summarizeBy: average
+		sourceColumn: PromisedDays
+
+	column ActualDays
+		dataType: int64
+		formatString: 0
+		summarizeBy: average
+		sourceColumn: ActualDays
+
+	column OnTime
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: OnTime
+
+	partition PurchaseOrders = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath="PO_Data.csv"]),[Delimiter=",", Columns=10, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"PO_Number", Int64.Type}, {"Date", type date}, {"VendorName", type text}, {"Plant", type text}, {"Qty", Int64.Type}, {"UnitCost", type number}, {"Amount", type number}, {"PromisedDays", Int64.Type}, {"ActualDays", Int64.Type}, {"OnTime", type logical}}),
+				    #"Filtered AsOf" = Table.SelectRows(#"Changed Type", each [Date] <= (if AsOfDate = null or Text.Trim(AsOfDate) = "" then Date.From(DateTimeZone.FixedLocalNow()) else Date.FromText(Text.Trim(AsOfDate))))
+				in
+				    #"Filtered AsOf"
+
+	annotation PBI_ResultType = Table
+

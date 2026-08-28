@@ -1,0 +1,93 @@
+/// Purchasing fact: PO lines for goods we buy from suppliers. One row per PO line. Use for spend, quantities, supplier lead time and on-time-delivery. Buying, not selling.
+table PurchaseOrders
+
+	/// Purchase order number (integer id). Count distinct for number of purchase orders.
+	column PO_Number
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: PO_Number
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Date the purchase order was placed (day grain). Use for purchasing trends; relate to Date.
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// Supplier we buy from on this PO; matches Vendors[Vendor Name]. Use to break purchasing down by supplier. Partial-text match.
+	column 'Vendor Name'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: VendorName
+
+	/// Plant receiving the purchase, e.g. 'Riverside Plant'; matches Plants[Plant Name]. Partial-text match.
+	column Plant
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Plant
+
+	/// Units ordered on the PO line. Sum for purchased volume.
+	column Qty
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Qty
+
+	/// Purchase price per unit (currency) paid to the supplier.
+	column UnitCost
+		dataType: double
+		formatString: 0.00
+		summarizeBy: sum
+		sourceColumn: UnitCost
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Total line value = Qty x UnitCost (currency). PO spend; sum for total purchasing spend.
+	column Amount
+		dataType: double
+		formatString: 0.00
+		summarizeBy: sum
+		sourceColumn: Amount
+
+	/// Lead time the supplier promised, in days. Compare with ActualDays for delivery performance.
+	column PromisedDays
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: PromisedDays
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Actual delivery lead time in days. Greater than PromisedDays means the order was late.
+	column ActualDays
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: ActualDays
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Boolean; true if delivered within the promised lead time. Use for supplier on-time-delivery rate.
+	column OnTime
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: OnTime
+
+	partition PurchaseOrders = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath="PO_Data.csv"]),[Delimiter=",", Columns=10, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"PO_Number", Int64.Type}, {"Date", type date}, {"VendorName", type text}, {"Plant", type text}, {"Qty", Int64.Type}, {"UnitCost", type number}, {"Amount", type number}, {"PromisedDays", Int64.Type}, {"ActualDays", Int64.Type}, {"OnTime", type logical}}),
+				    #"Filtered AsOf" = Table.SelectRows(#"Changed Type", each [Date] <= (if AsOfDate = null or Text.Trim(AsOfDate) = "" then Date.From(DateTimeZone.FixedLocalNow()) else Date.FromText(Text.Trim(AsOfDate))))
+				in
+				    #"Filtered AsOf"
+
+	annotation PBI_ResultType = Table
+

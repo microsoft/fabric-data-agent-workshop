@@ -1,0 +1,501 @@
+Date,custName,Amount
+2024-06-01,Nordic Mining,2128.0
+2024-06-01,Nordic Mining,1425.0
+2024-06-01,Nordic Mining,32400.0
+2024-06-01,Nordic Mining,4480.0
+2024-06-01,Meridian Petrochem,71820.0
+2024-06-01,Meridian Petrochem,15300.0
+2024-06-01,Granite Water Works,48000.0
+2024-06-01,Granite Water Works,119340.0
+2024-06-01,Beacon Manufacturing,64260.0
+2024-06-01,Beacon Manufacturing,4032.0
+2024-06-01,Beacon Manufacturing,13680.0
+2024-06-01,Crown Industries,26520.0
+2024-06-01,Crown Industries,33320.0
+2024-06-01,Crown Industries,28600.0
+2024-06-01,Crown Industries,8400.0
+2024-06-01,Cascade Power Co,4674.0
+2024-06-01,Summit Power Co,39900.0
+2024-06-01,Crown Resources,1049.75
+2024-06-01,Crown Resources,139230.0
+2024-06-01,Crown Resources,46500.0
+2024-06-01,Vertex Mining,22000.0
+2024-06-01,Vertex Mining,7840.0
+2024-06-01,Delta Manufacturing,44000.0
+2024-06-01,Titan Industries,42160.0
+2024-06-01,Titan Industries,29700.0
+2024-06-01,Titan Industries,4100.0
+2024-06-01,Rhine Resources,46500.0
+2024-06-01,Cascade Power Co,8370.0
+2024-06-01,Iberia Manufacturing,24300.0
+2024-06-01,Iberia Manufacturing,94300.0
+2024-06-01,Granite Energy,51300.0
+2024-06-01,Granite Energy,2050.0
+2024-06-01,Granite Energy,46200.0
+2024-06-01,Granite Energy,13680.0
+2024-06-01,Pioneer Refining,192280.0
+2024-06-01,Iberia Water Works,17820.0
+2024-06-01,Iberia Water Works,8960.0
+2024-06-01,Iberia Water Works,1900.0
+2024-06-01,Iberia Water Works,33600.0
+2024-06-01,Iberia Resources,62000.0
+2024-06-01,Orion Manufacturing,40300.0
+2024-06-01,Orion Manufacturing,32640.0
+2024-06-01,Orion Manufacturing,23940.0
+2024-06-01,Orion Manufacturing,2200.0
+2024-06-01,Vertex Utilities,4522.0
+2024-06-01,Delta Petrochem,125970.0
+2024-06-01,Delta Petrochem,665.0
+2024-06-01,Delta Petrochem,5940.0
+2024-06-01,Delta Petrochem,19950.0
+2024-06-01,Orion Manufacturing,6160.0
+2024-06-01,Orion Manufacturing,960.0
+2024-06-01,Meridian Petrochem,84000.0
+2024-06-01,Meridian Petrochem,127680.0
+2024-06-01,Meridian Petrochem,1520.0
+2024-06-01,Meridian Petrochem,41800.0
+2024-06-01,Meridian Petrochem,147420.0
+2024-06-01,Meridian Petrochem,35640.0
+2024-06-01,Delta Manufacturing,64800.0
+2024-06-01,Delta Manufacturing,4510.0
+2024-06-01,Crown Mining,67200.0
+2024-06-01,Crown Mining,8610.0
+2024-06-01,Summit Industries,8064.0
+2024-06-01,Apex Water Works,109480.0
+2024-06-01,Apex Water Works,179860.0
+2024-06-01,Rhine Industries,5400.0
+2024-06-01,Crown Industries,2583.0
+2024-06-01,Crown Industries,475.0
+2024-06-01,Crown Industries,2736.0
+2024-06-01,Atlas Energy,60690.0
+2024-06-01,Nordic Water Works,12600.0
+2024-06-01,Nordic Water Works,3690.0
+2024-06-01,Nordic Water Works,6840.0
+2024-06-01,Nordic Water Works,37200.0
+2024-06-01,Crown Industries,72000.0
+2024-06-01,Crown Mining,22400.0
+2024-06-01,Crown Mining,1520.0
+2024-06-01,Crown Mining,156000.0
+2024-06-01,Crown Mining,14720.0
+2024-06-01,Orion Manufacturing,1680.0
+2024-06-01,Atlas Mining,1920.0
+2024-06-01,Atlas Mining,8610.0
+2024-06-01,Atlas Mining,3960000.0
+2024-06-01,Atlas Mining,30240.0
+2024-06-01,Crown Mining,13440.0
+2024-06-01,Crown Mining,4560.0
+2024-06-01,Summit Industries,16800.0
+2024-06-01,Summit Industries,14400.0
+2024-06-01,Pioneer Refining,95.0
+2024-06-01,Delta Petrochem,75600.0
+2024-06-01,Nordic Manufacturing,72000.0
+2024-06-01,Nordic Manufacturing,2090.0
+2024-06-01,Nordic Manufacturing,1845.0
+2024-06-01,Summit Industries,7040.0
+2024-06-01,Summit Industries,5320.0
+2024-06-01,Summit Power Co,174800.0
+2024-06-01,Summit Power Co,952.0
+2024-06-01,Summit Power Co,1292.0
+2024-06-01,Atlas Mining,15120.0
+2024-06-01,Crown Mining,2128.0
+2024-06-01,Granite Water Works,53550.0
+2024-06-01,Granite Water Works,266.0
+2024-06-01,Granite Water Works,38285.0
+2024-06-01,Granite Water Works,129600.0
+2024-06-01,Crown Resources,8200.0
+2024-06-01,Crown Resources,57600.0
+2024-06-01,Crown Resources,4896.0
+2024-06-01,Crown Resources,5760.0
+2024-06-01,Pacific Power Co,8320.0
+2024-06-01,Pacific Power Co,1600.0
+2024-06-01,Pacific Power Co,5880.0
+2024-06-01,Meridian Mining,75600.0
+2024-06-01,Meridian Mining,44175.0
+2024-06-01,Delta Manufacturing,14820.0
+2024-06-01,Delta Manufacturing,52800.0
+2024-06-01,Delta Manufacturing,16400.0
+2024-06-01,Pioneer Refining,4480.0
+2024-06-01,Pioneer Refining,1904.0
+2024-06-01,Meridian Energy,50600.0
+2024-06-01,Meridian Energy,1624.5
+2024-06-01,Meridian Energy,85690.0
+2024-06-01,Meridian Energy,6970.0
+2024-06-01,Meridian Water Works,6600.0
+2024-06-01,Meridian Water Works,1960200.0
+2024-06-01,Vertex Industries,855.0
+2024-06-01,Liberty Energy,29070.0
+2024-06-01,Liberty Energy,16400.0
+2024-06-01,Liberty Energy,7680.0
+2024-06-01,Liberty Energy,1330.0
+2024-06-01,Pioneer Refining,41850.0
+2024-06-01,Pioneer Refining,1008.0
+2024-06-01,Pioneer Refining,123200.0
+2024-06-01,Nordic Mining,19040.0
+2024-06-01,Nordic Mining,1230.0
+2024-06-01,Delta Manufacturing,2048000.0
+2024-06-01,Delta Manufacturing,19800.0
+2024-06-01,Meridian Petrochem,70680.0
+2024-06-01,Meridian Petrochem,7790.0
+2024-06-01,Meridian Petrochem,13200.0
+2024-06-01,Vertex Industries,30600.0
+2024-06-01,Vertex Industries,19950.0
+2024-06-01,Vertex Industries,45540.0
+2024-06-01,Vertex Industries,22230.0
+2024-06-01,Apex Water Works,61600.0
+2024-06-01,Apex Water Works,75600.0
+2024-06-01,Titan Industries,4180.0
+2024-06-01,Titan Industries,1680.0
+2024-06-01,Delta Manufacturing,1045.5
+2024-06-01,Delta Manufacturing,53460.0
+2024-06-01,Delta Manufacturing,2788.0
+2024-06-01,Delta Manufacturing,4256.0
+2024-06-01,Granite Energy,37240.0
+2024-06-01,Granite Energy,6150.0
+2024-06-01,Summit Industries,3600.0
+2024-06-01,Summit Industries,14080.0
+2024-06-01,Summit Industries,2023500.0
+2024-06-01,Delta Manufacturing,1282.5
+2024-06-01,Delta Manufacturing,2870.0
+2024-06-01,Delta Manufacturing,5600.0
+2024-06-01,Delta Manufacturing,18900.0
+2024-06-01,Beacon Resources,7140.0
+2024-06-01,Granite Industries,3200.0
+2024-06-01,Beacon Resources,1453.5
+2024-06-01,Beacon Resources,8064.0
+2024-06-01,Orion Manufacturing,75810.0
+2024-06-01,Orion Manufacturing,4800.0
+2024-06-01,Orion Manufacturing,10472.0
+2024-06-01,Meridian Petrochem,43890.0
+2024-06-01,Meridian Petrochem,156400.0
+2024-06-01,Meridian Petrochem,1904.0
+2024-06-01,Nordic Water Works,3192.0
+2024-06-01,Nordic Water Works,4674.0
+2024-06-02,Nordic Energy,24840.0
+2024-06-02,Nordic Energy,1995.0
+2024-06-02,Liberty Energy,6600.0
+2024-06-02,Liberty Energy,50065.0
+2024-06-02,Meridian Petrochem,108000.0
+2024-06-02,Meridian Petrochem,1805.0
+2024-06-02,Meridian Petrochem,21600.0
+2024-06-02,Meridian Petrochem,4560.0
+2024-06-02,Meridian Mining,13056.0
+2024-06-02,Crown Resources,34100.0
+2024-06-02,Meridian Mining,34200.0
+2024-06-02,Titan Mining,29160.0
+2024-06-02,Titan Mining,2400.0
+2024-06-02,Titan Mining,5440.0
+2024-06-02,Titan Mining,14400.0
+2024-06-02,Liberty Refining,27000.0
+2024-06-02,Liberty Refining,32400.0
+2024-06-02,Liberty Refining,79800.0
+2024-06-02,Liberty Refining,3168.0
+2024-06-02,Vertex Industries,969.0
+2024-06-02,Meridian Energy,2185.0
+2024-06-02,Meridian Energy,91260.0
+2024-06-02,Meridian Energy,36000.0
+2024-06-02,Meridian Energy,10260.0
+2024-06-02,Iberia Resources,13090.0
+2024-06-02,Iberia Resources,2050.0
+2024-06-02,Iberia Resources,32400.0
+2024-06-02,Iberia Resources,1615.0
+2024-06-02,Vertex Mining,2176.0
+2024-06-02,Atlas Energy,55350.0
+2024-06-02,Atlas Energy,27540.0
+2024-06-02,Atlas Energy,55800.0
+2024-06-02,Meridian Petrochem,2050.0
+2024-06-02,Meridian Petrochem,22000.0
+2024-06-02,Meridian Petrochem,5168.0
+2024-06-02,Meridian Petrochem,12096.0
+2024-06-02,Liberty Energy,726.75
+2024-06-02,Liberty Energy,1710.0
+2024-06-02,Liberty Energy,101400.0
+2024-06-02,Liberty Energy,9600.0
+2024-06-02,Crown Resources,9348.0
+2024-06-02,Crown Resources,3240.0
+2024-06-02,Crown Resources,3040.0
+2024-06-02,Crown Resources,123200.0
+2024-06-02,Orion Manufacturing,16800.0
+2024-06-02,Iberia Resources,30240.0
+2024-06-02,Iberia Resources,37800.0
+2024-06-02,Apex Manufacturing,7040.0
+2024-06-02,Summit Industries,722.0
+2024-06-02,Summit Industries,2016.0
+2024-06-02,Summit Industries,79380.0
+2024-06-02,Crown Refining,5760.0
+2024-06-02,Nordic Water Works,722.0
+2024-06-02,Nordic Water Works,1512.0
+2024-06-02,Crown Resources,1938.0
+2024-06-02,Pacific Power Co,5472.0
+2024-06-02,Pacific Power Co,15120.0
+2024-06-02,Pacific Power Co,6384.0
+2024-06-02,Apex Manufacturing,16800.0
+2024-06-02,Iberia Manufacturing,1280.0
+2024-06-02,Iberia Manufacturing,172040.0
+2024-06-02,Cascade Mining,9600.0
+2024-06-02,Cascade Mining,67200.0
+2024-06-02,Liberty Energy,4530.5
+2024-06-02,Liberty Energy,1360.0
+2024-06-02,Cascade Power Co,1615.0
+2024-06-02,Beacon Resources,19950.0
+2024-06-02,Nordic Mining,35190.0
+2024-06-02,Titan Mining,26400.0
+2024-06-02,Titan Mining,369.0
+2024-06-02,Summit Industries,912.0
+2024-06-02,Summit Industries,70380.0
+2024-06-02,Nordic Energy,5880.0
+2024-06-02,Nordic Energy,20520.0
+2024-06-02,Nordic Energy,41040.0
+2024-06-02,Nordic Energy,3321.0
+2024-06-02,Orion Resources,3456.0
+2024-06-02,Crown Industries,55200.0
+2024-06-02,Crown Industries,74400.0
+2024-06-02,Crown Industries,32130.0
+2024-06-02,Crown Industries,665.0
+2024-06-02,Titan Mining,1620.0
+2024-06-02,Liberty Refining,1140.0
+2024-06-02,Liberty Refining,7360.0
+2024-06-02,Nordic Mining,49600.0
+2024-06-02,Nordic Mining,73185.0
+2024-06-02,Nordic Mining,117600.0
+2024-06-02,Nordic Mining,34200.0
+2024-06-02,Orion Manufacturing,779.0
+2024-06-02,Orion Manufacturing,39600.0
+2024-06-02,Orion Manufacturing,6600.0
+2024-06-02,Summit Power Co,177840.0
+2024-06-02,Summit Power Co,1230.0
+2024-06-02,Summit Power Co,71400.0
+2024-06-02,Summit Power Co,3648.0
+2024-06-02,Crown Resources,112000.0
+2024-06-02,Pacific Power Co,70560.0
+2024-06-02,Pacific Power Co,17600.0
+2024-06-02,Pacific Power Co,1520.0
+2024-06-02,Atlas Mining,8800.0
+2024-06-02,Atlas Mining,380.0
+2024-06-02,Atlas Mining,33600.0
+2024-06-02,Atlas Mining,46920.0
+2024-06-02,Pacific Power Co,21600.0
+2024-06-02,Pacific Power Co,124800.0
+2024-06-02,Pacific Power Co,2870.0
+2024-06-02,Pacific Power Co,1960.0
+2024-06-02,Pioneer Refining,2800.0
+2024-06-02,Pioneer Refining,570.0
+2024-06-02,Delta Petrochem,5040.0
+2024-06-02,Delta Petrochem,1425.0
+2024-06-02,Summit Power Co,4864.0
+2024-06-02,Summit Power Co,30240.0
+2024-06-02,Meridian Mining,6336.0
+2024-06-02,Meridian Mining,4510.0
+2024-06-02,Meridian Water Works,45600.0
+2024-06-02,Granite Industries,22320.0
+2024-06-02,Granite Industries,9840.0
+2024-06-02,Granite Industries,4480.0
+2024-06-02,Titan Mining,3740.0
+2024-06-02,Titan Mining,128800.0
+2024-06-02,Titan Mining,80.75
+2024-06-02,Cascade Power Co,126360.0
+2024-06-02,Cascade Power Co,66960.0
+2024-06-02,Cascade Power Co,32400.0
+2024-06-02,Cascade Power Co,8400.0
+2024-06-02,Cascade Power Co,41040.0
+2024-06-02,Titan Mining,190.0
+2024-06-02,Delta Manufacturing,27000.0
+2024-06-02,Cascade Mining,1805.0
+2024-06-02,Cascade Mining,8400.0
+2024-06-02,Cascade Mining,820.0
+2024-06-02,Beacon Resources,10336.0
+2024-06-02,Beacon Resources,3200.0
+2024-06-02,Beacon Resources,5740.0
+2024-06-02,Beacon Resources,33120.0
+2024-06-02,Pioneer Refining,1520.0
+2024-06-02,Liberty Refining,94300.0
+2024-06-02,Liberty Refining,5984.0
+2024-06-02,Liberty Refining,18900.0
+2024-06-02,Liberty Refining,19200.0
+2024-06-02,Apex Water Works,4788.0
+2024-06-02,Apex Water Works,3520.0
+2024-06-02,Apex Water Works,55800.0
+2024-06-02,Apex Water Works,21600.0
+2024-06-03,Vertex Industries,1260.0
+2024-06-03,Vertex Industries,20160.0
+2024-06-03,Vertex Industries,41040.0
+2024-06-03,Orion Resources,68200.0
+2024-06-03,Orion Resources,61560.0
+2024-06-03,Orion Resources,33600.0
+2024-06-03,Apex Manufacturing,21060.0
+2024-06-03,Beacon Manufacturing,1280.0
+2024-06-03,Beacon Manufacturing,112710.0
+2024-06-03,Beacon Manufacturing,1805.0
+2024-06-03,Beacon Manufacturing,92000.0
+2024-06-03,Delta Petrochem,91770.0
+2024-06-03,Delta Petrochem,46500.0
+2024-06-03,Delta Petrochem,8550.0
+2024-06-03,Delta Petrochem,2870.0
+2024-06-03,Delta Petrochem,11220.0
+2024-06-03,Liberty Energy,7790.0
+2024-06-03,Titan Industries,19200.0
+2024-06-03,Titan Industries,36000.0
+2024-06-03,Nordic Water Works,27600.0
+2024-06-03,Nordic Water Works,11200.0
+2024-06-03,Nordic Water Works,66215.0
+2024-06-03,Pioneer Refining,79800.0
+2024-06-03,Pioneer Refining,52440.0
+2024-06-03,Pioneer Refining,6664.0
+2024-06-03,Pioneer Refining,1615.0
+2024-06-03,Delta Manufacturing,697.0
+2024-06-03,Delta Manufacturing,952.0
+2024-06-03,Summit Industries,18360.0
+2024-06-03,Summit Industries,1534.25
+2024-06-03,Summit Industries,2840000.0
+2024-06-03,Granite Water Works,10944.0
+2024-06-03,Granite Water Works,756.0
+2024-06-03,Granite Water Works,85680.0
+2024-06-03,Granite Water Works,24000.0
+2024-06-03,Rhine Water Works,29450.0
+2024-06-03,Summit Industries,14280.0
+2024-06-03,Summit Industries,2439.5
+2024-06-03,Summit Industries,4480.0
+2024-06-03,Crown Industries,22230.0
+2024-06-03,Crown Industries,43560.0
+2024-06-03,Crown Industries,1045.0
+2024-06-03,Delta Manufacturing,1938.0
+2024-06-03,Delta Manufacturing,7980.0
+2024-06-03,Crown Refining,75600.0
+2024-06-03,Crown Refining,47430.0
+2024-06-03,Crown Refining,5168.0
+2024-06-03,Crown Refining,39000.0
+2024-06-03,Meridian Petrochem,190.0
+2024-06-03,Meridian Petrochem,960.0
+2024-06-03,Meridian Petrochem,5760.0
+2024-06-03,Meridian Petrochem,21600.0
+2024-06-03,Meridian Petrochem,7200.0
+2024-06-03,Meridian Petrochem,8400.0
+2024-06-03,Apex Manufacturing,138000.0
+2024-06-03,Apex Manufacturing,53300.0
+2024-06-03,Nordic Energy,3895.0
+2024-06-03,Iberia Water Works,3808.0
+2024-06-03,Iberia Water Works,43200.0
+2024-06-03,Iberia Water Works,124800.0
+2024-06-03,Orion Manufacturing,7200.0
+2024-06-03,Orion Manufacturing,513.0
+2024-06-03,Orion Manufacturing,31200.0
+2024-06-03,Iberia Manufacturing,13440.0
+2024-06-03,Apex Water Works,20520.0
+2024-06-03,Titan Industries,7790.0
+2024-06-03,Titan Industries,10368.0
+2024-06-03,Titan Industries,19440.0
+2024-06-03,Titan Industries,4352.0
+2024-06-03,Iberia Water Works,1800.0
+2024-06-03,Crown Mining,140400.0
+2024-06-03,Crown Mining,43010.0
+2024-06-03,Crown Mining,71400.0
+2024-06-03,Crown Mining,72800.0
+2024-06-03,Iberia Resources,36800.0
+2024-06-03,Iberia Resources,3920.0
+2024-06-03,Iberia Resources,1666.0
+2024-06-03,Orion Resources,560.0
+2024-06-03,Orion Resources,83640.0
+2024-06-03,Orion Resources,69160.0
+2024-06-03,Beacon Resources,565.25
+2024-06-03,Beacon Resources,18450.0
+2024-06-03,Beacon Resources,10640.0
+2024-06-03,Beacon Resources,5760.0
+2024-06-03,Granite Industries,40300.0
+2024-06-03,Granite Industries,43890.0
+2024-06-03,Granite Industries,4160.0
+2024-06-03,Atlas Energy,36270.0
+2024-06-03,Atlas Energy,52800.0
+2024-06-03,Iberia Resources,16800.0
+2024-06-03,Iberia Resources,4480.0
+2024-06-03,Iberia Resources,10336.0
+2024-06-03,Iberia Resources,125970.0
+2024-06-03,Nordic Mining,20520.0
+2024-06-03,Nordic Mining,184000.0
+2024-06-03,Apex Manufacturing,451.25
+2024-06-03,Apex Manufacturing,1988000.0
+2024-06-03,Apex Water Works,3690.0
+2024-06-03,Apex Water Works,22990.0
+2024-06-03,Apex Water Works,40320.0
+2024-06-03,Apex Water Works,6200.0
+2024-06-03,Delta Manufacturing,28985.0
+2024-06-03,Atlas Mining,102600.0
+2024-06-03,Atlas Mining,4536.0
+2024-06-03,Summit Power Co,41800.0
+2024-06-03,Summit Power Co,7040.0
+2024-06-03,Summit Power Co,68400.0
+2024-06-03,Summit Power Co,46000.0
+2024-06-03,Meridian Petrochem,2052.0
+2024-06-03,Meridian Petrochem,36720.0
+2024-06-03,Meridian Petrochem,70380.0
+2024-06-03,Meridian Petrochem,410.0
+2024-06-03,Vertex Utilities,1120.0
+2024-06-03,Vertex Utilities,106400.0
+2024-06-03,Pacific Power Co,9300.0
+2024-06-03,Pacific Power Co,7040.0
+2024-06-03,Pacific Power Co,2200.0
+2024-06-03,Liberty Energy,9900.0
+2024-06-03,Liberty Energy,112000.0
+2024-06-03,Liberty Energy,950.0
+2024-06-03,Titan Industries,3094.0
+2024-06-03,Iberia Resources,5984.0
+2024-06-03,Iberia Resources,56160.0
+2024-06-03,Titan Mining,30240.0
+2024-06-03,Titan Mining,11780.0
+2024-06-03,Nordic Water Works,5040.0
+2024-06-03,Meridian Energy,56000.0
+2024-06-03,Meridian Energy,24000.0
+2024-06-03,Rhine Water Works,99450.0
+2024-06-03,Rhine Water Works,64260.0
+2024-06-03,Rhine Water Works,631.75
+2024-06-03,Rhine Water Works,58900.0
+2024-06-03,Titan Industries,28560.0
+2024-06-03,Titan Industries,3600.0
+2024-06-03,Orion Resources,220800.0
+2024-06-03,Orion Resources,8118.0
+2024-06-03,Orion Resources,79800.0
+2024-06-03,Orion Resources,57600.0
+2024-06-03,Liberty Energy,18360.0
+2024-06-03,Liberty Energy,156400.0
+2024-06-03,Liberty Energy,5040.0
+2024-06-03,Summit Power Co,82110.0
+2024-06-03,Meridian Water Works,14720.0
+2024-06-03,Meridian Water Works,36720.0
+2024-06-03,Granite Water Works,18000.0
+2024-06-03,Granite Water Works,15360.0
+2024-06-03,Granite Water Works,9044.0
+2024-06-03,Pioneer Power Co,110400.0
+2024-06-03,Beacon Resources,41140.0
+2024-06-03,Vertex Utilities,21420.0
+2024-06-03,Rhine Water Works,43010.0
+2024-06-03,Rhine Water Works,1558.0
+2024-06-03,Rhine Water Works,25200.0
+2024-06-03,Rhine Water Works,1710.0
+2024-06-03,Cascade Mining,43200.0
+2024-06-03,Cascade Mining,90440.0
+2024-06-03,Titan Mining,1330.0
+2024-06-03,Titan Mining,31200.0
+2024-06-03,Titan Mining,70110.0
+2024-06-03,Cascade Mining,50400.0
+2024-06-03,Cascade Mining,6048.0
+2024-06-03,Cascade Mining,122360.0
+2024-06-03,Apex Water Works,190.0
+2024-06-03,Apex Water Works,8800.0
+2024-06-03,Apex Water Works,3600.0
+2024-06-03,Apex Water Works,6150.0
+2024-06-03,Nordic Manufacturing,6336.0
+2024-06-03,Nordic Manufacturing,27360.0
+2024-06-03,Nordic Manufacturing,101400.0
+2024-06-03,Rhine Water Works,45600.0
+2024-06-03,Cascade Mining,5600.0
+2024-06-03,Cascade Mining,6273.0
+2024-06-03,Cascade Mining,30600.0
+2024-06-03,Nordic Energy,52700.0
+2024-06-03,Delta Manufacturing,72800.0
+2024-06-03,Delta Manufacturing,71820.0
+2024-06-03,Delta Manufacturing,4100.0
+2024-06-03,Delta Manufacturing,80.75
+2024-06-03,Orion Resources,242.25
+2024-06-03,Orion Resources,47430.0
+2024-06-03,Orion Resources,68040.0
+2024-06-03,Orion Resources,81510.0
+2024-06-03,Granite Industries,49200.0
+2024-06-03,Granite Industries,74520.0

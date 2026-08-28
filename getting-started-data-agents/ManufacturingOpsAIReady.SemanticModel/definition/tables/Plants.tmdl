@@ -1,0 +1,57 @@
+/// Plant (factory) master; one row per plant. Each plant belongs to a region. Use for plant-level attributes - city, country, region - and to group facts by plant.
+table Plants
+
+	/// Surrogate plant key (integer); joins to facts/dims on PlantID. Use Name for plant questions.
+	column ID
+		dataType: int64
+		isHidden
+		isUnique
+		isKey
+		isNullable: false
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: ID
+
+	/// Plant/factory name, e.g. 'Riverside Plant'. Use for plant-level questions and grouping facts by plant. Partial-text match.
+	column 'Plant Name'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Name
+
+	/// Plant region code, e.g. 'US-East','EU-West'. Use to group or filter plants by region. Partial-text match.
+	column Region
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Region
+
+	/// Plant country, full name, e.g. 'United States'. Use to group or filter plants by country. Partial-text match.
+	column Country
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Country
+
+	/// City where the plant is located, e.g. 'Richmond'. Partial-text match.
+	column City
+		dataType: string
+		summarizeBy: none
+		sourceColumn: City
+
+	/// Year the plant was established. Use for plant-age questions.
+	column Year
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: Year
+
+	partition Plants = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath="Plants.csv"]),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ID", Int64.Type}, {"Name", type text}, {"Region", type text}, {"Country", type text}, {"City", type text}, {"Year", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

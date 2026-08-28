@@ -1,0 +1,108 @@
+/// Production fact; one row per run at line-shift-day grain. Holds planned, produced, good and scrap units plus runtime and downtime minutes. Use for output, yield, scrap and OEE questions.
+table ProductionLog
+
+	/// Calendar date of the production run (day grain). Relate to Date for time intelligence.
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// Exact datetime of the production record. Use Date for day-grain; this adds intra-day detail.
+	column Timestamp
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: Timestamp
+
+	/// Calendar year of the production record. Quick year filter; or relate to Date.
+	column Year
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Production line name; matches Lines[line_name]. Use for which-line questions. Partial-text match.
+	column line_name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: line_name
+
+	/// Equipment/device id running the production; joins to Assets. Internal.
+	column DeviceID
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: DeviceID
+
+	/// Product made on this line/shift; matches Products[Product Name], e.g. 'HelioGen 1000 Gas Turbine'. Use to find which line or shift produces a product. Partial-text match.
+	column product_name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: product_name
+
+	/// Work shift; small fixed set: 'Day' (first), 'Swing' (second/afternoon), 'Night' (third). Use to group production by shift.
+	column Shift
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Shift
+
+	/// Planned/scheduled production quantity for the run. Denominator for schedule attainment.
+	column Planned
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Planned
+
+	/// Actual produced quantity (good + scrap). Prefer the [Production Qty] measure.
+	column Qty
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Qty
+
+	/// Good (non-scrap) units produced. Prefer the [Good Units] measure.
+	column Good
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Good
+
+	/// Scrapped/failed units. Prefer the [Scrap Units] measure.
+	column Scrap
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Scrap
+
+	/// Machine runtime in minutes. Prefer the [Runtime Minutes] measure.
+	column Runtime
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Runtime
+
+	/// Downtime in minutes for the record. Prefer the [Downtime Minutes] measure for analysis.
+	column Down
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Down
+
+	partition ProductionLog = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath="ProductionLog.csv"]),[Delimiter=",", Columns=13, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Date", type date}, {"Timestamp", type datetime}, {"Year", Int64.Type}, {"line_name", type text}, {"DeviceID", type text}, {"product_name", type text}, {"Shift", type text}, {"Planned", Int64.Type}, {"Qty", Int64.Type}, {"Good", Int64.Type}, {"Scrap", Int64.Type}, {"Runtime", Int64.Type}, {"Down", Int64.Type}}),
+				    #"Filtered AsOf" = Table.SelectRows(#"Changed Type", each [Date] <= (if AsOfDate = null or Text.Trim(AsOfDate) = "" then Date.From(DateTimeZone.FixedLocalNow()) else Date.FromText(Text.Trim(AsOfDate))))
+				in
+				    #"Filtered AsOf"
+
+	annotation PBI_ResultType = Table
+

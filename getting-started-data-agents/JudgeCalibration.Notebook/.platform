@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "JudgeCalibration",
+    "description": ""
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "bfa43158-8bca-52e5-b7e4-51a7aa11c339"
+  }
+}

@@ -1,0 +1,113 @@
+/// Sales fact: order lines for products we sell to customers. One row per order line. Use for revenue, quantity, discount, cost and profit by customer, product, region and time.
+table Sales
+
+	/// Sales order number (integer). One order can span several lines; count distinct for number of orders.
+	column OrderNo
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: OrderNo
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Date the order was placed (day grain). Use for sales trends; relate to Date.
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// Calendar year of the order. Quick year filter; or relate to Date.
+	column Year
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Customer we sold to on this line; matches Customers[Customer Name]. Use to break sales down by customer. Partial-text match.
+	column 'Customer Name'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: custName
+
+	/// Sales region of the order, e.g. 'US-West','APAC'. Use to break sales down by region. Partial-text match.
+	column region
+		dataType: string
+		summarizeBy: none
+		sourceColumn: region
+
+	/// Product sold on this line; matches Products[Product Name]. Use to break sales down by product. Partial-text match.
+	column Prod
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Prod
+
+	/// Product category sold, e.g. 'Sensors','Pumps'. Use to group sales by category. Partial-text match.
+	column Category
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Cat
+
+	/// Units sold on the line. Sum for sales volume.
+	column Qty
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Qty
+
+	/// Unit selling price (currency, USD) before discount.
+	column Price
+		dataType: double
+		formatString: 0.00
+		summarizeBy: sum
+		sourceColumn: Price
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Discount rate as a fraction 0-1, e.g. 0.05 = 5%, applied to the line. Use for discount analysis.
+	column 'Discount %'
+		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
+		summarizeBy: sum
+		sourceColumn: Disc
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Net sales revenue for the line after discount (currency, USD). Sum for total revenue/sales.
+	column Amount
+		dataType: double
+		formatString: 0.00
+		summarizeBy: sum
+		sourceColumn: Amount
+
+	/// Cost of goods sold for the line (currency). Subtract from Amount for profit.
+	column Cost
+		dataType: double
+		formatString: 0.00
+		summarizeBy: sum
+		sourceColumn: Cost
+
+	/// Line profit = Amount - Cost (currency, USD). Sum for total profit.
+	column Profit
+		dataType: double
+		formatString: 0.00
+		summarizeBy: sum
+		sourceColumn: Profit
+
+	partition Sales = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath="sales_data_FINAL.csv"]),[Delimiter=",", Columns=13, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"OrderNo", Int64.Type}, {"Date", type date}, {"Year", Int64.Type}, {"custName", type text}, {"region", type text}, {"Prod", type text}, {"Cat", type text}, {"Qty", Int64.Type}, {"Price", type number}, {"Disc", type number}, {"Amount", type number}, {"Cost", type number}, {"Profit", type number}}),
+				    #"Filtered AsOf" = Table.SelectRows(#"Changed Type", each [Date] <= (if AsOfDate = null or Text.Trim(AsOfDate) = "" then Date.From(DateTimeZone.FixedLocalNow()) else Date.FromText(Text.Trim(AsOfDate))))
+				in
+				    #"Filtered AsOf"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "SetupDataAgentJumpstart",
+    "description": ""
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "a9b27441-0219-5e79-af75-d87aca4cf68d"
+  }
+}

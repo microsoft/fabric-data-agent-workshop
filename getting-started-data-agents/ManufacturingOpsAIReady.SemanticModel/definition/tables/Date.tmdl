@@ -1,0 +1,128 @@
+/// Calendar table at day grain spanning all facts. Relate facts by date; use for any time filter, trend or time-intelligence (year, quarter, month, week).
+table Date
+
+	/// Latest Date based on the last Production Log date. Always use this date for relative date calculations.
+	measure 'Latest Date' = max(ProductionLog[Date])
+		formatString: General Date
+
+	/// Today's date, may not be same as Latest Date.
+	measure 'Todays Date' = TODAY()
+		formatString: General Date
+
+	measure 'Latest Month Number' = MONTH([Latest Date])
+		formatString: 0
+
+	/// Calendar date at day grain; key of the date dimension. Relate facts by date; use for any time filter, trend or time-intelligence.
+	column Date
+		dataType: dateTime
+		isUnique
+		isKey
+		isNullable: false
+		formatString: Short Date
+		summarizeBy: none
+		sourceColumn: [Date]
+
+	/// Calendar year, e.g. 2024. Use for year filters and year-over-year analysis.
+	column Year
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Calendar quarter label, e.g. 'Q1'. Use to group or filter by quarter.
+	column Quarter
+		dataType: string
+		summarizeBy: none
+		sourceColumn: [Quarter]
+
+	/// Quarter sort number 1-4. Sort helper for Quarter.
+	column 'Quarter Number'
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: [Quarter Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Month sort number 1-12. Sort helper for Month Name.
+	column 'Month Number'
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: [Month Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Month name, e.g. 'January'. Use to group or display by month.
+	column 'Month Name'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: [Month Name]
+
+	/// Year-month label, e.g. '2024-06'. Use for monthly trends sorted chronologically.
+	column 'Year Month'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: [Year Month]
+
+	/// Week-of-year number 1-53. Use for weekly grouping.
+	column 'Week Number'
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: [Week Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Day-of-week sort number (1=Mon..7=Sun). Sort helper for Day of Week.
+	column 'Day of Week Number'
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: [Day of Week Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Day-of-week name, e.g. 'Monday'. Use to group or filter by weekday.
+	column 'Day of Week'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: [Day of Week]
+
+	/// Boolean; true if the date is Saturday or Sunday. Use to compare weekend vs weekday.
+	column 'Is Weekend'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		summarizeBy: none
+		sourceColumn: [Is Weekend]
+
+	partition Date = calculated
+		mode: import
+		source =
+				VAR __Dates =
+				    UNION(
+				        SELECTCOLUMNS(Sales, "Date", Sales[Date]),
+				        SELECTCOLUMNS(Inventory, "Date", Inventory[Date]),
+				        SELECTCOLUMNS(PurchaseOrders, "Date", PurchaseOrders[Date]),
+				        SELECTCOLUMNS(ProductionLog, "Date", ProductionLog[Date]),
+				        SELECTCOLUMNS(SalesSummary, "Date", SalesSummary[Date])
+				    )
+				VAR __MinDate = MINX(__Dates, [Date])
+				VAR __MaxDate = MAXX(__Dates, [Date])
+				RETURN
+				    ADDCOLUMNS(
+				        CALENDAR(__MinDate, __MaxDate),
+				        "Year", YEAR([Date]),
+				        "Quarter", "Q" & FORMAT([Date], "Q"),
+				        "Quarter Number", QUARTER([Date]),
+				        "Month Number", MONTH([Date]),
+				        "Month Name", FORMAT([Date], "MMMM"),
+				        "Year Month", FORMAT([Date], "yyyy-MM"),
+				        "Week Number", WEEKNUM([Date], 2),
+				        "Day of Week Number", WEEKDAY([Date], 2),
+				        "Day of Week", FORMAT([Date], "dddd"),
+				        "Is Weekend", WEEKDAY([Date], 2) > 5
+				    )
+

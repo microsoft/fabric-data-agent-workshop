@@ -1,0 +1,43 @@
+table Customers
+
+	column ID
+		dataType: int64
+		isUnique
+		isKey
+		isNullable: false
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: ID
+
+	column custName
+		dataType: string
+		summarizeBy: none
+		sourceColumn: custName
+
+	column segment
+		dataType: string
+		summarizeBy: none
+		sourceColumn: segment
+
+	column Region
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Region
+
+	column country
+		dataType: string
+		summarizeBy: none
+		sourceColumn: country
+
+	partition Customers = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath="Customers_Master.csv"]),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ID", Int64.Type}, {"custName", type text}, {"segment", type text}, {"Region", type text}, {"country", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,38 @@
+/// Intentional teaching sample of customer sales data. This table is incomplete and contains duplicate customer-date rows, so it must not be used for revenue totals or reporting. Use the Sales table for all sales and revenue analysis. Use SalesSummary only for demonstrating data-quality and grain-validation issues.
+table SalesSummary
+
+	/// Day of the summarized sales (day grain). Relate to Date for trends.
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// Customer the summarized sales belong to; matches Customers[Customer Name]. Partial-text match.
+	column 'Customer Name'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: custName
+
+	/// Sample sales amount from an incomplete, duplicate-prone dataset. Do not aggregate for revenue totals; use Sales[Amount] or the Total Sales measure instead.
+	column Amount
+		dataType: double
+		formatString: 0.00
+		summarizeBy: sum
+		sourceColumn: Amount
+
+	partition SalesSummary = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath="Sheet1.csv"]),[Delimiter=",", Columns=3, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Date", type date}, {"custName", type text}, {"Amount", type number}}),
+				    #"Filtered AsOf" = Table.SelectRows(#"Changed Type", each [Date] <= (if AsOfDate = null or Text.Trim(AsOfDate) = "" then Date.From(DateTimeZone.FixedLocalNow()) else Date.FromText(Text.Trim(AsOfDate))))
+				in
+				    #"Filtered AsOf"
+
+	annotation PBI_ResultType = Table
+

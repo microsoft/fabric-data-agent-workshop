@@ -1,0 +1,51 @@
+table Inventory
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Product
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Product
+
+	column Plant
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Plant
+
+	column Qty
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Qty
+
+	column Reorder
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: Reorder
+
+	column InTransit
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: InTransit
+
+	partition Inventory = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath="inventory.csv"]),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Date", type date}, {"Product", type text}, {"Plant", type text}, {"Qty", Int64.Type}, {"Reorder", Int64.Type}, {"InTransit", Int64.Type}}),
+				    #"Filtered AsOf" = Table.SelectRows(#"Changed Type", each [Date] <= (if AsOfDate = null or Text.Trim(AsOfDate) = "" then Date.From(DateTimeZone.FixedLocalNow()) else Date.FromText(Text.Trim(AsOfDate))))
+				in
+				    #"Filtered AsOf"
+
+	annotation PBI_ResultType = Table
+

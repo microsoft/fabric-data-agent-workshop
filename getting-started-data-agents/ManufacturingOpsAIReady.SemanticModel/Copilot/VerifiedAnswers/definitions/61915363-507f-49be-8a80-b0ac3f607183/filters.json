@@ -1,0 +1,1 @@
+{"filters":[{"name":"01dc24a3591e05aa18a6","displayName":"Year","field":{"Column":{"Expression":{"SourceRef":{"Entity":"Date"}},"Property":"Year"}},"type":"Categorical","howCreated":"User","isHiddenInViewMode":false,"isLockedInViewMode":true}],"$schema":"https://developer.microsoft.com/json-schemas/fabric/item/report/definition/filterConfiguration/1.3.0/schema.json"}
