@@ -590,10 +590,14 @@ else:
 # CELL ********************
 
 import asyncio
+import time
 from concurrent.futures import ThreadPoolExecutor
 
 from mcp import ClientSession
 from mcp.client.streamable_http import streamablehttp_client
+
+print("Waiting 5 seconds for the MCP endpoint to become ready.")
+time.sleep(5)
 
 data_agent_id = fabric.get_item(MULTI_SOURCE_AGENT_NAME)["Id"].max()
 mcp_url = (
