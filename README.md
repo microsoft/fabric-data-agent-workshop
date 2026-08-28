@@ -8,7 +8,7 @@ import fabric_jumpstart as jumpstart
 jumpstart._install_from_github(
     logical_id="getting-started-data-agents",
     repo_url="https://github.com/pawarbi/fda-l400",
-    repo_ref="review-getting-started-data-agents",
+    repo_ref="v1.0.2",
     workspace_path="getting-started-data-agents",
     entry_point="SetupDataAgentJumpstart.Notebook",
     items_in_scope=["Notebook"],

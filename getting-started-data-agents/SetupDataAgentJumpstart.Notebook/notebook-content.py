@@ -81,7 +81,7 @@
 
 # PARAMETERS
 REPOSITORY = "pawarbi/fda-l400"
-REPOSITORY_REF = "review-getting-started-data-agents"
+REPOSITORY_REF = "v1.0.2"
 EXPECTED_FOLDER_NAME = "getting-started-data-agents"
 IMPORT_TIMEOUT_MINUTES = 10
 POLL_INTERVAL_SECONDS = 5

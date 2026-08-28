@@ -17,7 +17,7 @@ JUMPSTART_NAME = "Getting Started with Data Agents"
 LEGACY_WORKSPACE_PATHS = ("data-agent-l400",)
 REPO_OWNER = "pawarbi"
 REPO_NAME = "fda-l400"
-WORKSHOP_VERSION = "review-getting-started-data-agents"
+WORKSHOP_VERSION = "v1.0.2"
 RAW_ROOT = (
     f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{WORKSHOP_VERSION}"
 )

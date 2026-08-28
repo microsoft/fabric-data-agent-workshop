@@ -96,7 +96,7 @@ REPEATS = 1  # Use 3 for more stable results in production evaluation scenarios.
 JUDGE_REGISTRY_EXPERIMENT = "mfg-ops-judge-registry"
 
 EVAL_LH_NAME = "mfgops_da_eval"
-DATA_SOURCE_REF = "review-getting-started-data-agents"  # Replace with the release tag before publication.
+DATA_SOURCE_REF = "v1.0.2"  # Use an immutable release tag or commit for reproducible runs.
 CALIBRATION_XLSX_URL = (
     "https://raw.githubusercontent.com/pawarbi/fda-l400/"
     f"{DATA_SOURCE_REF}/eval/judge_calibration_labeling.xlsx"
