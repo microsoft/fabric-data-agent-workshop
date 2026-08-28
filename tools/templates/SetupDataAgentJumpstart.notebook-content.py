@@ -21,33 +21,61 @@
 #
 # **Required first step after installation**
 #
-# The Jumpstart deploys notebooks through `fabric-cicd`, but the populated
-# semantic models and reports are distributed as PBIX assets and require a
-# post-deployment import. This parameterized Python notebook completes that
-# setup. Review the parameters below, then select **Run all**.
+# This Jumpstart teaches you how to create, optimize, govern, extend, and
+# evaluate Microsoft Fabric Data Agents. You will compare a baseline semantic
+# model with an AI-ready model, build Data Agents over one and multiple data
+# sources, and measure response quality with repeatable evaluations.
 #
-# This notebook:
+# **Run this notebook now without changing any values:** select **Run all** and
+# wait for the final success message. This one-time setup:
 #
 # 1. Downloads and validates the two immutable PBIX assets.
 # 2. Imports the baseline and AI-ready semantic models and reports.
 # 3. Moves the imported items into this Jumpstart's workspace folder.
 # 4. Runs a populated-data DAX validation against both semantic models.
 #
-# Wait for the final success message before comparing the reports or creating
-# a Data Agent. Rerunning is safe because imports use `CreateOrOverwrite`.
+# Do not continue to the labs until setup succeeds. Rerunning is safe because
+# imports use `CreateOrOverwrite`.
 #
-# ## Learning objectives
-#
-# After setup, you will compare baseline and AI-ready semantic models, create
-# and govern a Data Agent, add a Lakehouse source, and evaluate agent quality
-# with calibrated LLM judging and MLflow.
+# **Workshop instructions:** [Open the lab instructions on
+# GitHub](https://github.com/pawarbi/fda-l400/tree/main/documentation/lab-instructions).
+# This link will move to the Microsoft repository when the Jumpstart source is
+# transferred.
 
 # MARKDOWN ********************
 
-# ## Step 1 - Review setup parameters
+# ## Workshop map
 #
-# The tested defaults target the immutable Jumpstart release. Change these
-# values only when validating another repository or immutable release.
+# ```text
+# SetupDataAgentJumpstart
+#     -> ManufacturingOps model + report
+#     -> ManufacturingOpsAIReady model + report
+#     |
+#     +-> Lab 1: create and optimize Data Agents
+#     |
+#     +-> Lab 2: calibrate and run evaluations
+#     |
+#     +-> Lab 3: add OpsRefData and publish a multi-source Data Agent
+# ```
+#
+# | Lab | What you will do | Items needed at the start | Items created or used |
+# | --- | --- | --- | --- |
+# | **Setup - Prepare the workspace** | Run this notebook once to import, organize, and validate the populated workshop assets. | `SetupDataAgentJumpstart` | `ManufacturingOps` semantic model and report; `ManufacturingOpsAIReady` semantic model and report |
+# | **Lab 1 - Create and optimize Data Agents** | Create a first Data Agent, inspect generated DAX and responses, compare the baseline and AI-ready models, configure Prep data for AI and agent instructions, compare runtimes, and use Code Interpreter. | Both imported semantic models and reports | A baseline Data Agent and an optimized AI-ready Data Agent that you create in the Fabric portal |
+# | **Lab 2 - Evaluate Data Agents** | Calibrate an LLM-as-Judge, run a fixed evaluation set through the Data Agent SDK, and inspect accuracy, reasoning, latency, and MLflow results. | Your optimized AI-ready Data Agent from Lab 1; `JudgeCalibration`; `EvaluateDataAgent` | An evaluation Lakehouse, an MLflow experiment, a registered champion judge, and evaluation runs |
+# | **Lab 3 - Add multiple data sources** | Build a Lakehouse reference source, add it to a copied agent configuration with the Python SDK, publish the multi-source agent, and refine it with Build agent with AI. | Your AI-ready Data Agent from Lab 1; `BuildOpsRefData`; `CreateMultiSourceDataAgent` | `OpsRefData` Lakehouse and SQL endpoint; a new Data Agent whose name ends in `_MultiSource` |
+#
+# `RefreshSemanticModel` is optional maintenance. It is not required for the
+# initial workshop because the imported PBIX files already contain populated
+# cached data.
+
+# MARKDOWN ********************
+
+# ## Step 1 - Run setup without changes
+#
+# The parameter cell below contains the tested source and timeout values for
+# this Jumpstart build. **Do not edit them for the workshop.** Maintainers use
+# these parameters only when validating another source repository or release.
 
 # CELL ********************
 
