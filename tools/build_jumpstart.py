@@ -12,10 +12,12 @@ from pathlib import Path
 
 
 EXPECTED_SOURCE_HEAD = "0efe648"
-LOGICAL_ID = "data-agent-l400"
+LOGICAL_ID = "getting-started-data-agents"
+JUMPSTART_NAME = "Getting Started with Data Agents"
+LEGACY_WORKSPACE_PATHS = ("data-agent-l400",)
 REPO_OWNER = "pawarbi"
 REPO_NAME = "fda-l400"
-WORKSHOP_VERSION = "v1.0.1"
+WORKSHOP_VERSION = "review-getting-started-data-agents"
 RAW_ROOT = (
     f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{WORKSHOP_VERSION}"
 )
@@ -57,8 +59,7 @@ NOTEBOOKS = {
 }
 GENERATED_WORKSPACE_ITEMS = {
     *(folder_name for folder_name, _display_name in NOTEBOOKS.values()),
-    "DataAgentGettingStarted.Notebook",
-    "InstallWorkshopAssets.Notebook",
+    "SetupDataAgentJumpstart.Notebook",
     "RefreshSemanticModel.Notebook",
     "ManufacturingOps.SemanticModel",
     "ManufacturingOps.Report",
@@ -120,9 +121,15 @@ def rewrite_source_references(text: str) -> str:
         f"{old_repository}/",
         f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/",
     )
+    source_ref_comment = (
+        "Use an immutable release tag or commit for reproducible runs."
+        if WORKSHOP_VERSION.startswith("v")
+        else "Replace with the release tag before publication."
+    )
     text = text.replace(
-        'DATA_SOURCE_REF = "main"',
-        f'DATA_SOURCE_REF = "{WORKSHOP_VERSION}"',
+        'DATA_SOURCE_REF = "main"  '
+        '# Use an immutable release tag or commit for reproducible runs.',
+        f'DATA_SOURCE_REF = "{WORKSHOP_VERSION}"  # {source_ref_comment}',
     )
     for old, new in NAME_REPLACEMENTS.items():
         text = text.replace(old, new)
@@ -245,122 +252,6 @@ def markdown_notebook(cells: list[str]) -> str:
     )
 
 
-def build_getting_started(destination: Path) -> None:
-    cells = [
-        """# DataAgentGettingStarted - Fabric Data Agent L400 Workshop
-
-Welcome to the Fabric Data Agent L400 Jumpstart. This orientation notebook
-explains what was installed, how the workshop components fit together, and
-the order in which to complete the lab.
-
-This notebook is documentation-only. It does not create connections, refresh
-semantic models, create Fabric items, or otherwise change your environment.
-
-## Learning objectives
-
-1. Compare a baseline semantic model with an AI-ready semantic model.
-2. Create and configure a governed Fabric Data Agent.
-3. Extend the agent with a Lakehouse source for multi-source reasoning.
-4. Define evaluation questions and live DAX ground truth.
-5. Calibrate an LLM judge and track quality and failure modes with MLflow.""",
-        """## Architecture
-
-`GitHub data -> anonymous Web connection -> semantic models -> reports`
-
-`ManufacturingOpsAIReady -> base Data Agent -> OpsRefData Lakehouse`
-
-`Base Data Agent + OpsRefData -> multi-source Data Agent -> evaluation + MLflow`""",
-        """## Prerequisites
-
-- Install all recommended Jumpstart notebook items into the same Fabric workspace.
-- Use a capacity and tenant with notebooks, semantic models, reports, Data
-  Agents, Lakehouses, and MLflow available.
-- Confirm you can create workspace items and Fabric connections.
-- Confirm outbound access to public `raw.githubusercontent.com` content.
-- Keep installed item names unchanged so notebook discovery succeeds.
-- Have permission to create and publish a Fabric Data Agent.""",
-        """## Notebook-only Jumpstart inventory
-
-The recommended Jumpstart installation deploys these seven notebook items only:
-
-| Installed notebook | Purpose |
-| --- | --- |
-| `DataAgentGettingStarted` | Orientation, setup sequence, and navigation |
-| `InstallWorkshopAssets` | **Required once after installation:** imports both populated workshop PBIX files |
-| `RefreshSemanticModel` | **Optional maintenance; not required for the lab** |
-| `BuildOpsRefData` | Builds the `OpsRefData` Lakehouse assets |
-| `CreateMultiSourceDataAgent` | Adds the Lakehouse source and publishes the multi-source agent |
-| `JudgeCalibration` | Calibrates and registers the LLM judge |
-| `EvaluateDataAgent` | Runs the evaluation workflow |
-
-`InstallWorkshopAssets` creates or overwrites these populated Power BI items:
-
-| Type | Created item | Purpose |
-| --- | --- | --- |
-| Semantic model | `ManufacturingOps` | Baseline model |
-| Semantic model | `ManufacturingOpsAIReady` | AI-ready model |
-| Report | `ManufacturingOps` | Baseline report |
-| Report | `ManufacturingOpsAIReady` | AI-ready report |
-
-Data Agents are intentionally not installed. Creating them is part of the lab.""",
-        f"""## Start with the lab instructions
-
-**Authoritative instructions:** [Open the Fabric Data Agent Workshop lab instructions (PDF)](https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{WORKSHOP_VERSION}/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20L400.pdf)
-
-**Optional Markdown quick-reference companion:** [Read the Markdown on GitHub](https://github.com/{REPO_OWNER}/{REPO_NAME}/blob/{WORKSHOP_VERSION}/documentation/lab-instructions/{LAB_MARKDOWN_NAME})
-
-The PDF is the authoritative workshop guide and source of truth. The optional
-Markdown quick-reference companion is not a replacement for the PDF.""",
-        """## Required setup after installation
-
-Complete this exact sequence:
-
-1. Open `DataAgentGettingStarted`.
-2. Open and read the lab instructions using the immutable workshop-version
-   links above.
-3. In the same workspace, open `InstallWorkshopAssets` and select **Run all**.
-4. Wait for the explicit success message confirming both PBIX imports, that
-   every returned report and semantic model was moved into the same
-   `data-agent-l400` folder as the notebooks, and that both semantic models
-   returned exactly two rows for the populated-data DAX validation.
-5. Only then continue with the `ManufacturingOps` and
-   `ManufacturingOpsAIReady`
-   report/model comparison.
-6. Create the base Data Agent and continue through the workshop lab notebooks
-   in the order specified by the lab instructions.
-
-`InstallWorkshopAssets` is **required once after installation**. It uses
-`CreateOrOverwrite`, so rerunning it safely replaces the same-named reports and
-semantic models. The imported PBIX files contain cached data and do not require
-a refresh for the labs. The folder move requires Contributor or higher
-workspace role and delegated `Workspace.ReadWrite.All`.""",
-        """## Populated-data acceptance gate
-
-After import and folder placement, `InstallWorkshopAssets` runs this exact query
-against both `ManufacturingOps` and `ManufacturingOpsAIReady`:
-
-```dax
-EVALUATE
-    TOPN(2, 'Customers')
-```
-
-The notebook uses a bounded, logged retry for brief post-import availability
-delays. Each model must return exactly two rows. A query failure or different
-row count names the affected model and stops without final success.""",
-        """## Optional maintenance
-
-`RefreshSemanticModel` can bind or rebind the anonymous public Web connection
-and refresh both semantic models with the latest source data. It is **optional
-maintenance and is not required for the lab** because `InstallWorkshopAssets`
-imports populated PBIX files with cached data.
-
-Use it only for a future data update or to repair/rebind the Web connection.
-It does not create or configure a Fabric Data Agent.""",
-    ]
-    write_text(destination / "notebook-content.py", markdown_notebook(cells))
-    write_json(destination / ".platform", platform("Notebook", "DataAgentGettingStarted"))
-
-
 def build_refresh_semantic_model(template: Path, destination: Path) -> None:
     text = template.read_text(encoding="utf-8-sig")
     text = text.replace("python3.12", "python3.11")
@@ -369,12 +260,13 @@ def build_refresh_semantic_model(template: Path, destination: Path) -> None:
     write_json(destination / ".platform", platform("Notebook", "RefreshSemanticModel"))
 
 
-def build_install_workshop_assets(template: Path, destination: Path) -> None:
+def build_setup_data_agent_jumpstart(template: Path, destination: Path) -> None:
     text = template.read_text(encoding="utf-8-sig")
     text = text.replace("python3.12", "python3.11")
     text = text.replace("__WORKSHOP_VERSION__", WORKSHOP_VERSION)
+    text = text.replace("__LOGICAL_ID__", LOGICAL_ID)
     write_text(destination / "notebook-content.py", text)
-    write_json(destination / ".platform", platform("Notebook", "InstallWorkshopAssets"))
+    write_json(destination / ".platform", platform("Notebook", "SetupDataAgentJumpstart"))
 
 
 def extract_zip_prefix(pbix: Path, prefix: str, destination: Path) -> None:
@@ -486,7 +378,7 @@ def replace_generated_path(path: Path) -> None:
 def build_readme(target: Path) -> None:
     write_text(
         target / "README.md",
-        f"""# Fabric Data Agent L400 Jumpstart
+        f"""# {JUMPSTART_NAME}
 
 ## Install from GitHub
 
@@ -498,7 +390,7 @@ jumpstart._install_from_github(
     repo_url="https://github.com/{REPO_OWNER}/{REPO_NAME}",
     repo_ref="{WORKSHOP_VERSION}",
     workspace_path="{LOGICAL_ID}",
-    entry_point="DataAgentGettingStarted.Notebook",
+    entry_point="SetupDataAgentJumpstart.Notebook",
     items_in_scope=["Notebook"],
 )
 ```
@@ -506,25 +398,22 @@ jumpstart._install_from_github(
 `workspace_id` is intentionally omitted so installation targets the current
 Fabric workspace. To target another workspace, pass its actual valid GUID.
 
-The recommended install deploys seven notebooks only. It intentionally does not
+The recommended install deploys six notebooks only. It intentionally does not
 deploy the Git/TMDL semantic model and report definitions.
 
 After installation:
 
-1. Open `DataAgentGettingStarted`.
-2. Open the immutable workshop-version authoritative PDF:
-   [Fabric Data Agent Workshop L400](https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{WORKSHOP_VERSION}/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20L400.pdf).
-   An [optional Markdown quick-reference companion](https://github.com/{REPO_OWNER}/{REPO_NAME}/blob/{WORKSHOP_VERSION}/documentation/lab-instructions/{LAB_MARKDOWN_NAME})
-   is available on GitHub; it is not a replacement for the PDF.
-3. In the same workspace, open `InstallWorkshopAssets` and select **Run all**.
-4. Wait for explicit success confirming both PBIX imports, that all returned
-   reports and semantic models were moved into the same `data-agent-l400`
+1. Open the `SetupDataAgentJumpstart` entry notebook.
+2. Review its parameter cell, keep the tested defaults unless using another
+   immutable source release, and select **Run all**.
+3. Wait for explicit success confirming both PBIX imports, that all returned
+   reports and semantic models were moved into the same `{LOGICAL_ID}`
    folder as the notebooks, and that both semantic models returned exactly two
    rows for the populated-data DAX validation.
-5. Only then continue with report/model comparison and the workshop lab
+4. Only then continue with report/model comparison and the workshop lab
    notebooks.
 
-`InstallWorkshopAssets` is required once. It imports populated PBIX files using
+`SetupDataAgentJumpstart` is required once. It imports populated PBIX files using
 `CreateOrOverwrite`, so rerunning it safely replaces the same-named items.
 Cached imported data is immediately available for the labs.
 `RefreshSemanticModel` is optional maintenance and is not required for the lab;
@@ -532,7 +421,7 @@ use it only for a future data update or connection repair/rebinding.
 
 The folder move uses the Fabric Core `bulkMove` API and requires Contributor or
 higher workspace role plus delegated `Workspace.ReadWrite.All`. If moving fails,
-the imports may remain at workspace root; `InstallWorkshopAssets` reports the
+the imports may remain at workspace root; `SetupDataAgentJumpstart` reports the
 API error and does not print final success.
 
 The final acceptance gate runs this exact DAX query against both
@@ -553,7 +442,7 @@ prevent final success.
 - `{LOGICAL_ID}/`: Fabric Git definitions; the recommended Jumpstart install
   deploys only the `.Notebook` items.
 - `assets/pbix/`: canonical populated PBIX files imported by
-  `InstallWorkshopAssets`.
+  `SetupDataAgentJumpstart`.
 - `documentation/`: GitHub-only workshop and lab documentation.
 - `data/`: GitHub-only source data consumed by models and notebooks.
 - `eval/`: GitHub-only evaluation and calibration workbooks.
@@ -621,6 +510,8 @@ def main() -> None:
 
         for relative in ["assets", "data", "eval", "documentation", "lab-instructions"]:
             replace_generated_path(target / relative)
+        for legacy_workspace_path in LEGACY_WORKSPACE_PATHS:
+            replace_generated_path(target / legacy_workspace_path)
         workspace = target / LOGICAL_ID
         workspace.mkdir(exist_ok=True)
         for item_name in GENERATED_WORKSPACE_ITEMS:
@@ -635,7 +526,7 @@ def main() -> None:
         asset_lines = [
             "# Populated workshop PBIX assets",
             "",
-            "Canonical PBIX files imported by `InstallWorkshopAssets`.",
+            "Canonical PBIX files imported by `SetupDataAgentJumpstart`.",
             "",
             "| File | Immutable raw URL | SHA-256 |",
             "| --- | --- | --- |",
@@ -664,7 +555,7 @@ def main() -> None:
             "# Documentation\n\n"
             "GitHub-hosted workshop documentation. This folder is not a Fabric "
             "workspace item.\n\n"
-            f"- **Authoritative instructions:** [Fabric Data Agent Workshop L400 "
+            f"- **Authoritative instructions:** [Data Agent workshop "
             f"(PDF)]({RAW_ROOT}/documentation/lab-instructions/"
             "Fabric%20Data%20Agent%20Workshop%20L400.pdf)\n"
             f"- **Optional Markdown quick-reference companion:** "
@@ -675,7 +566,7 @@ def main() -> None:
         write_text(
             docs / "lab-instructions" / "README.md",
             "# Lab instructions\n\n"
-            f"- **Authoritative instructions:** [Fabric Data Agent Workshop L400 "
+            f"- **Authoritative instructions:** [Data Agent workshop "
             f"(PDF)]({RAW_ROOT}/documentation/lab-instructions/"
             "Fabric%20Data%20Agent%20Workshop%20L400.pdf)\n"
             f"- **Optional Markdown quick-reference companion:** "
@@ -690,10 +581,9 @@ def main() -> None:
                 workspace / folder_name,
                 display_name,
             )
-        build_getting_started(workspace / "DataAgentGettingStarted.Notebook")
-        build_install_workshop_assets(
-            target / "tools" / "templates" / "InstallWorkshopAssets.notebook-content.py",
-            workspace / "InstallWorkshopAssets.Notebook",
+        build_setup_data_agent_jumpstart(
+            target / "tools" / "templates" / "SetupDataAgentJumpstart.notebook-content.py",
+            workspace / "SetupDataAgentJumpstart.Notebook",
         )
         build_refresh_semantic_model(
             target / "tools" / "templates" / "RefreshSemanticModel.notebook-content.py",

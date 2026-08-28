@@ -17,11 +17,11 @@
 
 # MARKDOWN ********************
 
-# # RefreshSemanticModel - Fabric Data Agent L400
+# # Refresh semantic models
 #
 # **Optional maintenance; not required for the lab.**
 #
-# `InstallWorkshopAssets` imports populated PBIX files whose cached data is
+# `SetupDataAgentJumpstart` imports populated PBIX files whose cached data is
 # sufficient for the workshop labs. Run this notebook only for a future data
 # update or when you need to bind, repair, or rebind the anonymous public Web
 # connection before refreshing `ManufacturingOps` and
@@ -35,20 +35,18 @@
 
 # CELL ********************
 
-# Post-install parameters
+# PARAMETERS
 CONFIGURE_ANONYMOUS_WEB_CONNECTIONS = True
 REFRESH_SEMANTIC_MODELS = True
 
 SOURCE_REPOSITORY = "pawarbi/fda-l400"
-SOURCE_REPOSITORY_REF = "v1.0.1"
 SEMANTIC_MODELS = ["ManufacturingOps", "ManufacturingOpsAIReady"]
-EXPECTED_WEB_SOURCE = (
-    "https://raw.githubusercontent.com/"
-    f"{SOURCE_REPOSITORY}/{SOURCE_REPOSITORY_REF}/data/mfg-ops-data"
+EXPECTED_WEB_SOURCE_PREFIX = (
+    f"https://raw.githubusercontent.com/{SOURCE_REPOSITORY}/"
 )
+EXPECTED_WEB_SOURCE_SUFFIX = "/data/mfg-ops-data"
 
-print("Source:", f"{SOURCE_REPOSITORY}@{SOURCE_REPOSITORY_REF}")
-print("Web data source:", EXPECTED_WEB_SOURCE)
+print("Expected source repository:", SOURCE_REPOSITORY)
 
 # METADATA ********************
 
@@ -160,7 +158,7 @@ def create_anonymous_web_connection(connection_details):
         },
         json={
             "connectivityType": "ShareableCloud",
-            "displayName": f"data_agent_l400_GitHub_Web_{suffix}",
+            "displayName": f"data_agents_GitHub_Web_{suffix}",
             "connectionDetails": {
                 "type": "Web",
                 "creationMethod": creation_method["name"],
@@ -210,16 +208,22 @@ def bind_anonymous_web_connection(model_name):
             for reference in list_fabric_values(connections_url)
             if reference.get("connectionDetails", {}).get("type", "").lower()
             == "web"
-            and reference.get("connectionDetails", {}).get("path")
-            == EXPECTED_WEB_SOURCE
+            and reference.get("connectionDetails", {})
+            .get("path", "")
+            .startswith(EXPECTED_WEB_SOURCE_PREFIX)
+            and reference.get("connectionDetails", {})
+            .get("path", "")
+            .rstrip("/")
+            .endswith(EXPECTED_WEB_SOURCE_SUFFIX)
         ]
         if references:
             break
         time.sleep(5)
     if not references:
         raise RuntimeError(
-            f"No Web source matching {EXPECTED_WEB_SOURCE!r} was found for "
-            f"{model_name}."
+            "No Web source under "
+            f"{EXPECTED_WEB_SOURCE_PREFIX!r} ending in "
+            f"{EXPECTED_WEB_SOURCE_SUFFIX!r} was found for {model_name}."
         )
 
     headers = {

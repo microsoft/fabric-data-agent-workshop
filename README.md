@@ -1,4 +1,4 @@
-# Fabric Data Agent L400 Jumpstart
+# Getting Started with Data Agents
 
 ## Install from GitHub
 
@@ -6,11 +6,11 @@
 import fabric_jumpstart as jumpstart
 
 jumpstart._install_from_github(
-    logical_id="data-agent-l400",
+    logical_id="getting-started-data-agents",
     repo_url="https://github.com/pawarbi/fda-l400",
-    repo_ref="v1.0.1",
-    workspace_path="data-agent-l400",
-    entry_point="DataAgentGettingStarted.Notebook",
+    repo_ref="review-getting-started-data-agents",
+    workspace_path="getting-started-data-agents",
+    entry_point="SetupDataAgentJumpstart.Notebook",
     items_in_scope=["Notebook"],
 )
 ```
@@ -18,25 +18,22 @@ jumpstart._install_from_github(
 `workspace_id` is intentionally omitted so installation targets the current
 Fabric workspace. To target another workspace, pass its actual valid GUID.
 
-The recommended install deploys seven notebooks only. It intentionally does not
+The recommended install deploys six notebooks only. It intentionally does not
 deploy the Git/TMDL semantic model and report definitions.
 
 After installation:
 
-1. Open `DataAgentGettingStarted`.
-2. Open the immutable workshop-version authoritative PDF:
-   [Fabric Data Agent Workshop L400](https://raw.githubusercontent.com/pawarbi/fda-l400/v1.0.1/documentation/lab-instructions/Fabric%20Data%20Agent%20Workshop%20L400.pdf).
-   An [optional Markdown quick-reference companion](https://github.com/pawarbi/fda-l400/blob/v1.0.1/documentation/lab-instructions/data-agent-lab-instructions.md)
-   is available on GitHub; it is not a replacement for the PDF.
-3. In the same workspace, open `InstallWorkshopAssets` and select **Run all**.
-4. Wait for explicit success confirming both PBIX imports, that all returned
-   reports and semantic models were moved into the same `data-agent-l400`
+1. Open the `SetupDataAgentJumpstart` entry notebook.
+2. Review its parameter cell, keep the tested defaults unless using another
+   immutable source release, and select **Run all**.
+3. Wait for explicit success confirming both PBIX imports, that all returned
+   reports and semantic models were moved into the same `getting-started-data-agents`
    folder as the notebooks, and that both semantic models returned exactly two
    rows for the populated-data DAX validation.
-5. Only then continue with report/model comparison and the workshop lab
+4. Only then continue with report/model comparison and the workshop lab
    notebooks.
 
-`InstallWorkshopAssets` is required once. It imports populated PBIX files using
+`SetupDataAgentJumpstart` is required once. It imports populated PBIX files using
 `CreateOrOverwrite`, so rerunning it safely replaces the same-named items.
 Cached imported data is immediately available for the labs.
 `RefreshSemanticModel` is optional maintenance and is not required for the lab;
@@ -44,7 +41,7 @@ use it only for a future data update or connection repair/rebinding.
 
 The folder move uses the Fabric Core `bulkMove` API and requires Contributor or
 higher workspace role plus delegated `Workspace.ReadWrite.All`. If moving fails,
-the imports may remain at workspace root; `InstallWorkshopAssets` reports the
+the imports may remain at workspace root; `SetupDataAgentJumpstart` reports the
 API error and does not print final success.
 
 The final acceptance gate runs this exact DAX query against both
@@ -62,10 +59,10 @@ prevent final success.
 
 ## Repository layout
 
-- `data-agent-l400/`: Fabric Git definitions; the recommended Jumpstart install
+- `getting-started-data-agents/`: Fabric Git definitions; the recommended Jumpstart install
   deploys only the `.Notebook` items.
 - `assets/pbix/`: canonical populated PBIX files imported by
-  `InstallWorkshopAssets`.
+  `SetupDataAgentJumpstart`.
 - `documentation/`: GitHub-only workshop and lab documentation.
 - `data/`: GitHub-only source data consumed by models and notebooks.
 - `eval/`: GitHub-only evaluation and calibration workbooks.

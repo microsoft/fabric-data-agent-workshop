@@ -38,8 +38,9 @@ a data agent works, and how to configure and optimize it using best practices.
 ### Step 1: Creating your first data agent
 
 - In your lab workspace, confirm you have the following items: two semantic
-  models, two Power BI reports and six notebooks in data-agent-l400 folder
-- In the data-agent-l400 folder, click New item > Data agent to create a data
+  models, two Power BI reports and six notebooks in the
+  getting-started-data-agents folder
+- In the getting-started-data-agents folder, click New item > Data agent to create a data
   agent. You can also search for "data agent" in the search box.
 - Name the data agent `MfgOps_DA_<YourInitials>`
 - Familiarize yourself with the user interface

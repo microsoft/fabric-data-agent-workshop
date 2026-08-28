@@ -5,7 +5,7 @@
 # META {
 # META   "kernel_info": {
 # META     "name": "jupyter",
-# META     "jupyter_kernel_name": "python3.12"
+# META     "jupyter_kernel_name": "python3.11"
 # META   },
 # META   "dependencies": {
 # META     "lakehouse": {
@@ -17,31 +17,53 @@
 
 # MARKDOWN ********************
 
-# # InstallWorkshopAssets - Fabric Data Agent L400
+# # Getting Started with Data Agents
 #
-# **Required once after installation.**
+# **Required first step after installation**
 #
-# Select **Run all** in the same workspace where Jumpstart installed the
-# notebooks. This notebook imports the populated `ManufacturingOps.pbix` and
-# `ManufacturingOpsAIReady.pbix` files through the Power BI Imports API.
-# Their cached data is available immediately after successful import, so the
-# workshop labs do not require a semantic model refresh.
+# The Jumpstart deploys notebooks through `fabric-cicd`, but the populated
+# semantic models and reports are distributed as PBIX assets and require a
+# post-deployment import. This parameterized Python notebook completes that
+# setup. Review the parameters below, then select **Run all**.
 #
-# After both imports succeed, the notebook automatically moves every returned
-# report and semantic model into the same `data-agent-l400` folder as this
-# notebook. Wait for the final success message confirming both imports and
-# folder placement before opening reports or creating the Fabric Data Agent.
+# This notebook:
 #
-# The imports use `CreateOrOverwrite`, so a safe rerun replaces the same-named
-# reports and semantic models.
+# 1. Downloads and validates the two immutable PBIX assets.
+# 2. Imports the baseline and AI-ready semantic models and reports.
+# 3. Moves the imported items into this Jumpstart's workspace folder.
+# 4. Runs a populated-data DAX validation against both semantic models.
+#
+# Wait for the final success message before comparing the reports or creating
+# a Data Agent. Rerunning is safe because imports use `CreateOrOverwrite`.
+#
+# ## Learning objectives
+#
+# After setup, you will compare baseline and AI-ready semantic models, create
+# and govern a Data Agent, add a Lakehouse source, and evaluate agent quality
+# with calibrated LLM judging and MLflow.
 
 # MARKDOWN ********************
 
-# ## Step 1 - Review the immutable asset manifest
+# ## Step 1 - Review setup parameters
 #
-# The assets are downloaded from the immutable workshop version configured
-# below. SHA-256 validation prevents an incomplete download or Git LFS pointer
-# from being imported.
+# The tested defaults target the immutable Jumpstart release. Change these
+# values only when validating another repository or immutable release.
+
+# CELL ********************
+
+# PARAMETERS
+REPOSITORY = "pawarbi/fda-l400"
+REPOSITORY_REF = "review-getting-started-data-agents"
+EXPECTED_FOLDER_NAME = "getting-started-data-agents"
+IMPORT_TIMEOUT_MINUTES = 10
+POLL_INTERVAL_SECONDS = 5
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "jupyter_python"
+# META }
 
 # CELL ********************
 
@@ -56,14 +78,9 @@ import notebookutils
 import requests
 
 
-REPOSITORY = "pawarbi/fda-l400"
-REPOSITORY_REF = "__WORKSHOP_VERSION__"
-EXPECTED_FOLDER_NAME = "data-agent-l400"
 RAW_BASE_URL = (
     f"https://raw.githubusercontent.com/{REPOSITORY}/{REPOSITORY_REF}"
 )
-IMPORT_TIMEOUT_MINUTES = 10
-POLL_INTERVAL_SECONDS = 5
 
 PBIX_ASSETS = [
     {
@@ -146,7 +163,7 @@ notebook_item_response = requests.get(
 )
 if notebook_item_response.status_code != 200:
     raise RuntimeError(
-        "Could not discover the InstallWorkshopAssets folder through the "
+        "Could not discover the SetupDataAgentJumpstart folder through the "
         f"Fabric Core item API: HTTP {notebook_item_response.status_code} "
         f"{notebook_item_response.text}"
     )
@@ -155,8 +172,8 @@ notebook_item = notebook_item_response.json()
 folder_id_value = notebook_item.get("folderId")
 if not folder_id_value:
     raise RuntimeError(
-        "InstallWorkshopAssets is at workspace root. The recommended Jumpstart "
-        "install requires this notebook inside the data-agent-l400 folder. "
+        "SetupDataAgentJumpstart is at workspace root. The recommended Jumpstart "
+        f"install requires this notebook inside the {EXPECTED_FOLDER_NAME} folder. "
         "No PBIX files were imported."
     )
 folder_id = require_uuid(folder_id_value, "notebook folderId")
@@ -203,7 +220,7 @@ if folder_name != EXPECTED_FOLDER_NAME:
 def download_pbix(asset):
     response = requests.get(
         asset["url"],
-        headers={"User-Agent": "fabric-data-agent-l400-installer"},
+        headers={"User-Agent": "getting-started-data-agents-installer"},
         timeout=180,
     )
     response.raise_for_status()
@@ -609,7 +626,8 @@ print("The reports and semantic models are ready for the workshop labs.")
 # - **Folder move permissions:** the Fabric Core `bulkMove` API requires
 #   Contributor or higher workspace role and delegated `Workspace.ReadWrite.All`.
 # - **Notebook at workspace root:** reinstall using the recommended Jumpstart
-#   flow so `InstallWorkshopAssets` is inside `data-agent-l400`; the notebook
+#   flow so `SetupDataAgentJumpstart` is inside
+#   `getting-started-data-agents`; the notebook
 #   intentionally stops before importing when no containing folder is detected.
 # - **Name conflicts:** the notebook intentionally uses `CreateOrOverwrite`,
 #   replacing the same-named report and semantic model.
@@ -627,8 +645,15 @@ print("The reports and semantic models are ready for the workshop labs.")
 # - **Rerun behavior:** rerunning is safe and imports both PBIX files again.
 #   If a previous run stopped after one import, the next run overwrites that
 #   item and completes the pair.
+# ## Continue after setup
 #
-# The imported PBIX files already contain cached data, so
+# 1. Compare the `ManufacturingOps` and `ManufacturingOpsAIReady` reports and
+#    semantic models.
+# 2. Create the base Data Agent from `ManufacturingOpsAIReady`.
+# 3. Run `BuildOpsRefData` to create the Lakehouse reference source.
+# 4. Run `CreateMultiSourceDataAgent` to add the Lakehouse source.
+# 5. Run `JudgeCalibration`, then `EvaluateDataAgent`.
+#
 # `RefreshSemanticModel` is optional maintenance and is not required for the
-# lab. A future data refresh requires the anonymous Web connection to be bound;
-# use `RefreshSemanticModel` when updating data or repairing that connection.
+# initial walkthrough. Use it only for a future data update or to repair the
+# anonymous Web connection.
