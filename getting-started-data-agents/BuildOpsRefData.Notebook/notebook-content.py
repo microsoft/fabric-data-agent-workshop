@@ -52,7 +52,7 @@
 # CELL ********************
 
 # PARAMETERS
-DATA_SOURCE_REF = "v1.0.3"  # Use an immutable release tag or commit for reproducible runs.
+DATA_SOURCE_REF = "v1.0.4"  # Use an immutable release tag or commit for reproducible runs.
 github_base = (
     "https://raw.githubusercontent.com/microsoft/fabric-data-agent-workshop/"
     f"{DATA_SOURCE_REF}/data/mfg-ops-data"

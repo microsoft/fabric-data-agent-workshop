@@ -17,7 +17,7 @@ JUMPSTART_NAME = "Getting Started with Data Agents"
 LEGACY_WORKSPACE_PATHS = ("data-agent-l400",)
 REPO_OWNER = "microsoft"
 REPO_NAME = "fabric-data-agent-workshop"
-WORKSHOP_VERSION = "v1.0.3"
+WORKSHOP_VERSION = "v1.0.4"
 RAW_ROOT = (
     f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{WORKSHOP_VERSION}"
 )

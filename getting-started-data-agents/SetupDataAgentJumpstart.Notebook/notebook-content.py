@@ -80,7 +80,7 @@
 
 # PARAMETERS
 REPOSITORY = "microsoft/fabric-data-agent-workshop"
-REPOSITORY_REF = "v1.0.3"
+REPOSITORY_REF = "v1.0.4"
 EXPECTED_FOLDER_NAME = "getting-started-data-agents"
 IMPORT_TIMEOUT_MINUTES = 10
 POLL_INTERVAL_SECONDS = 5
