@@ -380,75 +380,142 @@ def build_readme(target: Path) -> None:
         target / "README.md",
         f"""# {JUMPSTART_NAME}
 
-## Install from GitHub
+Build a governed Microsoft Fabric Data Agent, prepare a semantic model for AI,
+extend the agent with a Lakehouse source, and evaluate response quality with a
+calibrated LLM judge and MLflow.
+
+This Jumpstart is a guided, hands-on workshop for data and analytics
+practitioners who want to move beyond creating a basic Data Agent and learn how
+to make one accurate, explainable, and measurable.
+
+## Learning objectives
+
+By completing the workshop, you will learn how to:
+
+1. Create a Fabric Data Agent over a Power BI semantic model.
+2. Diagnose response quality by inspecting generated DAX, run steps, latency,
+   and answers.
+3. Prepare a semantic model for AI with business-friendly metadata, an AI data
+   schema, verified answers, and AI instructions.
+4. Add a Lakehouse as a second source and publish a multi-source Data Agent with
+   the Python SDK.
+5. Calibrate an LLM-as-Judge, run repeatable evaluations, and track results in
+   MLflow.
+
+## Workshop journey
+
+```mermaid
+flowchart LR
+    Setup[Run workspace setup] --> Lab1[Lab 1: Create and optimize]
+    Lab1 --> Lab2[Lab 2: Evaluate quality]
+    Lab2 --> Lab3[Lab 3: Add multiple sources]
+```
+
+| Lab | What you will do | Starting items | What you will create |
+| --- | --- | --- | --- |
+| **Setup - Prepare the workspace** | Import, organize, and validate the populated workshop assets. | `SetupDataAgentJumpstart` | Baseline and AI-ready semantic models and reports |
+| **Lab 1 - Create and optimize Data Agents** | Create a Data Agent, inspect its answers and DAX, compare baseline and AI-ready models, configure Prep data for AI and agent instructions, compare runtimes, and use Code Interpreter. | `ManufacturingOps` and `ManufacturingOpsAIReady` models and reports | A baseline Data Agent and an optimized AI-ready Data Agent |
+| **Lab 2 - Evaluate Data Agents** | Calibrate an LLM judge, run a fixed evaluation set, and inspect quality, latency, reasoning, and MLflow results. | Your optimized Data Agent, `JudgeCalibration`, and `EvaluateDataAgent` | An evaluation Lakehouse, MLflow experiment, registered judge, and evaluation runs |
+| **Lab 3 - Add multiple data sources** | Build a Lakehouse source, add it with the SDK, publish a multi-source agent, and refine its configuration with Build agent with AI. | Your optimized Data Agent, `BuildOpsRefData`, and `CreateMultiSourceDataAgent` | `OpsRefData` Lakehouse and a Data Agent whose name ends in `_MultiSource` |
+
+## What the Jumpstart installs
+
+The Jumpstart initially installs six Python notebooks into the
+`{LOGICAL_ID}` workspace folder:
+
+| Notebook | Purpose |
+| --- | --- |
+| `SetupDataAgentJumpstart` | Required entry point. Imports and validates the populated semantic models and reports. |
+| `RefreshSemanticModel` | Optional maintenance for refreshing or repairing the semantic model Web connection. |
+| `BuildOpsRefData` | Creates the schema-enabled `OpsRefData` Lakehouse and its supported Data Agent views. |
+| `CreateMultiSourceDataAgent` | Copies the base agent configuration, adds the Lakehouse source, and publishes a multi-source agent. |
+| `JudgeCalibration` | Calibrates and registers the LLM judge used by the evaluation workflow. |
+| `EvaluateDataAgent` | Evaluates Data Agent responses and records results in MLflow. |
+
+During the required setup step, `SetupDataAgentJumpstart` also imports:
+
+| Item | Type | Purpose |
+| --- | --- | --- |
+| `ManufacturingOps` | Semantic model and report | Baseline experience used to identify common AI-readiness issues. |
+| `ManufacturingOpsAIReady` | Semantic model and report | Optimized experience used to build the governed Data Agent. |
+
+## Prerequisites
+
+- A paid Microsoft Fabric F2 capacity or higher, or an eligible Power BI
+  Premium capacity with Fabric enabled.
+- Power BI Pro.
+- Contributor or higher access to the target Fabric workspace.
+- Fabric tenant settings required for Copilot and Data Agents.
+- Permission to create Fabric items, connections, and Data Agents.
+- Familiarity with Power BI, DAX, Python, and SQL is helpful.
+
+## Install from the Jumpstart catalog
+
+Once the Jumpstart registration is published, run this in a Fabric notebook:
 
 ```python
+%pip install -q fabric-jumpstart
+
 import fabric_jumpstart as jumpstart
 
-jumpstart._install_from_github(
-    logical_id="{LOGICAL_ID}",
-    repo_url="https://github.com/{REPO_OWNER}/{REPO_NAME}",
-    repo_ref="{WORKSHOP_VERSION}",
-    workspace_path="{LOGICAL_ID}",
-    entry_point="SetupDataAgentJumpstart.Notebook",
-    items_in_scope=["Notebook"],
+jumpstart.install("{LOGICAL_ID}")
+```
+
+When run inside Fabric, the current workspace is detected automatically. To
+install into another workspace, pass its ID:
+
+```python
+jumpstart.install(
+    "{LOGICAL_ID}",
+    workspace_id="<workspace-id>",
 )
 ```
 
-`workspace_id` is intentionally omitted so installation targets the current
-Fabric workspace. To target another workspace, pass its actual valid GUID.
+The underscored `_install_from_github()` API is only for source development and
+pre-publication testing. Participants should use `jumpstart.install()`.
 
-The recommended install deploys six notebooks only. It intentionally does not
-deploy the Git/TMDL semantic model and report definitions.
+## Start the workshop
 
-After installation:
+1. Open the installed `SetupDataAgentJumpstart` notebook.
+2. Select **Run all without changing any values**.
+3. Wait for the final success message confirming that both PBIX assets were
+   imported, moved into the Jumpstart folder, pointed to the Microsoft-hosted
+   data source, and validated.
+4. Open the [workshop lab
+   instructions](https://github.com/{REPO_OWNER}/{REPO_NAME}/tree/main/documentation/lab-instructions).
+5. Complete Labs 1–3 in order.
 
-1. Open the `SetupDataAgentJumpstart` entry notebook.
-2. Review its parameter cell, keep the tested defaults unless using another
-   immutable source release, and select **Run all**.
-3. Wait for explicit success confirming both PBIX imports, that all returned
-   reports and semantic models were moved into the same `{LOGICAL_ID}`
-   folder as the notebooks, and that both semantic models returned exactly two
-   rows for the populated-data DAX validation.
-4. Only then continue with report/model comparison and the workshop lab
-   notebooks.
+The imported PBIX files already contain populated cached data, so
+`RefreshSemanticModel` is not required for the initial workshop.
 
-`SetupDataAgentJumpstart` is required once. It imports populated PBIX files using
-`CreateOrOverwrite`, so rerunning it safely replaces the same-named items.
-Cached imported data is immediately available for the labs.
-`RefreshSemanticModel` is optional maintenance and is not required for the lab;
-use it only for a future data update or connection repair/rebinding.
+## How the solution fits together
 
-The folder move uses the Fabric Core `bulkMove` API and requires Contributor or
-higher workspace role plus delegated `Workspace.ReadWrite.All`. If moving fails,
-the imports may remain at workspace root; `SetupDataAgentJumpstart` reports the
-API error and does not print final success.
-
-The final acceptance gate runs this exact DAX query against both
-`ManufacturingOps` and `ManufacturingOpsAIReady`:
-
-```dax
-EVALUATE
-    TOPN(2, 'Customers')
+```mermaid
+flowchart TD
+    Setup[SetupDataAgentJumpstart] --> Baseline[ManufacturingOps]
+    Setup --> AIReady[ManufacturingOpsAIReady]
+    AIReady --> BaseAgent[AI-ready Data Agent]
+    Build[BuildOpsRefData] --> Lakehouse[OpsRefData Lakehouse]
+    BaseAgent --> Multi[CreateMultiSourceDataAgent]
+    Lakehouse --> Multi
+    Multi --> MultiAgent[Multi-source Data Agent]
+    Judge[JudgeCalibration] --> MLflow[Registered LLM judge]
+    BaseAgent --> Eval[EvaluateDataAgent]
+    MLflow --> Eval
+    Eval --> Results[Evaluation results and MLflow runs]
 ```
-
-SemPy retries only brief post-import model availability/query failures for a
-bounded period. Each semantic model must return exactly two rows. Permanent
-query failures or unexpected row counts are reported with the model name and
-prevent final success.
 
 ## Repository layout
 
-- `{LOGICAL_ID}/`: Fabric Git definitions; the recommended Jumpstart install
-  deploys only the `.Notebook` items.
-- `assets/pbix/`: canonical populated PBIX files imported by
-  `SetupDataAgentJumpstart`.
-- `documentation/`: GitHub-only workshop and lab documentation.
-- `data/`: GitHub-only source data consumed by models and notebooks.
-- `eval/`: GitHub-only evaluation and calibration workbooks.
-
-The semantic model/report Git folders remain for reference, but the recommended
-`items_in_scope=["Notebook"]` install does not deploy them.
+| Path | Contents |
+| --- | --- |
+| `{LOGICAL_ID}/` | Fabric item definitions. The catalog installation deploys the six notebooks. |
+| `assets/pbix/` | Populated PBIX files imported by the setup notebook. |
+| `documentation/lab-instructions/` | Workshop PDF and Markdown instructions. |
+| `data/` | Manufacturing operations source data. |
+| `eval/` | Evaluation and judge-calibration workbooks. |
+| `instructor-tools/` | Optional utilities for workshop facilitators. |
+| `tools/` | Deterministic source-generation utilities and templates. |
 
 ## Fabric Data Agent resources
 
