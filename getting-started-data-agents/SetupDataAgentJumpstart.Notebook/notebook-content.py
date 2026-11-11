@@ -573,7 +573,7 @@ for artifact in semantic_model_artifacts:
     update_response = requests.post(
         update_parameters_url,
         headers={
-            "Authorization": f"******",
+            "Authorization": f"Bearer {power_bi_token}",
             "Content-Type": "application/json",
         },
         json={

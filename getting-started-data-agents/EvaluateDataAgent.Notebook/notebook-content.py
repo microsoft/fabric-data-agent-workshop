@@ -33,7 +33,7 @@
 
 # CELL ********************
 
-%pip install -q "synapseml-mlflow[online-notebook]>=2.0.3" "mlflow-skinny==3.1.0" "opentelemetry-api<=1.40.0" openpyxl -U fabric-data-agent-sdk
+%pip install "synapseml-mlflow[online-notebook]>=2.0.3" "mlflow-skinny==3.1.0" "opentelemetry-api<=1.40.0" openpyxl fabric-data-agent-sdk "azure-storage-file-datalake==12.20.0" "azure-storage-blob==12.25.1" -q
 
 # METADATA ********************
 
